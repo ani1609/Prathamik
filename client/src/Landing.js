@@ -55,10 +55,10 @@ function Landing() {
               <span style={{ backgroundColor: '#B6C5CE' }}></span>
             </div>
             <div className='end'>
-            <div className='line'></div>
-            <div className='learnMore'>
-              <span>Learn More</span> &nbsp;about Prathamik
-            </div>
+              <div className='line'></div>
+              <div className='learnMore'>
+                <span>Learn More</span> &nbsp;about Prathamik
+              </div>
             </div>
           </div>
           <div className='right'>
@@ -73,7 +73,7 @@ function Landing() {
               className={`ide_img sm ${img ? 'visible' : 'invisible'}`}
             />
           </div>
-          <div>
+          <div className='bot'>
             <img src='/x.png' alt='bot' className='bot_img' />
           </div>
         </div>

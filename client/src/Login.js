@@ -1,8 +1,9 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Login.css';
+import Logo from './images/pLogo.png';
 
 function Login()
 {
@@ -11,6 +12,7 @@ function Login()
         password:'',
     });
 
+    const navigate=useNavigate();
     const [error,setError]=useState('');
 
     const handleChange=({currentTarget:input})=>{
@@ -24,9 +26,11 @@ function Login()
             const response=await axios.post(url,data);
             const res=response.data;
             localStorage.setItem('user', JSON.stringify(res));
+            navigate('/');
+            setError('');
             // console.log(res);
-            console.log(res.data);
-            console.log(res.message);
+            // console.log(res.data);
+            // console.log(res.message);
             
         }catch(error){
             if (error.response && error.response.status>=400 && error.response.status<500)
@@ -37,40 +41,67 @@ function Login()
         } 
     }
 
+    const [shouldRender,setShouldRender]=useState(false);
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+          setShouldRender(true);
+        }, 100);
+    
+        return () => clearTimeout(timeout);
+    }, []);
+
     return(
-        <div className='signup-container'>
-            <form onSubmit={handleSubmit}>
+        <div>
+            {shouldRender && <div className='login-container'>
+                <div className='login_contents'>
+                    <div className='login_left'>
+                        <a href='/' className='login_logo'>
+                            <img src={Logo}/>
+                            <h1>Prathamik</h1>
+                        </a>
 
-                <input
-                    type="email"
-                    placeholder='Email'
-                    name="email"
-                    value={data.email}
-                    onChange={handleChange}
-                    required
-                />
+                        <form onSubmit={handleSubmit} className='login_form'>
 
-                <br></br>
+                            <h1>Welcome Back</h1>
 
-                <input
-                    type="password"
-                    placeholder='Password'
-                    name="password"
-                    value={data.password}
-                    onChange={handleChange}
-                    required
-                />
+                            <input
+                                type="email"
+                                placeholder='Email'
+                                name="email"
+                                id='login_email'
+                                value={data.email}
+                                onChange={handleChange}
+                                required
+                            />
 
-                <br></br>
+                            <br></br>
 
-                {error && <div className='error'>
-                    {error}
-                </div>}
-                <button type="submit">Login</button>
-            </form>
+                            <input
+                                type="password"
+                                placeholder='Password'
+                                name="password"
+                                id='login_password'
+                                value={data.password}
+                                onChange={handleChange}
+                                required
+                            />
+
+                            <br></br>
+
+                            {error && <p className='login_error'>
+                                {error}
+                            </p>}
+
+                            <p className='dont_have_acc'>Don't have an account? <a href='/signup'>Get one</a></p>
+
+                            <button type="submit" className='login_button'>Login</button>
+                        </form>
+                        </div>
+                </div>
+            </div>}
         </div>
     );
 }
 
 export default Login;
-

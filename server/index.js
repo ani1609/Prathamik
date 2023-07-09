@@ -46,8 +46,6 @@ app.use(cors({
 app.use('/signup', signupController);
 app.use('/login', loginController);
 // app.use('/api/auth', authRoutes);
-
-
 app.use('/api', routes);
 
 // Handle the image upload
