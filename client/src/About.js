@@ -51,6 +51,10 @@ function About()
                     {
                       entry.target.classList.add('animateLeft');
                     }
+                    else
+                    {
+                      // entry.target.classList.remove('animateLeft');
+                    }
                 });
         }, {threshold: 0.8});
 
@@ -77,6 +81,10 @@ function About()
                   if (entry.isIntersecting) 
                     {
                       entry.target.classList.add('animateRight');
+                    }
+                    else
+                    {
+                      // entry.target.classList.remove('animateRight');
                     }
                 });
         }, {threshold: 0.8});

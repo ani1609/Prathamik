@@ -47,6 +47,7 @@
     color: var(--primary-color2);
     padding: 8px 10px;
     transition: 0.1s ease-in-out;
+    letter-spacing: 1px;
 
 }
 

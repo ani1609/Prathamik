@@ -44,7 +44,6 @@ function App() {
     const formData = new FormData();
     const fileInput = e.target.elements.image.files[0];
     formData.append('image', fileInput);
-
     fetch('http://localhost:5000/ocr', {
       method: 'POST',
       body: formData

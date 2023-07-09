@@ -7,7 +7,7 @@
     display: flex;
     flex-direction: column;
     padding-bottom: 2px;
-
+   
 }
 
 .chatbox_header
@@ -43,6 +43,7 @@
     color: white;
     margin: 0;
     font-size: 13px;
+    letter-spacing: 0.5px;
 }
 
 .bot_details p
@@ -51,6 +52,7 @@
     font-family: 'Roboto', sans-serif;
     color: white;
     margin: 0;
+    letter-spacing: 0.5px;
 }
 
 .chat_container {
