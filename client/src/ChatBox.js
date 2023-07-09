@@ -15,6 +15,7 @@ function ChatBox(props) {
             onChange={(event) => props.setUserInput(event.target.value)}
           />
           <button onClick={props.handleInput}>Send</button>
+
         </form>
       </div>
     </div>

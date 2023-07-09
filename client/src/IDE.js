@@ -1,4 +1,6 @@
+
 import React, { useState, useRef } from 'react';
+
 import Editor from '@monaco-editor/react';
 import './IDE.css';
 
@@ -17,6 +19,7 @@ const files = {
 
 function IDE(props) {
   const [filename, setFilename] = useState("script.js");
+
   const editorRef = useRef(null);
 
   function handleEditorDidMount(editor, monaco) {
@@ -28,6 +31,7 @@ function IDE(props) {
   }
 
   function getEditorValue() {
+
     alert(editorRef.current.getValue());
   }
 
