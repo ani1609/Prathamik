@@ -276,7 +276,8 @@
 .inputF > textarea{
     width: 90%;
     height: 90%;
-    background-color: transparent;
+    cursor: pointer;
+    background-color: white;
     border: none;
     color: rgb(0, 0, 0);
     font-size: 1rem;
@@ -301,7 +302,7 @@
 .outputF > textarea{
     width: 90%;
     height: 90%;
-    background-color: transparent;
+    background-color: white;
     border: none;
     color: rgb(0, 0, 0);
     font-size: 1rem;
