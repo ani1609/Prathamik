@@ -5,7 +5,7 @@ import '@fortawesome/fontawesome-free/css/all.css';
 
 const initialFiles = [
   {
-    name: "text.txt",
+    name: "",
     language: "text",
     value: "",
     icon: "fas fa-file-alt"
@@ -45,7 +45,7 @@ function IDE(props) {
     } else if (newFileLanguage === 'c') {
       newFile.value = '// Enter your code here';
       newFile.icon = 'fab fa-cuttlefish';
-    } else if (newFileLanguage === 'c++') {
+    } else if (newFileLanguage === 'cpp') {
       newFile.value = '// Enter your code here';
       newFile.icon = 'fab fa-cuttlefish';
     } else if (newFileLanguage === 'html') {
@@ -69,12 +69,12 @@ function IDE(props) {
           <button onClick={() => setShowAddBox(true)}>Add File</button>
           {showAddBox && <div className='addFilePanel' style={{ display: 'inline' }}>
             <input type='text' placeholder='Enter file name' onChange={(e) => setNewFileName(e.target.value)} />
-            <select onChange={(e) => setNewFileLanguage(e.target.value)}>
+            <select onChange={(e) => setNewFileLanguage(e.target.value)} value={newFileLanguage}>
               <option value='html'>HTML</option>
               <option value='css'>CSS</option>
               <option value='javascript'>Javascript</option>
               <option value='java'>Java</option>
-              <option value='c++'>C++</option>
+              <option value='cpp'>C++</option>
               <option value='python'>Python</option>
             </select>
             <button onClick={handleAddFile}>Add</button>

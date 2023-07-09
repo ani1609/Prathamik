@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+
+.ide_parent
+{
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.language_list
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 3px;
+    height: 92vh;
+    width: 180px;
+    box-sizing: border-box;
+    /* background-image: linear-gradient(135deg,  #79CDFB, #C77385); */
+    background-color: #eeeeee;
+    border-right: 1.5px solid #CCCCCC;
+    padding: 5px;
+    /* background-image: linear-gradient(315deg, #1b2845 0%, #274060 74%); */
+    /* background-image: linear-gradient(315deg, #2b4162 0%, #12100e 74%); */
+}
+
+.line
+{
+    width: 100%;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.ide_parent button
+{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 7px;
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    color: var(--primary-color2);
+    padding: 8px 10px;
+    transition: 0.1s ease-in-out;
+
+}
+
+.ide_parent button:hover
+{
+    background-color: #CCCCCC;
+}
+
+.ide_parent button img
+{
+    margin-left: -1px;
+    height: 28px;
+    width: 28px;
+}
+
+.ide_parent button i
+{
+    font-size: 26px;
+    color: var(--primary-color1);
+}
