@@ -77,9 +77,6 @@ function Navbar() {
             <Link className='li' to='/stream'>
               STREAM
             </Link>
-            <Link className='li' to='/streamjoin'>
-              STREAMJOIN
-            </Link>
             <li className='navbar_profile'>
               <div className='user' onClick={handleProfileClick}>
                 {dp ? (
@@ -130,9 +127,6 @@ function Navbar() {
             </Link>
             <Link className='li' to='/stream'>
               STREAM
-            </Link>
-            <Link className='li' to='/streamjoin'>
-              STREAMJOIN
             </Link>
             <li className='login-signup-container'>
               <Link to='/login' className='login'>

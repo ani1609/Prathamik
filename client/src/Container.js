@@ -9,19 +9,33 @@ class Container extends React.Component {
     this.state = {
       color: '#000000',
       size: '5',
+      isEraserActive: false,
     };
   }
 
   changeColor(event) {
-    this.setState({
-      color: event.target.value,
-    });
+    if (this.state.isEraserActive) {
+      this.setState({
+        color: 'rgba(255, 255, 255, 1)',
+        isEraserActive: false,
+      });
+    } else {
+      this.setState({
+        color: event.target.value,
+      });
+    }
   }
 
   changeSize(event) {
     this.setState({
       size: event.target.value,
     });
+  }
+
+  toggleEraser() {
+    this.setState((prevState) => ({
+      isEraserActive: !prevState.isEraserActive,
+    }));
   }
 
   render() {
@@ -39,10 +53,7 @@ class Container extends React.Component {
 
           <div className="brushsize-container">
             Select Brush Size : &nbsp;
-            <select
-              value={this.state.size}
-              onChange={this.changeSize.bind(this)}
-            >
+            <select value={this.state.size} onChange={this.changeSize.bind(this)}>
               <option> 5 </option>
               <option> 10 </option>
               <option> 15 </option>
@@ -51,14 +62,27 @@ class Container extends React.Component {
               <option> 30 </option>
             </select>
           </div>
+
+          <div className="eraser-container">
+            <label>
+              Eraser Tool: &nbsp;
+              <input
+                type="checkbox"
+                checked={this.state.isEraserActive}
+                onChange={this.toggleEraser.bind(this)}
+                value={this.state.isEraserActive}
+              />
+            </label>
+          </div>
         </div>
 
         <div className="board-container">
           <Board
-            color={this.state.color}
+            color={this.state.isEraserActive ? 'rgba(255, 255, 255, 1)' : this.state.color}
             size={this.state.size}
             socket={this.props.socket}
-          ></Board>
+            canvasRef={this.props.canvasRef}
+          />
         </div>
       </div>
     );
