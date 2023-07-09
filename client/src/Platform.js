@@ -8,6 +8,7 @@ import { useRef } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
 import Container from './Container';
+import StreamZ from './StreamZ';
 import io from "socket.io-client";
 
 const socket = io.connect("http://localhost:3000");
@@ -17,7 +18,7 @@ function Platform(props) {
   const [code, setCode] = useState('');
   const [userInput, setUserInput] = useState('');
   const [message, setMessage] = useState('');
-  const [show, setShow] = useState('editor');
+  const [show, setShow] = useState('stream');
   const canvasRef = useRef(null);
   const [input, setInput] = useState('');
   const inputRef = useRef(null);
@@ -31,6 +32,10 @@ function Platform(props) {
     A: 'lightgrey',
     B: 'lightgrey'
   });
+
+  useEffect(() => {
+    socket.emit('join', props.meetingId);
+  }, [socket , props.meetingId]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -104,7 +109,7 @@ function Platform(props) {
         const correctAnswerRegex = /Correct Answer: ([AB])/;
         const correctAnswerMatch = data.output.match(correctAnswerRegex);
         const correctAnswer = correctAnswerMatch ? correctAnswerMatch[1] : "";
-        if(question === "" || options.length !== 2 || correctAnswer === "") {
+        if (question === "" || options.length !== 2 || correctAnswer === "") {
           return;
         }
         setCorrectAnswer(correctAnswer);
@@ -115,7 +120,7 @@ function Platform(props) {
         });
         setChats((chats) => [
           ...chats,
-          { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png', type: 'mcq' , question, options, correctAnswer }
+          { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png', type: 'mcq', question, options, correctAnswer }
         ]);
         socket.emit('bot_message', {
           input: data.output,
@@ -124,7 +129,8 @@ function Platform(props) {
           type: 'mcq',
           question,
           options,
-          correctAnswer
+          correctAnswer,
+          meetingId: props.meetingId
         });
       } catch (error) {
         console.error('Error:', error);
@@ -132,7 +138,7 @@ function Platform(props) {
     };
 
     // if (code !== '')
-      // fetchData();
+    //   fetchData();
   }, [change]);
 
 
@@ -204,7 +210,7 @@ function Platform(props) {
       const data = await response.json();
       setMessage(data.output);
       setChats((chats) => [...chats, { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png' }]);
-      socket.emit("bot_message", { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png' });
+      socket.emit("bot_message", { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png' , roomid: props.meetingId });
     } catch (error) {
       console.error('Error:', error);
     }
@@ -222,8 +228,7 @@ function Platform(props) {
 
   function sendInput(input) {
     const user = JSON.parse(localStorage.getItem('user')).data._id;
-    socket.emit("chat_message", { input, user });
-
+    socket.emit("chat_message", { input, user , roomid: props.meetingId });
   }
 
   function voice() {
@@ -275,7 +280,7 @@ function Platform(props) {
         }
       });
       setOutput(response.data.output);
-      socket.emit("output", response.data.output);
+      socket.emit("output", {value: response.data.output , roomid: props.meetingId});
     } catch (error) {
       console.error(error);
     }
@@ -331,7 +336,7 @@ function Platform(props) {
               const data = await response.json();
               setMessage(data.output);
               setChats((chats) => [...chats, { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png' }]);
-              socket.emit("bot_message", { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png' });// <-- This should reflect the updated state
+              socket.emit("bot_message", { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png' , roomid: props.meetingId });
             });
           } else {
             console.error('Error sending screenshot:', response.statusText);
@@ -355,6 +360,7 @@ function Platform(props) {
           </div>
           <div>
             <select onChange={(e) => setShow(e.target.value)}>
+              <option value="stream">Stream</option>
               <option value="editor">IDE</option>
               <option value="board">Board</option>
             </select>
@@ -388,6 +394,12 @@ function Platform(props) {
         {show === 'board' && (
           <div className="board_in_platform_container">
             <Container socket={socket} canvasRef={canvasRef} />
+          </div>
+        )}
+
+        {show === 'stream' && (
+          <div className="stream_in_platform_container">
+            <StreamZ socket={socket} canvasRef={canvasRef} meetingId={props.meetingId} setMeetingId={props.setMeetingId} getMeetingAndToken={props.getMeetingAndToken} setCurrentLanguage={setCurrentLanguage} inputX={inputX} setInputX={setInputX} output={output} code={code} isAdmin={props.isAdmin} setCode={setCode} setShow={setShow} />
           </div>
         )}
 
