@@ -18,7 +18,6 @@ function Service()
                 {
                   if (entry.isIntersecting) 
                     {
-                        console.log(entry);
                       entry.target.classList.add('showService');
                     }
                 });

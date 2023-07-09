@@ -23,6 +23,18 @@ function handleWebSocketConnection(socket) {
     socket.broadcast.emit("ide_file", data);
   });
 
+  socket.on("send_index", (data) => {
+    socket.broadcast.emit("ide_index", data);
+  });
+
+  socket.on("delete_file", (data) => {
+    socket.broadcast.emit("new_file", data);
+  });
+
+  socket.on("chat_message", (data) => {
+    socket.broadcast.emit("new_message", data);
+  });
+
   socket.on('disconnect', () => {
     handleParticipantLeave(socket);
   });
