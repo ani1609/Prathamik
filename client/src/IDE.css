@@ -1,8 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 
 
-.ide_parent
-{
+.ide_parent {
     display: flex;
     justify-content: center;
     /* width: 100%; */
@@ -11,8 +10,7 @@
     box-sizing: border-box;
 }
 
-.left_block
-{
+.left_block {
     /* height: 100%; */
     width: 28%;
     box-sizing: border-box;
@@ -22,85 +20,76 @@
     padding: 10px;
 }
 
-.files_container
-{
+.files_container {
     width: 100%;
     border-bottom: 1px solid #bcbcbc;
 }
 
-.files_heading_left i, .tools_heading i
-{
+.files_heading_left i,
+.tools_heading i {
     color: #07080A;
     font-size: 14px;
 }
 
-.files_heading_right i
-{
+.files_heading_right i {
     color: #07080af3;
     font-size: 16px;
 }
 
-.files_heading
-{
+.files_heading {
     height: 25px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.files_heading_left
-{
+.files_heading_left {
     width: 75%;
     display: flex;
     cursor: pointer;
     gap: 5px;
 }
 
-.arrow_rotate_down
-{
+.arrow_rotate_down {
     transform: rotate(0deg);
     transition: 0.3s ease-in-out;
 
 }
 
-.arrow_rotate_up
-{
+.arrow_rotate_up {
     transform: rotate(-90deg);
     transition: 0.3s ease-in-out;
 }
 
-.files_heading_left h4
-{
+.files_heading_left h4 {
     margin: 0;
     color: var(--ide-font);
     font-size: 15px;
     font-family: 'Roboto', sans-serif;
 }
 
-.files_heading_right
-{
+.files_heading_right {
     width: 22%;
     display: flex;
     justify-content: space-between;
 }
 
-.add_file, .three_dot
-{
+.add_file,
+.three_dot {
     padding: 3px 4px;
     border-radius: 5px;
     cursor: pointer;
     transition: 0.1s ease-in-out;
 }
 
-.add_file:hover, .three_dot:hover
-{
+.add_file:hover,
+.three_dot:hover {
     /* background-color: rgb(219, 219, 219); */
     background-color: white;
 
 }
 
-.files_show
-{
+.files_show {
     margin-top: 8px;
     overflow: hidden;
     width: 100%;
@@ -108,8 +97,7 @@
     transition: 0.2s ease-in-out;
 }
 
-.files_hide
-{
+.files_hide {
     margin-top: 8px;
     overflow: hidden;
     height: 0;
@@ -119,16 +107,14 @@
 }
 
 
-.addFilePanel
-{
+.addFilePanel {
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
-.addFilePanel input
-{
+.addFilePanel input {
     font-size: 14.4px;
     border: 1px solid #bcbcbc;
     width: 91%;
@@ -139,21 +125,18 @@
     padding: 8px 8px;
 }
 
-.addFilePanel input:focus
-{
+.addFilePanel input:focus {
     outline: none;
 }
 
-.addFilePanel label
-{
+.addFilePanel label {
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
     color: red;
 
 }
 
-.file
-{
+.file {
     margin-top: 10px;
     display: flex;
     align-items: center;
@@ -166,14 +149,12 @@
     padding: 4px 4px 4px 15px;
 }
 
-.file:hover
-{
+.file:hover {
     /* background-color: rgb(219, 219, 219); */
     background-color: white;
 }
 
-.file button
-{
+.file button {
     color: #3D4047;
     display: flex;
     justify-content: flex-start;
@@ -190,49 +171,42 @@
     /* background-color: red; */
 }
 
-.file i
-{
+.file i {
     font-size: 17px;
 }
 
-.file span
-{
+.file span {
     margin-left: auto;
     padding: 4px 6px;
     border-radius: 5px;
     transition: 0.1s ease-in-out;
 }
 
-.file span:hover
-{
+.file span:hover {
     /* background-color: rgb(192, 192, 192); */
     background-color: rgb(228, 228, 228);
 
 
 }
 
-.file span i
-{
+.file span i {
     font-size: 14.5px;
 }
 
-.line
-{
+.line {
     width: 100%;
     border-bottom: 1px solid #bcbcbc;
 }
 
-.tools_container
-{
+.tools_container {
     width: 100%;
     border-bottom: 1px solid #bcbcbc;
     padding: 10px 0px;
     /*box-sizing: border-box; */
     /* margin-top: 8px; */
-
 }
-.tools_heading
-{
+
+.tools_heading {
     gap: 5px;
     display: flex;
     height: 25px;
@@ -241,37 +215,32 @@
     cursor: pointer;
 }
 
-.tools_arrow_rotate_down
-{
+.tools_arrow_rotate_down {
     transform: rotate(0deg);
     transition: 0.3s ease-in-out;
 
 }
 
-.tools_arrow_rotate_up
-{
+.tools_arrow_rotate_up {
     transform: rotate(90deg);
     transition: 0.3s ease-in-out;
 }
 
-.tools_heading h4
-{
+.tools_heading h4 {
     margin: 0;
     color: var(--ide-font);
     font-size: 15px;
     font-family: 'Roboto', sans-serif;
 }
 
-.tools_show
-{
+.tools_show {
     height: 81.5vh;
     width: 100%;
     background-color: transparent;
     transition: 0.3s ease-in-out;
 }
 
-.tools_hide
-{
+.tools_hide {
     height: 0;
     background-color: transparent;
     width: 100%;
@@ -279,10 +248,72 @@
 }
 
 
-.ide_in_ide_container
-{
+.ide_in_ide_container {
     overflow: hidden;
     border-radius: 10px;
     width: 70%;
     height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputNoutput {
+    height: 10rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.inputF{
+    width: 48%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.inputF > textarea{
+    width: 90%;
+    height: 90%;
+    background-color: transparent;
+    border: none;
+    color: rgb(0, 0, 0);
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    resize: none;
+    outline: none;
+    padding: 0.75rem;
+    box-sizing: border-box;
+    border: 1px solid rgb(130, 130, 130);
+    font-weight: 400;
+}
+
+.outputF{
+    width: 48%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.outputF > textarea{
+    width: 90%;
+    height: 90%;
+    background-color: transparent;
+    border: none;
+    color: rgb(0, 0, 0);
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    resize: none;
+    outline: none;
+    padding: 0.75rem;
+    box-sizing: border-box;
+    border: 1px solid rgb(130, 130, 130);
+}
+
+.iframe{
+    height: 80vh;
+    width: 70%;
 }
