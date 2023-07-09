@@ -408,6 +408,12 @@ function Platform(props) {
           </div>
         )}
 
+        {show === 'stream' && (
+          <div className="stream_in_platform_container">
+            <StreamZ socket={socket} canvasRef={canvasRef} meetingId={props.meetingId} setMeetingId={props.setMeetingId} getMeetingAndToken={props.getMeetingAndToken} setCurrentLanguage={setCurrentLanguage} inputX={inputX} setInputX={setInputX} output={output} code={code} isAdmin={props.isAdmin} setCode={setCode} setShow={setShow} />
+          </div>
+        )}
+
         <div className='chat_in_platform_container'>
           <ChatBox
             message={message}
