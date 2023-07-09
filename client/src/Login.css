@@ -1,9 +1,7 @@
 .login-container
 {
     height: 100vh;
-    width: 100vw;
     display: flex;
-    min-width: 1440px;
     min-height: 789px;
     justify-content: center;
     align-items: center;

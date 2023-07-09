@@ -5,7 +5,6 @@
     flex-direction: column;
     align-items: center;
     height: 100vh;
-    width: 100vw;
 }
 
 .landing_parent {
@@ -103,6 +102,7 @@
     color: lightgray;
     font-weight: 500;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .line{

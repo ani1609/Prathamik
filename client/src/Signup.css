@@ -1,12 +1,10 @@
 .signup-container
 {
     height: 100vh;
-    width: 100vw;
     display: flex;
-    min-width: 1440px;
     min-height: 789px;
     justify-content: center;
-    align-items: center;
+    padding-top: 1.5rem;
     font-family: 'Roboto', sans-serif;
     background-color: var(--deep-blue);
     /* background-color: white; */
