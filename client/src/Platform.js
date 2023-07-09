@@ -4,10 +4,13 @@ import React from 'react';
 import ChatBox from './ChatBox';
 import IDE from './IDE';
 import { useState } from 'react';
-import Board from './Board';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
+import Container from './Container';
+import io from "socket.io-client";
+
+const socket = io.connect("http://localhost:3000");
 
 function Platform(props) {
   const [profileDetailsShow, setProfiledetailsShow] = useState(false);
@@ -22,9 +25,119 @@ function Platform(props) {
   const [output, setOutput] = useState('');
   const [inputX, setInputX] = useState('');
   const [currentLanguage, setCurrentLanguage] = useState('cpp');
+  const [change, setChange] = useState(false);
+  const [correctAnswer, setCorrectAnswer] = useState('');
+  const [color, setColor] = useState({
+    A: 'lightgrey',
+    B: 'lightgrey'
+  });
 
   useEffect(() => {
-    props.socket.on("new_message", (data) => {
+    const intervalId = setInterval(() => {
+      setChange(prevChange => !prevChange);
+    }, 60000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const input = `You are a teacher preparing a quiz for your students. Please help me create a multiple-choice question with two options (A and B) based on the given context.
+
+      Context: will be given by the user
+
+      Question: [Insert your question related to the context]
+
+      A) [Option A]
+
+      B) [Option B]
+
+      Please specify the correct answer by choosing one of the following:
+      1) A
+      2) B
+
+      Example 1:
+      Context: The following question is about the solar system.
+      Question: Which planet is closest to the Sun?
+      A) Venus
+      B) Mercury
+      Correct Answer: B
+
+      Example 2:
+      Context: The following question is about European geography.
+      Question: What is the capital of France?
+      A) Paris
+      B) Berlin
+      Correct Answer: A
+
+      Actual Question:
+      Context: ${code}
+      Question: [Your generated question goes here]
+      A) [Option A]
+      B) [Option B]
+      Correct Answer: [Specify the correct answer by choosing A or B]
+      `;
+      console.log(input);
+      try {
+        const response = await fetch('http://localhost:3000/input', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ input })
+        });
+
+        if (!response.ok) {
+          throw new Error('Request failed');
+        }
+
+        const data = await response.json();
+        setMessage(data.output);
+        const questionRegex = /Question: (.+)/;
+        const questionMatch = data.output.match(questionRegex);
+        const question = questionMatch ? questionMatch[1].trim() : "";
+
+        const optionsRegex = /[AB]\) (.+)/g;
+        const optionsMatches = data.output.matchAll(optionsRegex);
+        const options = Array.from(optionsMatches, match => match[1].trim());
+
+        const correctAnswerRegex = /Correct Answer: ([AB])/;
+        const correctAnswerMatch = data.output.match(correctAnswerRegex);
+        const correctAnswer = correctAnswerMatch ? correctAnswerMatch[1] : "";
+        if(question === "" || options.length !== 2 || correctAnswer === "") {
+          return;
+        }
+        setCorrectAnswer(correctAnswer);
+        setChats((chats) => chats.filter((chat) => chat.type !== 'mcq'));
+        setColor({
+          A: 'lightgrey',
+          B: 'lightgrey'
+        });
+        setChats((chats) => [
+          ...chats,
+          { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png', type: 'mcq' , question, options, correctAnswer }
+        ]);
+        socket.emit('bot_message', {
+          input: data.output,
+          ownedByCurrentUser: false,
+          profilePic: 'x.png',
+          type: 'mcq',
+          question,
+          options,
+          correctAnswer
+        });
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    // if (code !== '')
+      // fetchData();
+  }, [change]);
+
+
+  useEffect(() => {
+    socket.on("new_message", (data) => {
       const incommingMessage = {
         ...data,
         ownedByCurrentUser: data.user === JSON.parse(localStorage.getItem('user')).data._id,
@@ -34,74 +147,39 @@ function Platform(props) {
     });
 
     return () => {
-      props.socket.off("new_message");
+      socket.off("new_message");
     }
-  }, [props.socket]);
+  }, [socket]);
 
   useEffect(() => {
-    props.socket.on("output", (data) => {
+    socket.on("output", (data) => {
       setOutput(data);
     });
 
     return () => {
-      props.socket.off("output");
+      socket.off("output");
     }
-  }, [props.socket]);
+  }, [socket]);
 
   useEffect(() => {
-    props.socket.on("input", (data) => {
+    socket.on("input", (data) => {
       setInputX(data);
     });
 
     return () => {
-      props.socket.off("input");
+      socket.off("input");
     }
-  }, [props.socket]);
+  }, [socket]);
 
   useEffect(() => {
-    props.socket.on("bot_message", (data) => {
+    socket.on("bot_message", (data) => {
       setChats((chats) => [...chats, data]);
     });
 
     return () => {
-      props.socket.off("bot_message");
+      socket.off("bot_message");
     }
-  }, [props.socket]);
-
-  // DO NOT DELETE THIS CODE
-  // setTimeout(async () => {
-  //   const userInput = 'tell me a mcq question on the above code';
-  //   console.log('code' + code);
-  //   const input = `${code}\n${userInput}`;
-  //   console.log('input' + input);
-  //   try {
-  //     const response = await fetch('http://localhost:3000/input', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify({ input })
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error('Request failed');
-  //     }
-
-  //     const data = await response.json();
-  //     setMessage(data.output);
-  //     setChats((chats) => [
-  //       ...chats,
-  //       { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png' }
-  //     ]);
-  //     props.socket.emit('bot_message', {
-  //       input: data.output,
-  //       ownedByCurrentUser: false,
-  //       profilePic: 'x.png'
-  //     });
-  //   } catch (error) {
-  //     console.error('Error:', error);
-  //   }
-  // }, 30000);
+  }, [socket]);
 
   const handleInput = async (e) => {
     e.preventDefault();
@@ -126,15 +204,26 @@ function Platform(props) {
       const data = await response.json();
       setMessage(data.output);
       setChats((chats) => [...chats, { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png' }]);
-      props.socket.emit("bot_message", { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png' });
+      socket.emit("bot_message", { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png' });
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
+  const handleInputBoard = async (e) => {
+    e.preventDefault();
+    try {
+      await captureScreenshot();
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+
   function sendInput(input) {
     const user = JSON.parse(localStorage.getItem('user')).data._id;
-    props.socket.emit("chat_message", { input, user });
+    socket.emit("chat_message", { input, user });
+
   }
 
   function voice() {
@@ -158,24 +247,6 @@ function Platform(props) {
 
     recognition.start();
   }
-
-  const handleImageInput = (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    const fileInput = e.target.elements.image.files[0];
-    formData.append('image', fileInput);
-    fetch('http://localhost:5000/ocr', {
-      method: 'POST',
-      body: formData
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Image sent successfully!', data);
-      })
-      .catch((error) => {
-        console.error('Error sending image:', error);
-      });
-  };
 
   function handleProfileClick() {
     if (profileDetailsShow) {
@@ -204,28 +275,90 @@ function Platform(props) {
         }
       });
       setOutput(response.data.output);
-      props.socket.emit("output", response.data.output);
+      socket.emit("output", response.data.output);
     } catch (error) {
       console.error(error);
     }
   };
 
+  const captureScreenshot = async () => {
+    const canvas = canvasRef.current;
+    canvas.toBlob((blob) => {
+      const formData = new FormData();
+      formData.append('image', blob, 'screenshot.png');
+
+      fetch('http://localhost:5000/ocr', {
+        method: 'POST',
+        body: formData,
+      })
+        .then((response) => {
+          if (response.ok) {
+            response.json().then(async (value) => {
+              console.log('Screenshot sent successfully');
+              console.log('Server output:', value);
+              setInput(userInput);
+              sendInput(userInput);
+              inputRef.current.value = '';
+              const input = `You are tasked with creating an AI model that acts as an assistant to students in a classroom. The AI model should help students understand the context of the information written on the board by the teacher.
+
+              Example 1 :
+              Board: x + y = 6
+              Question by student: What is the subject we are learning today
+              AI Assistant: We are learning Maths equations.
+
+              Example 2:
+              Board: Life is hard but we should not give up
+              Question by student: What is written on the board
+              AI Assistant: It states, "Life is hard but we should not give up."
+
+              Actual :
+              Board: ${value.text}
+              Question by student: \n${userInput}
+              AI Assistant: (Your generated response goes here);`;
+
+              const response = await fetch('http://localhost:3000/input', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ input })
+              });
+
+              if (!response.ok) {
+                throw new Error('Request failed');
+              }
+
+              const data = await response.json();
+              setMessage(data.output);
+              setChats((chats) => [...chats, { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png' }]);
+              socket.emit("bot_message", { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png' });// <-- This should reflect the updated state
+            });
+          } else {
+            console.error('Error sending screenshot:', response.statusText);
+          }
+        })
+        .catch((error) => {
+          console.error('Error sending screenshot:', error);
+        });
+    });
+  };
+
   return (
     <div className='platform_parent'>
-      {/* <form onSubmit={handleImageInput}>
-          <input type="file" name='image' />
-          <button type="submit">Submit</button>
-        </form> */}
 
       <div className='platform_navbar'>
         <div className='navbar_1'>
 
           <div className='platform_logo'>
-            {/* <img src={Logo}/> */}
             <h1>Prathamik</h1>
             <p>Online IDE</p>
           </div>
-
+          <div>
+            <select onChange={(e) => setShow(e.target.value)}>
+              <option value="editor">IDE</option>
+              <option value="board">Board</option>
+            </select>
+          </div>
           <form>
             <button type='button' onClick={handleRun}>Run <i class="fa-solid fa-play"></i></button>
           </form>
@@ -248,13 +381,13 @@ function Platform(props) {
       <div className='platform_components'>
         {show === 'editor' && (
           <div className="ide_in_platform_container">
-            <IDE socket={props.socket} setCurrentLanguage={setCurrentLanguage} input={inputX} setInput={setInputX} output={output} code={code} isAdmin={props.isAdmin} setCode={setCode} setShow={setShow} />
+            <IDE socket={socket} setCurrentLanguage={setCurrentLanguage} input={inputX} setInput={setInputX} output={output} code={code} isAdmin={props.isAdmin} setCode={setCode} setShow={setShow} />
           </div>
         )}
 
         {show === 'board' && (
           <div className="board_in_platform_container">
-            <Board handleImageInput={handleImageInput} canvasRef={canvasRef} />
+            <Container socket={socket} canvasRef={canvasRef} />
           </div>
         )}
 
@@ -269,6 +402,12 @@ function Platform(props) {
             sendInput={sendInput}
             chats={chats}
             voice={voice}
+            show={show}
+            handleInputBoard={handleInputBoard}
+            captureScreenshot={captureScreenshot}
+            correctAnswer={correctAnswer}
+            color={color}
+            setColor={setColor}
           />
         </div>
       </div>

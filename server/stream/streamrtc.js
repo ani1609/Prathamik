@@ -157,4 +157,4 @@ module.exports = {
   generateParticipantId,
   participants,
   getWhiteboardData
-};
+}

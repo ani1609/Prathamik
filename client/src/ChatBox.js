@@ -69,6 +69,21 @@ function ChatBox(props) {
                 </div>
               </div>
             </div>)
+          chat.type !== 'mcq' ?
+            (<div className={`${chat.ownedByCurrentUser ? "user_chat" : "bot_chat"}`}>
+              {!chat.ownedByCurrentUser && <img src={`http://localhost:3000/uploads/${chat.profilePic}`} />}
+              <p>{chat.input}</p>
+            </div>) :
+            (<div className={`${chat.ownedByCurrentUser ? "user_chat" : "bot_chat"}`}>
+              {!chat.ownedByCurrentUser && <img src={`http://localhost:3000/uploads/${chat.profilePic}`} />}
+              <div className='col'>
+                <p>{chat.question}</p>
+                <div className='mcq_options'>
+                  <p className='mcq_option' style={{backgroundColor : props.color.A}} onClick={() => handleColorChange('A')}>{chat.options[0]}</p>
+                  <p className='mcq_option' style={{backgroundColor : props.color.B}} onClick={() => handleColorChange('B')}>{chat.options[1]}</p>
+                </div>
+              </div>
+            </div>)
         ))}
 
       </div>
@@ -87,7 +102,15 @@ function ChatBox(props) {
           <i class="fa-solid fa-paper-plane"></i>
         </button>}
         {props.show === 'board' && <button onClick={props.handleInputBoard}>
+        <button type='button' onClick={props.voice}>
+          say!
+        </button>
+        {props.show === 'editor' && <button onClick={props.handleInput}>
           <i class="fa-solid fa-paper-plane"></i>
+        </button>}
+        {props.show === 'board' && <button onClick={props.handleInputBoard}>
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>}
         </button>}
       </form>
     </div>
