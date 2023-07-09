@@ -11,7 +11,8 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    background-color: var(--light-blue);
+    background-color: white;
+    /* background-color: var(--light-blue); */
 }
 
 .block_1
@@ -78,7 +79,7 @@
     margin: 0;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
-    color: white;
+    color: var(--light-blue);
     font-size: 19px;
 }
 
@@ -90,5 +91,5 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-size: 14px;
-    color: white;
+    color: var(--light-blue);
 }
