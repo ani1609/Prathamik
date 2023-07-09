@@ -27,11 +27,11 @@ function Platform(props) {
   const [change, setChange] = useState(false);
   const [correctAnswer, setCorrectAnswer] = useState('');
   const [adminDetails, setAdminDetails] = useState({});
+  const [details, setDetails] = useState({});
   const [color, setColor] = useState({
     A: 'lightgrey',
     B: 'lightgrey'
   });
-  const details = JSON.parse(localStorage.getItem('details'));
 
   useEffect(() => {
     socket.emit('join', props.meetingId);
@@ -47,7 +47,7 @@ function Platform(props) {
     })
       .then((res) => res.json())
       .then((data) => {
-        localStorage.setItem('details', JSON.stringify({ meetingId: data.meetingId, isAdmin: data.isAdmin }));
+        setDetails(data);
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -414,7 +414,7 @@ function Platform(props) {
       <div className='platform_components'>
 
         <div className="stream_in_platform_container">
-          <StreamZ adminDetails={adminDetails} socket={socket} canvasRef={canvasRef} meetingId={props.meetingId} setMeetingId={props.setMeetingId} getMeetingAndToken={props.getMeetingAndToken} setCurrentLanguage={setCurrentLanguage} inputX={inputX} setInputX={setInputX} output={output} code={code} setCode={setCode} setShow={setShow} />
+          <StreamZ details={details} adminDetails={adminDetails} socket={socket} canvasRef={canvasRef} meetingId={props.meetingId} setMeetingId={props.setMeetingId} getMeetingAndToken={props.getMeetingAndToken} setCurrentLanguage={setCurrentLanguage} inputX={inputX} setInputX={setInputX} output={output} code={code} setCode={setCode} setShow={setShow} />
         </div>
 
         <div className='chat_in_platform_container'>

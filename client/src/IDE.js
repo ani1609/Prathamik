@@ -26,7 +26,6 @@ function IDE(props) {
   const [showWarning, setShowWarning] = useState(true);
   const [showBrowser, setShowBrowser] = useState(false);
   const [fileValues, setFileValues] = useState({});
-  const details = JSON.parse(localStorage.getItem('details'));
 
   useEffect(() => {
     window.addEventListener('beforeunload', handleBeforeUnload);
@@ -127,7 +126,7 @@ function IDE(props) {
       id: fileId,
       name: newFileName,
     };
-    
+
     if (fileType === '.js') {
       newFile.value = '// Enter your js code here';
       newFile.icon = 'fab fa-js-square';
@@ -325,11 +324,11 @@ function IDE(props) {
             </div>
           </div>
 
-          {!showBrowser && details.isAdmin && <button onClick={() => setShowBrowser(true)}>Switch to Browser</button>}
-          {showBrowser && details.isAdmin && <button onClick={() => setShowBrowser(false)}>Switch to IDE</button>}
+          {!showBrowser && props.details.isAdmin && <button onClick={() => setShowBrowser(true)}>Switch to Browser</button>}
+          {showBrowser && props.details.isAdmin && <button onClick={() => setShowBrowser(false)}>Switch to IDE</button>}
 
         </div>
-        {details.isAdmin && !showBrowser &&
+        {props.details.isAdmin && !showBrowser &&
           <div className='ide_in_ide_container'>
             <Editor
               theme="vs-dark"
@@ -357,7 +356,7 @@ function IDE(props) {
             </div>
           </div>
         }
-        {!details.isAdmin && !showBrowser && <div className='ide_in_ide_container'>
+        {!props.details.isAdmin && !showBrowser && <div className='ide_in_ide_container'>
           <Editor theme="vs-light" onMount={handleEditorDidMount} path={files[fileIndex].name}
             defaultLanguage={files[fileIndex].language} defaultValue={files[fileIndex].value} value={ideValue} options={{
               readOnly: true
