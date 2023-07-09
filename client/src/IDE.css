@@ -17,7 +17,7 @@
     box-sizing: border-box;
     /* border-right: 1px solid #bcbcbc; */
     /* border-top: 1px solid #bcbcbc; */
-
+    background-color: lightgray;
 }
 
 .files_container {
@@ -256,16 +256,6 @@
     flex-direction: column;
 }
 
-.ide_in_ide_container section
-{
-    /* height: 70% !important; */
-}
-
-.mainIde
-{
-
-}
-
 .inputNoutput {
     /* height: 10rem; */
     width: 100%;
@@ -329,4 +319,8 @@
 .iframe{
     height: 80vh;
     width: 70%;
+}
+
+.mainIde{
+    box-sizing: border-box;
 }
