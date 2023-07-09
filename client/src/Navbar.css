@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+
+body
+{
+  font-family: 'Roboto', sans-serif;
+  margin-left: 0;
+  width: 100%;
+}
+
+.navbar
+{
+  height: 65px;
+  width: 100%;
+  padding: 0px 5%;
+  position: fixed;
+  box-sizing: border-box;
+  z-index: 100;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.4s ease-in-out;
+}
+
+.nav-shadow{
+  box-shadow: 0px 0px 10px 0px grey;
+  height: 75px;
+}
+
+.logo-container h3 a
+{
+  text-decoration: none;
+  font-size: 30px;
+}
+
+.logo-left
+{
+  color: #404575;
+}
+
+.logo-right
+{
+  color: black;
+}
+
+.navigations-tabs
+{
+  width: 23rem;
+  justify-content: space-between;
+  display: flex;
+  padding: 0px;
+}
+
+.navigations-tabs li
+{
+  list-style-type: none;
+}
+
+.navigations-tabs li a
+{
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  /* font-family: 'Lato', sans-serif; */
+  color: grey;
+  text-decoration: none;
+}
+
+.login-signup-container
+{
+  display: flex;
+  justify-content: space-between;
+  width: 12.8rem;
+}
+
+.login
+{
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 25px 10px 25px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #404575;
+  background-color: white;
+  cursor: pointer;
+}
+
+.signup
+{
+  border-radius: 8px;
+  padding: 10px 25px 10px 25px;
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+  background-color: #404575;
+  border: 0;
+  cursor: pointer;
+}
+
+.coloured
+{
+  color: white;
+  background-color: #404575;
+}
+
+.non-coloured
+{
+  background-color: white;
+  color: #404575;
+}
