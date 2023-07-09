@@ -27,20 +27,24 @@ function handleWebSocketConnection(socket) {
   //   io.in(id).emit(NEW_CHAT_MESSAGE_EVENT, data);
   // });
 
+  socket.on('join', (roomName) => {
+    socket.join(roomName);
+  });
+
   socket.on("send_value", (data) => {
-    socket.broadcast.emit("ide_value", data);
+    socket.broadcast.to(data.roomid).emit("ide_value", data.value);
   });
 
   socket.on("send_file", (data) => {
-    socket.broadcast.emit("ide_file", data);
+    socket.broadcast.to(data.roomid).emit("ide_file", data.value);
   });
 
   socket.on("send_index", (data) => {
-    socket.broadcast.emit("ide_index", data);
+    socket.broadcast.to(data.roomid).emit("ide_index", data.value);
   });
 
   socket.on("delete_file", (data) => {
-    socket.broadcast.emit("new_file", data);
+    socket.broadcast.to(data.roomid).emit("new_file", data.value);
   });
 
   socket.on("chat_message", async (data) => {
@@ -50,83 +54,32 @@ function handleWebSocketConnection(socket) {
       ...data,
       profile: user
     }
-    socket.emit("new_message", data);
-    socket.broadcast.emit("new_message", data);
+
+    socket.to(data.roomid).emit("new_message", data);
+    socket.broadcast.to(data.roomid).emit("new_message", data);
   });
 
   socket.on("bot_message", (data) => {
-    socket.broadcast.emit("bot_message", data);
+    socket.broadcast.to(data.roomid).emit("bot_message", data.value);
   });
 
   socket.on("output", (data) => {
-    socket.broadcast.emit("output", data);
+    socket.broadcast.to(data.roomid).emit("output", data.value);
   });
 
   socket.on("input", (data) => {
-    socket.broadcast.emit("input", data);
+    socket.broadcast.to(data.roomid).emit("input", data.value);
   });
 
   socket.on('canvas-data', (data) => {
-    socket.broadcast.emit('canvas-data', data);
+    socket.broadcast.to(data.roomid).emit('canvas-data', data.value);
   })
 
-  socket.emit('drawingData', drawingData);
-
-  socket.on('draw', (data) => {
-    console.log(data);
-    drawingData.push(data);
-    socket.broadcast.emit('draw', data);
-  });
-
   socket.on('disconnect', () => {
-    handleParticipantLeave(socket);
-  });
-  socket.on("whiteboardData", (data) => {
-    // Broadcast the whiteboard data to all connected participants
-    socket.broadcast.emit("whiteboardData", data);
+    console.log(`User Disconnected: ${socket.id}`);
   });
 }
 
-function handleParticipantJoin(socket, streamCode) {
-  const participantId = generateParticipantId();
-
-  // Store the participant and their stream code
-  participants.set(participantId, socket);
-
-  // Send the participant ID to the client
-  socket.emit('participantId', participantId);
-
-  // Broadcast the participant join event to all other participants
-  socket.broadcast.emit('participantJoin', participantId, streamCode);
-}
-
-function handleParticipantLeave(socket) {
-  const participantId = getParticipantIdBySocket(socket);
-
-  if (participantId) {
-    // Remove the participant from the map
-    participants.delete(participantId);
-
-    // Broadcast the participant leave event to all other participants
-    socket.broadcast.emit('participantLeave', participantId);
-  }
-}
-
-function handleWhiteboardData(data) {
-  // Broadcast the whiteboard data to all connected participants
-  io.emit('whiteboardData', data);
-}
-function getWhiteboardData() {
-  // Collect and return the whiteboard data from all participants
-  const whiteboardData = [];
-  for (const participantSocket of participants.values()) {
-    const participantData = participantSocket.whiteboardData;
-    if (participantData) {
-      whiteboardData.push(participantData);
-    }
-  }
-  return whiteboardData;
-}
 function handleUpgrade(request, socket, head) {
   io.engine.handleUpgrade(request, socket, head, (socket) => {
     io.emit('connection', socket);
@@ -134,27 +87,8 @@ function handleUpgrade(request, socket, head) {
   });
 }
 
-function generateParticipantId() {
-  return Math.random().toString(36).substr(2, 9);
-}
-
-function getParticipantIdBySocket(socket) {
-  for (const [participantId, participantSocket] of participants.entries()) {
-    if (participantSocket === socket) {
-      return participantId;
-    }
-  }
-  return null;
-}
-
 module.exports = {
   initializeSignalingServer,
   handleWebSocketConnection,
-  handleUpgrade,
-  handleParticipantJoin,
-  handleParticipantLeave,
-  handleWhiteboardData,
-  generateParticipantId,
-  participants,
-  getWhiteboardData
-}
+  handleUpgrade
+};
