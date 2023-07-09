@@ -90,15 +90,15 @@
     animation-fill-mode: both;
 }
 
-@keyframes ideImageAnimation 
+@keyframes ideImageAnimation
 {
-    from 
+    from
     {
         filter: blur(1px);
         transform: scale(1) translateX(0px);
         /* transform: scale(1) translateX(0px); */
     }
-    to 
+    to
     {
         filter: blur(0px);
         transform: scale(0.7) translateX(-38%);
@@ -113,15 +113,15 @@
     animation-fill-mode: both;
 }
 
-@keyframes ideRemoveImageAnimation 
+@keyframes ideRemoveImageAnimation
 {
-    from 
+    from
     {
         filter: blur(0px);
         transform: scale(0.7) translateX(-38%);
         /* transform: scale(0.7) translateX(-350px); */
     }
-    to 
+    to
     {
         filter: blur(1px);
         transform: scale(1) translateX(0px);

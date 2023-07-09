@@ -1,11 +1,7 @@
-import React, { useState, useRef , useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Editor from '@monaco-editor/react';
 import './IDE.css';
 import '@fortawesome/fontawesome-free/css/all.css';
-import io from "socket.io-client";
-
-
-const socket = io.connect("http://localhost:3000");
 
 const initialFiles = [
   {
@@ -13,48 +9,24 @@ const initialFiles = [
     name: "",
     language: "text",
     value: "",
-    icon: "fab fa-js-square"
+    icon: "fab fa-js-square",
+    other: "text"
   }
 ];
 
-const initialStaticFiles = [
-  {
-    id: 0,
-    name: "index.html",
-    language: ".html",
-    value: "<!-- Enter your html code here -->",
-    icon: "fab fa-html5"
-  },
-  {
-    id: 1,
-    name: "style.css",
-    language: ".css",
-    value: "/* Enter your css code here */",
-    icon: "fab fa-css3-alt"
-  },
-  {
-    id: 2,
-    name: "server.js",
-    language: ".js",
-    value: "// Enter your js code here",
-    icon: "fab fa-js-square"
-  },
-];
-
 function IDE(props) {
-  const [staticFiles, setStaticFiles] = useState(initialStaticFiles);
   const [files, setFiles] = useState(initialFiles);
   const [fileIndex, setfileIndex] = useState(0);
   const editorRef = useRef(null);
   const [showAddBox, setShowAddBox] = useState(false);
   const [fileId, setFileId] = useState(1);
   const [newFileName, setNewFileName] = useState('');
-  const [newFileLanguage, setNewFileLanguage] = useState('html');
   const [ideValue, setIdeValue] = useState("");
   const [isInvalid, setIsInvalid] = useState(false);
   const [showWarning, setShowWarning] = useState(true);
-
-  const [user, setUser] = useState("student");
+  const [user, setUser] = useState("teacher");
+  const [fileValues, setFileValues] = useState({});
+  const details = JSON.parse(localStorage.getItem('details'));
 
   useEffect(() => {
     window.addEventListener('beforeunload', handleBeforeUnload);
@@ -64,25 +36,66 @@ function IDE(props) {
     };
   }, []);
 
+  useEffect(() => {
+    if (props.isAdmin) {
+      setUser('teacher');
+    }
+    else {
+      // setUser('student');
+    }
+  }, [])
+
   const handleBeforeUnload = (e) => {
     if (showWarning) {
       e.preventDefault();
-      e.returnValue = ''; // Needed for Chrome
+      e.returnValue = '';
     }
   };
 
+  useEffect(() => {
+    const newFileValues = {};
+    files.forEach((file) => {
+      newFileValues[file.id] = file.value;
+    });
+    setFileValues(newFileValues);
+  }, [files]);
 
   useEffect(() => {
-    socket.on("ide_value", (data) => {
+    props.socket.on("ide_value", (data) => {
+      props.setCode(data);
       setIdeValue(data);
     });
-  }, [socket]);
+  }, [props.socket]);
 
   useEffect(() => {
-    socket.on("ide_file", (data) => {
+    props.socket.on("ide_file", (data) => {
       setFiles(data);
     });
-  }, [socket]);
+
+    return () => {
+      props.socket.off("ide_file");
+    }
+  }, [props.socket]);
+
+  useEffect(() => {
+    props.socket.on("ide_index", (data) => {
+      setfileIndex(data);
+    });
+
+    return () => {
+      props.socket.off("ide_index");
+    }
+  }, [props.socket]);
+
+  useEffect(() => {
+    props.socket.on("new_file", (data) => {
+      setFiles(data);
+    });
+
+    return () => {
+      props.socket.off("new_file");
+    }
+  }, [props.socket]);
 
   function handleEditorDidMount(editor, monaco) {
     editorRef.current = editor;
@@ -90,65 +103,92 @@ function IDE(props) {
 
   function handleEditorChange(value) {
     props.setCode(value);
-    socket.emit("send_value", value);
+
+    const updatedFiles = [...files];
+    updatedFiles[fileIndex].value = value;
+
+    setFiles(updatedFiles);
+    props.socket.emit("send_value", {value: value , roomid: props.meetingId});
   }
 
-  function handleFileClick()
-  {
-    // console.log(fileIndex);
+  function handleFileClick(index) {
+    setfileIndex((prevIndex) => {
+      const updatedIndex = index;
+      props.socket.emit("send_index", {value: updatedIndex, roomid: props.meetingId});
+      return updatedIndex;
+    });
+
+    props.setCurrentLanguage(files[index].other);
   }
 
-  const handleAddFile = (e) =>
-  {
+  const handleAddFile = (e) => {
     const dotIndex = newFileName.indexOf('.');
-    // if (dotIndex === -1)
-    // {
-    //   setIsInvalid(true);
-    //   return;
-    // }
     const fileType = newFileName.substring(dotIndex);
+
+    if (dotIndex === -1 || fileType.length === 0) {
+      setIsInvalid(true);
+      return;
+    }
+
     setFileId((prevId) => prevId + 1);
-    // console.log(fileId);
+
     const newFile = {
       id: fileId,
       name: newFileName,
-      language: newFileLanguage,
-    }
-
-    // console.log(fileId);
-
+    };
+    
     if (fileType === '.js') {
       newFile.value = '// Enter your js code here';
       newFile.icon = 'fab fa-js-square';
+      newFile.language = 'javascript';
+      newFile.other = 'javascript';
     } else if (fileType === '.py') {
       newFile.value = '# Enter your py code here';
       newFile.icon = 'fab fa-python';
+      newFile.language = 'python';
+      newFile.other = 'python3';
     } else if (fileType === '.java') {
       newFile.value = '// Enter your java code here';
       newFile.icon = 'fab fa-java';
+      newFile.language = 'java';
+      newFile.other = 'java';
     } else if (fileType === '.c') {
       newFile.value = '// Enter your c code here';
       newFile.icon = 'fab fa-cuttlefish';
+      newFile.language = 'c';
+      newFile.other = 'c';
     } else if (fileType === '.cpp') {
       newFile.value = '// Enter your c++ code here';
       newFile.icon = 'fab fa-cuttlefish';
+      newFile.language = 'cpp';
+      newFile.other = 'cpp';
     } else if (fileType === '.html') {
       newFile.value = '<!-- Enter your html code here -->';
       newFile.icon = 'fab fa-html5';
+      newFile.language = 'html';
+      newFile.other = 'html';
     } else if (fileType === '.css') {
       newFile.value = '/* Enter your css code here */';
       newFile.icon = 'fab fa-css3-alt';
+      newFile.language = 'css';
+      newFile.other = 'css';
     } else if (fileType === '.txt') {
       newFile.value = '';
       newFile.icon = 'fas fa-file-alt';
+      newFile.language = 'text';
+      newFile.other = 'text';
     }
-    setFiles([...files, newFile]);
-    // setIsInvalid(false);
+
+    setFiles((prevFiles) => {
+      const updatedFiles = [...prevFiles, newFile];
+      props.socket.emit("send_file", {value: updatedFiles, roomid: props.meetingId});
+      return updatedFiles;
+    });
+
+    setIsInvalid(false);
     setShowAddBox(false);
     setNewFileName('');
-
-    socket.emit("send_file", newFile);
-  }
+  };
 
   const inputRef = useRef(null);
   useEffect(() => {
@@ -157,50 +197,41 @@ function IDE(props) {
     }
   }, [showAddBox]);
 
-  const [filesArrowRotate,setFilesArrowRotate]=useState(true);
-  const [toolsArrowRotate,setToolsArrowRotate]=useState(false);
-  const [filesShow,setFilesShow]=useState(true);
-  const [toolsShow,setToolsShow]=useState(false);
-  function handleFilesHeadingClick()
-  {
+  const [filesArrowRotate, setFilesArrowRotate] = useState(true);
+  const [toolsArrowRotate, setToolsArrowRotate] = useState(false);
+  const [filesShow, setFilesShow] = useState(true);
+  const [toolsShow, setToolsShow] = useState(false);
+  function handleFilesHeadingClick() {
     setToolsShow(false);
     setToolsArrowRotate(false);
-    if (filesArrowRotate)
-    {
+    if (filesArrowRotate) {
       setFilesShow(false);
       setFilesArrowRotate(false);
     }
-    else
-    {
+    else {
       setFilesShow(true);
       setFilesArrowRotate(true);
     }
   }
 
-  function handleToolsHeadingClick()
-  {
+  function handleToolsHeadingClick() {
     setFilesShow(false);
     setFilesArrowRotate(false);
-    if (toolsArrowRotate)
-    {
+    if (toolsArrowRotate) {
       setToolsShow(false);
       setToolsArrowRotate(false);
     }
-    else
-    {
+    else {
       setToolsShow(true);
       setToolsArrowRotate(true);
     }
   }
 
-  function handleAddFileClick()
-  {
-    if (showAddBox)
-    {
+  function handleAddFileClick() {
+    if (showAddBox) {
       setShowAddBox(false);
     }
-    else
-    {
+    else {
       setShowAddBox(true);
       setFilesShow(true);
       setFilesArrowRotate(true);
@@ -209,70 +240,69 @@ function IDE(props) {
     }
   }
 
-  function handleFileDelete(id)
-  {
-    console.log(files);
+  function handleFileDelete(id) {
     const updatedFiles = files.filter((file) => file.id !== id);
+    props.socket.emit("delete_file", {value: updatedFiles, roomid: props.meetingId});
     setFiles(updatedFiles);
   }
 
-  function handleStaticFileDelete(id)
-  {
-    const updatedFiles = staticFiles.filter((file) => file.id !== id);
-    setStaticFiles(updatedFiles);
+  function handleInputValue (e) {
+    props.setInput(e.target.value);
+    props.socket.emit("input", {value: e.target.value , roomid: props.meetingId});
   }
 
   return (
     <div>
       <div className='ide_parent'>
+
         <div className='left_block'>
 
           <div className='files_container'>
 
             <div className='files_heading'>
 
-                <div className='files_heading_left' onClick={handleFilesHeadingClick}>
-                  <span className={filesArrowRotate?'arrow_rotate_down':'arrow_rotate_up'}>
-                    <i class="fa-solid fa-angle-down"></i>
-                  </span>
-                  <h4>Files</h4>
-                </div>
+              <div className='files_heading_left' onClick={handleFilesHeadingClick}>
+                <span className={filesArrowRotate ? 'arrow_rotate_down' : 'arrow_rotate_up'}>
+                  <i class="fa-solid fa-angle-down"></i>
+                </span>
+                <h4>Files</h4>
+              </div>
 
-                <div className='files_heading_right'>
-                  <span className='add_file'onClick={handleAddFileClick}>
-                    <i class="fa-solid fa-file-circle-plus"></i>
-                  </span>
-                  <span className='three_dot'>
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                  </span>
-                </div>
+              <div className='files_heading_right'>
+                <span className='add_file' onClick={handleAddFileClick}>
+                  <i class="fa-solid fa-file-circle-plus"></i>
+                </span>
+                <span className='three_dot'>
+                  <i class="fa-solid fa-ellipsis-vertical"></i>
+                </span>
+              </div>
+
             </div>
 
-            <div className={filesShow?'files_show':'files_hide'}>
-            {/* <button onClick={() => setShowAddBox(true)}>Add File</button> */}
+            <div className={filesShow ? 'files_show' : 'files_hide'}>
+              {/* <button onClick={() => setShowAddBox(true)}>Add File</button> */}
               {showAddBox && <div className='addFilePanel'>
-                    <form autoComplete='off'>
-                      <input
-                        ref={inputRef}
-                        type='text'
-                        placeholder='Enter file name'
-                        value={newFileName}
-                        id='inputFileName'
-                        onChange={(e) => setNewFileName(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter')
-                          {
-                            e.preventDefault(); // Prevent the default form submission behavior
-                            handleAddFile(e);
-                          }
-                        }}
-                      />
-                      {isInvalid && <label htmlFor='inputFileName'>Invalid file type.</label>}
-                    </form>
+                <form autoComplete='off'>
+                  <input
+                    ref={inputRef}
+                    type='text'
+                    placeholder='Enter file name'
+                    value={newFileName}
+                    id='inputFileName'
+                    onChange={(e) => setNewFileName(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleAddFile(e);
+                      }
+                    }}
+                  />
+                  {isInvalid && <label htmlFor='inputFileName'>Invalid file type.</label>}
+                </form>
               </div>}
 
               <div>
-                {staticFiles.map((staticFile, index) => (
+                {/* {staticFiles.map((staticFile, index) => (
                     <div key={index}>
                       <div className='file'>
                           <button>
@@ -284,12 +314,12 @@ function IDE(props) {
                           </span>
                         </div>
                     </div>
-                  ))}
+                  ))} */}
                 {files.map((file, index) => (
                   <div key={index}>
                     {index !== 0 && (
                       <div className='file'>
-                        <button onClick={() => {setfileIndex(index); handleFileClick()}}>
+                        <button onClick={() => handleFileClick(index)}>
                           {file.language === 'text' ? <i className="fas fa-file-alt"></i> : <i className={`fab fa-${file.icon}`}></i>}
                           {file.name}
                         </button>
@@ -301,47 +331,86 @@ function IDE(props) {
                   </div>
                 ))}
               </div>
-
             </div>
-              {/*  onClick={handleFileDelete(file.id)} <button onClick={() => props.setShow('board')}>Switch to Board</button> */}
-
+          </div>
+          {(user === 'teacher' || user === 'student') && <button onClick={() => setUser('browser')}>Switch to Browser</button>}
+          {user === 'browser' && props.isAdmin && <button onClick={() => setUser('teacher')}>Switch to IDE</button>}
+          {user === 'browser' && !props.isAdmin && <button onClick={() => setUser('student')}>Switch to IDE</button>}
+          <div>
+            {/* <button style={{ backgroundColor: 'white' }} onClick={() => props.setShow('board')}>Switch to Board</button> */}
           </div>
 
-          <div className='tools_container'>
+          {/* <div className='tools_container'>
             <div className='tools_heading' onClick={handleToolsHeadingClick}>
-              <span className={toolsArrowRotate?'arrow_rotate_down':'arrow_rotate_up'}>
+              <span className={toolsArrowRotate ? 'arrow_rotate_down' : 'arrow_rotate_up'}>
                 <i class="fa-solid fa-angle-down"></i>
               </span>
               <h4>Tools</h4>
             </div>
 
-            <div className={toolsShow?'tools_show':'tools_hide'}>
+            <div className={toolsShow ? 'tools_show' : 'tools_hide'}>
 
             </div>
-          </div>
+          </div> */}
 
 
         </div>
-        {user === 'teacher' && <Editor className='ide_in_ide_container'
-          theme="vs-dark"
-          onMount={handleEditorDidMount}
-          onChange={handleEditorChange}
-          path={files[fileIndex].name}
-          defaultLanguage={files[fileIndex].language}
-          defaultValue={files[fileIndex].value}
+        {details.isAdmin &&
+          <div className='ide_in_ide_container'>
+            <Editor
+              theme="vs-dark"
+              onMount={handleEditorDidMount}
+              onChange={handleEditorChange}
+              path={files[fileIndex].name}
+              defaultLanguage={files[fileIndex].language}
+              value={fileValues[files[fileIndex].id]}
+            />
+            <div className="inputNoutput">
+              <div className="inputF">
+                <h4>Input</h4>
+                <textarea
+                  value={props.input}
+                  onChange={(e) => {handleInputValue(e)}}
+                />
+              </div>
+              <div className="outputF">
+                <h4>Output</h4>
+                <textarea
+                  value={props.output}
+                  readOnly
+                />
+              </div>
+            </div>
+          </div>
+        }
+        {!details.isAdmin && <div className='ide_in_ide_container'>
+          <Editor theme="vs-light" onMount={handleEditorDidMount} path={files[fileIndex].name}
+            defaultLanguage={files[fileIndex].language} defaultValue={files[fileIndex].value} value={ideValue} options={{
+              readOnly: true
+            }} />
+          <div className="inputNoutput">
+            <div className="inputF">
+              <h4>Input</h4>
+              <textarea value={props.input} onChange={(e) => props.setInput(e.target.value)}
+              />
+            </div>
+            <div className="outputF">
+              <h4>Output</h4>
+              <textarea
+                value={props.output}
+                readOnly
+              />
+            </div>
+          </div>
+        </div>}
+        {user === 'browser' && <iframe
+          title='output'
+          sandbox='allow-scripts'
+          width='100%'
+          height='100%'
+          srcDoc={props.code}
+          className='iframe'
         />}
-        {user === 'student' && <Editor className='ide_in_ide_container'
-          theme="vs-dar"
-          onMount={handleEditorDidMount}
-          path={files[fileIndex].name}
-          defaultLanguage={files[fileIndex].language}
-          defaultValue={files[fileIndex].value}
-          value={ideValue}
-          options={{
-            readOnly: true
-          }}
-        />}
-        {ideValue}
       </div>
     </div>
   );

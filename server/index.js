@@ -2,14 +2,11 @@ require('dotenv').config();
 const connectDb = require('./configDatabase/database');
 const signupController = require('./controllers/signup');
 const loginController = require('./controllers/login');
-// const authRoutes = require('./Routes/auth');
-// const File=require('./models/file');
 const cors = require('cors');
 const express = require('express');
 
 const app = express();
 
-//database connection
 connectDb();
 
 app.use('/uploads', express.static('uploads'));
@@ -26,17 +23,13 @@ const storage = multer.diskStorage({
   },
 });
 
-// Configure Multer for handling file uploads
 const upload = multer({ storage });
-
-//middleware
 
 const http = require('http');
 const { Server } = require('socket.io');
 const { handleUpgrade, handleWebSocketConnection, initializeSignalingServer } = require('./stream/streamrtc');
 const routes = require('./Routes/routes');
 const { handleInput } = require('./gpt-3.5/gptController/inputController.js');
-
 app.use(express.json());
 app.use(cors({
   origin: 'http://localhost:3001'
@@ -45,7 +38,6 @@ app.use(cors({
 //routes
 app.use('/signup', signupController);
 app.use('/login', loginController);
-// app.use('/api/auth', authRoutes);
 
 
 app.use('/api', routes);
@@ -85,7 +77,6 @@ const io = new Server(server, {
 });
 initializeSignalingServer(io);
 io.on('connection', handleWebSocketConnection);
-
 server.on('upgrade', handleUpgrade);
 
 app.post('/input', handleInput);
