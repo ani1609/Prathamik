@@ -2,7 +2,7 @@
 {
     width: 24%;
     height: 80.22vh;
-    margin-left: 5px;
+    /* margin-left: 5px; */
     border: 2px solid #CCCCCC;
     display: flex;
     flex-direction: column;
