@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVideo, faKeyboard } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 
-function Landing() {
+function Landing(props) {
   const [shouldRender, setShouldRender] = useState(false);
   const [img, setImg] = useState(true);
   const [room, setRoom] = React.useState('')
@@ -31,6 +31,9 @@ function Landing() {
     const id = Math.random().toString(36).substring(2, 5) + '-' +Math.random().toString(36).substring(2, 5);
     router(`${id}`);
     setRoom(id);
+
+    props.setIsAdmin(true);
+
   }
 
   return (
@@ -55,7 +58,7 @@ function Landing() {
                 />
               </div>
               {!room && <span className='joinBtn'> Join </span>}
-              {room && <Link to={`${room}`} className='joinBtn' style={{ color: '#3086e3' }}> Join </Link>}
+              {room && <Link to={`${room}`} onClick={() => props.setIsAdmin(false)} className='joinBtn' style={{ color: '#3086e3' }}> Join </Link>}
             </div>
             <div className='circles'>
               <span style={{ backgroundColor: '#18405A' }}></span>
