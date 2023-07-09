@@ -4,6 +4,7 @@ import Navbar from './Navbar';
 import ChatBox from './ChatBox';
 import IDE from './IDE';
 import { useState } from 'react';
+import Board from './Board';
 import { useRef } from 'react';
 
 function App() {
@@ -39,16 +40,15 @@ function App() {
     }
   };
 
-  const handleImageInput = () => {
-    const canvas = canvasRef.current;
-    const image = canvas.toDataURL();
+  const handleImageInput = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    const fileInput = e.target.elements.image.files[0];
+    formData.append('image', fileInput);
 
-    fetch('http://localhost:3000/ocr', {
+    fetch('http://localhost:5000/ocr', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ image , userInput }),
+      body: formData
     })
       .then((response) => response.json())
       .then((data) => {
@@ -58,12 +58,17 @@ function App() {
         console.error('Error sending image:', error);
       });
   };
-
+  
   return (
     <div className="App">
       <Navbar/>
       <div className='app_body'>
+        <form onSubmit={handleImageInput}>
+          <input type="file" name='image' />
+          <button type="submit">Submit</button>
+        </form>
         {show === 'editor' && <IDE setCode={setCode} setShow={setShow} />}
+        {show === 'board' && <Board handleImageInput={handleImageInput} canvasRef={canvasRef} />}
         <ChatBox
           message={message}
           setCode={setMessage}
