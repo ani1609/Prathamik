@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 function Landing(props) {
   const [shouldRender, setShouldRender] = useState(false);
   const [img, setImg] = useState(true);
+  const [room, setRoom] = React.useState('')
   const navigate = useNavigate();
 
   useEffect(() => {

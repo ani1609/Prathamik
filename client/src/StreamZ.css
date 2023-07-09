@@ -17,11 +17,9 @@
 .noVideoCam
 {
     position: relative;
-    margin: auto;
     height: 100%;
-    min-height: 530px;
     width: 100%;
-    border-radius: 10px;
+    /* min-height: 564px; */
     background-color: #3D4043;
     display: flex;
     flex-direction: column;
@@ -29,45 +27,233 @@
     justify-content: center;
 }
 
-.noVideoCam h4
+.bigName
 {
+    letter-spacing: 0.6px;
     font-weight: 400;
     margin: 0;
     position: absolute;
     top: 3%;
     left: 1.7%;
+    animation-name: bigNameAnimation;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
     /* transform: translate(-350%, -1252%); */
 }
 
-.noVideoCam img
+@keyframes bigNameAnimation
+{
+    from
+    {
+        font-size: 13px;
+    }
+    to
+    {
+        font-size: 16px;
+    }
+}
+
+.smallName
+{
+    letter-spacing: 0.6px;
+    font-weight: 400;
+    margin: 0;
+    position: absolute;
+    top: 8%;
+    left: 5%;
+    animation-name: smallNameAnimation;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+}
+
+@keyframes smallNameAnimation 
+{
+    from
+    {
+        font-size: 16px;
+    }
+    to
+    {
+        font-size: 13px;
+    }
+}
+
+.bigDp
 {
     height: 170px;
     width: 170px;
     background-color: #202124;
+    animation-name: bigDpAnimation;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
     border-radius: 50%;
 }
-.noVideoCam p
+
+@keyframes bigDpAnimation
+{
+    from
+    {
+        height: 45px;
+        width: 45px;
+    }
+    to
+    {
+        height: 170px;
+        width: 170px;
+    }
+}
+
+.smallDp
+{
+    animation-name: smallDpAnimation;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    background-color: #202124;
+    margin-top: 5px;
+    border-radius: 50%;
+}
+
+@keyframes smallDpAnimation
+{
+    from
+    {
+        height: 170px;
+        width: 170px;
+    }
+    to
+    {
+        height: 50px;
+        width: 50px;
+    }
+}
+
+.bigInitial
 {
     margin: 0;
     padding: 62px 72px;
     border-radius: 50%;
     font-size: 40px;
     background-color: #202124;
+    animation-name: bigInitialAnimation;
+    animation-fill-mode: both;
+    animation-duration: 0.5s;
+    
+}
+
+@keyframes bigInitialAnimation
+{
+    from
+    {
+        font-size: 20px;
+        padding: 20px 25px;
+    }
+    to
+    {
+        font-size: 40px;
+        padding: 62px 72px;
+    }
+}
+
+.smallInitial
+{
+    animation-name: smallInitialAnimation;
+    animation-fill-mode: both;
+    animation-duration: 0.5s;
+    margin: 0;
+    margin-top: 5px;
+    background-color: #202124;
+    border-radius: 50%;
+}
+
+@keyframes smallInitialAnimation
+{
+    from
+    {
+        font-size: 40px;
+        padding: 62px 72px;
+    }
+    to
+    {
+        font-size: 20px;
+        padding: 15px 20px;
+    }
 }
 
 .videoCam video
 {
     border-radius: 10px;
+    object-fit: cover;
 }
 
 .pview
 {
-    height: 100%;
-    width: 100%;
-    min-height: 530px;
+    position: absolute;
+    right: 0;
+    border-radius: 10px;
+    bottom: 0;
+    overflow: hidden;
+    /* height: 22%;
+    width: 20%; */
+    animation-name: bigFaceCam;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+@keyframes bigFaceCam
+{
+    from
+    {
+        height: 22%;
+        width: 20%;
+    }
+    to
+    {
+        height: 100%;
+        width: 100%;
+    }
+}
+
+.smallPview
+{
+    position: absolute;
+    right: 0;
+    border-radius: 10px;
+    bottom: 0;
+    overflow: hidden;
+    /* height: 22%;
+    width: 20%; */
+    animation-name: smallFaceCam;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@keyframes smallFaceCam
+{
+    from
+    {
+        height: 100%;
+        width: 100%;
+    }
+    to
+    {
+        height: 22%;
+        width: 20%;
+    }
+}
+
+
+.allContainer
+{
+    position: relative;
+    height: 77%;
+    width: 100%;
+    min-height: 530px;
 }
 
 .video_control_buttons
