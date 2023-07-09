@@ -1,13 +1,17 @@
-import './App.css';
 import React from 'react';
+import './index.css';
+import './Stream.css'
+import './App.css';
 import Navbar from './Navbar';
 import ChatBox from './ChatBox';
 import IDE from './IDE';
 import { useState } from 'react';
+import Board from './Board';
 import { useRef } from 'react';
 
-function App() {
-  const [code, setCode] = useState('');
+function Stream()
+{
+    const [code, setCode] = useState('');
   const [userInput, setUserInput] = useState('');
   const [message, setMessage] = useState('');
   const [show, setShow] = useState('editor');
@@ -39,15 +43,16 @@ function App() {
     }
   };
 
-  const handleImageInput = (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    const fileInput = e.target.elements.image.files[0];
-    formData.append('image', fileInput);
+  const handleImageInput = () => {
+    const canvas = canvasRef.current;
+    const image = canvas.toDataURL();
 
-    fetch('http://localhost:5000/ocr', {
+    fetch('http://localhost:3000/ocr', {
       method: 'POST',
-      body: formData
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ image , userInput }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -59,14 +64,29 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div>
       <Navbar/>
-      <div className='app_body'>
-        <form onSubmit={handleImageInput}>
-          <input type="file" name='image' />
-          <button type="submit">Submit</button>
-        </form>
-        {show === 'editor' && <IDE setCode={setCode} setShow={setShow} />}
+
+      <div className='stream_parent'>
+        <div className='participants'>
+            <div className='participants_heading'>
+                <h3>Participants</h3>
+                <h3 className='participants_count'>3</h3>
+            </div>
+        </div>
+        <div className='video'>
+            <div className='content'>
+
+            </div>
+
+            <form className='buttons'>
+                <button><i class="fa-solid fa-camera"></i></button>
+                <button><i class="fa-solid fa-microphone"></i></button>
+                <button><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
+                <button><i class="fa-solid fa-code"></i></button>
+                <button><i class="fa-solid fa-chalkboard"></i></button>
+            </form>
+        </div>
         <ChatBox
           message={message}
           setCode={setMessage}
@@ -79,4 +99,4 @@ function App() {
   );
 }
 
-export default App;
+export default Stream;
