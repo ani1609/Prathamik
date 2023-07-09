@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect} from 'react';
 import './index.css';
 import './Service.css';
-import Ide from './images/ide.png';
+import Ide from './images/ideX.png';
 
 function Service()
 {
@@ -82,9 +82,14 @@ function Service()
                         <h2 className={isMouse? 'ide_heading ideHeadingAnimate':'ide_heading ideHeadingRemoveAnimate'}>
                             An online IDE which is is linked with ChatGPT. How cool is that?
                         </h2>
-                        <p className={isMouse? 'ide_description ideDescriptionAnimate':'ide_description ideDescriptionRemoveAnimate'}>
+                        <div className={isMouse? 'ide_description ideDescriptionAnimate':'ide_description ideDescriptionRemoveAnimate'}>
+                            <p>
                             Introducing CodeExplainer, an online IDE connected with ChatGPT. This unique IDE offers code analysis and explanations in real-time. Write and execute code in multiple programming languages while CodeExplainer identifies errors and suggests improvements. Click on "Explain" to get a detailed breakdown of complex sections. Collaborate with others using the chat interface. Access integrated documentation for language references and examples. The user-friendly interface includes a code editor, chat panel, and results.
-                        </p>
+                            </p>
+                            <form>
+                                <button>Try Now</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
