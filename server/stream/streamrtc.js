@@ -88,6 +88,10 @@ function handleWebSocketConnection(socket) {
     socket.broadcast.to(data.roomid).emit('screen-show', data.value);
   })
 
+  socket.on('show-browser', (data) => {
+    socket.broadcast.to(data.roomid).emit('show-browser', data.value);
+  })
+
   socket.on('disconnect', () => {
     console.log(`User Disconnected: ${socket.id}`);
   });

@@ -17,3 +17,28 @@ body
   /* height: 1200px; */
 
 }
+
+.skiptranslate span
+{
+  display: none;
+}
+
+.view-lines{
+  background-color: lightgray;
+}
+
+.margin-view-overlays{
+  background-color: lightgray;
+}
+
+.minimap-decorations-layer{
+  background-color: lightgray;
+}
+
+.decorationsOverviewRuler{
+  background-color: lightgray !important;
+}
+
+.vertical{
+  background-color: lightgray !important;
+}

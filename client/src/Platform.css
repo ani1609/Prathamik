@@ -9,9 +9,9 @@
 .platform_parent
 {
   background-color: #ffffff;
-  height: 100vh;
-  width: 100vw;
-  min-width: 1440px;
+  /* height: 100vh; */
+  /* width: 100vw; */
+  /* min-width: 1440px; */
   min-height: 789px;
   box-sizing: border-box;
 }
@@ -97,8 +97,8 @@
 
 .navbar_2
 {
-  padding-right: 20px;
-  width: 22.5%;
+  padding-right: 50px;
+  width: 27.5%;
   height: 100%;
   background-color: transparent;
   display: flex;
@@ -111,17 +111,22 @@
 {
   display: flex;
   align-items: center;
-  gap: 10px;
   height: 40px;
   cursor: pointer;
 
 }
 .profile img
 {
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
 
+}
+
+.profile span
+{
+  padding: 8px;
+  font-size: 14px;
 }
 
 .profile ul
@@ -132,8 +137,8 @@
   margin: 0;
   padding: 0;
   position: absolute;
-  top: 55px;
-  right: 15px;
+  top: 45px;
+  right: 5px;
   list-style: none;
   overflow: hidden;
 }
@@ -187,4 +192,9 @@
   border: 1px solid #bcbcbc;
   border-top-left-radius: 10px;
   overflow: hidden;
+}
+
+.nav-btnss{
+  display: flex;
+  gap: 1rem;
 }
