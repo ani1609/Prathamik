@@ -1,12 +1,13 @@
 .chatbox_parent
 {
-    width: 24%;
-    height: 80.22vh;
+    width: 100%;
+    height: 100%;
     /* margin-left: 5px; */
-    border: 2px solid #CCCCCC;
+    /* border: 2px solid #bcbcbc; */
     display: flex;
     flex-direction: column;
     padding-bottom: 2px;
+    box-sizing: border-box;
    
 }
 
@@ -14,7 +15,7 @@
 {
     height: 60px;
     width: 100%;
-    background-color: var(--primary-color2);
+    background-color: var(--light-blue);
     display: flex;
     gap: 8px;
     align-items: center;
@@ -42,13 +43,13 @@
     font-family: 'Roboto', sans-serif;
     color: white;
     margin: 0;
-    font-size: 13px;
+    font-size: 14px;
     letter-spacing: 0.5px;
 }
 
 .bot_details p
 {
-    font-size: 10px;
+    font-size: 10.5px;
     font-family: 'Roboto', sans-serif;
     color: white;
     margin: 0;
@@ -61,10 +62,64 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    padding: 10px 2px;
     /* background-image: linear-gradient(#380036,#0CBABA); */
 }
 
-.chat_container form {
+.user_chat
+{
+    margin-top: 15px;
+    width: 100%;
+    gap: 5px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.user_chat p
+{
+    color: white;
+    background-color: var(--light-blue);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    padding: 12px 12px;
+    margin: 0;
+    text-align: right;
+    width: 70%;
+    font-size: 15px;
+}
+
+
+.bot_chat 
+{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 15px;
+    gap: 5px;
+}
+.bot_chat img, .user_chat img
+{
+    margin-top: auto;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+}
+.bot_chat p
+{
+    background-color: var(--light-blue);
+    color: white;
+    margin: 0;
+    text-align: left;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding: 12px 12px;
+    width: 70%;
+    font-size: 15px;
+}
+
+.chatbox_parent form {
     text-align: center;
     display: flex;
     justify-content: space-between;
@@ -74,7 +129,7 @@
 
 }
 
-.chat_container form input {
+.chatbox_parent form input {
     width: 80%;
     height: 30px;
     font-family: 'Roboto', sans-serif;
@@ -82,34 +137,28 @@
     border: 0;
 }
 
-.chat_container form input:focus
+.chatbox_parent form input:focus
 {
     outline: none;
 }
 
-.chat_container form button {
-    /* width: 25%; */
-    height: 36px;
+.chatbox_parent form button 
+{
     cursor: pointer;
     border: 0;
     background-color: transparent;
-    padding: 2px 0px 0px 0px;
+    padding: 5px;
 
 }
 
-.chat_container form button img
+.chatbox_parent form button i
+{
+    font-size: 23px;
+    color: var(--light-blue);
+} 
+
+.chatbox_parent form button img
 {
     width: 32px;
     height: 32px;
-}
-
-.chat {
-    background-color: var(--primary-color1);
-    padding: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-}
-
-.chatbox {
-    padding: 1.5rem;
 }
