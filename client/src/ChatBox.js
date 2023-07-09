@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './ChatBox.css';
 import './index.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
 
 function ChatBox(props) {
   const chatboxRef = React.createRef();
@@ -81,7 +83,7 @@ function ChatBox(props) {
           ref={props.inputRef}
         />
         <button type='button' onClick={props.voice}>
-          say!
+          <FontAwesomeIcon icon={faMicrophone} fontSize={20} style={{ color: "#56BCD8" }} />
         </button>
         {props.show === 'editor' && <button onClick={props.handleInput}>
           <i class="fa-solid fa-paper-plane"></i>
