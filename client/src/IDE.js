@@ -26,6 +26,7 @@ function IDE(props) {
   const [showWarning, setShowWarning] = useState(true);
   const [user, setUser] = useState("teacher");
   const [fileValues, setFileValues] = useState({});
+  const details = JSON.parse(localStorage.getItem('details'));
 
   useEffect(() => {
     window.addEventListener('beforeunload', handleBeforeUnload);
@@ -40,7 +41,7 @@ function IDE(props) {
       setUser('teacher');
     }
     else {
-      setUser('student');
+      // setUser('student');
     }
   }, [])
 
@@ -107,13 +108,13 @@ function IDE(props) {
     updatedFiles[fileIndex].value = value;
 
     setFiles(updatedFiles);
-    props.socket.emit("send_value", value);
+    props.socket.emit("send_value", {value: value , roomid: props.meetingId});
   }
 
   function handleFileClick(index) {
     setfileIndex((prevIndex) => {
       const updatedIndex = index;
-      props.socket.emit("send_index", updatedIndex);
+      props.socket.emit("send_index", {value: updatedIndex, roomid: props.meetingId});
       return updatedIndex;
     });
 
@@ -180,7 +181,7 @@ function IDE(props) {
 
     setFiles((prevFiles) => {
       const updatedFiles = [...prevFiles, newFile];
-      props.socket.emit("send_file", updatedFiles);
+      props.socket.emit("send_file", {value: updatedFiles, roomid: props.meetingId});
       return updatedFiles;
     });
 
@@ -241,13 +242,13 @@ function IDE(props) {
 
   function handleFileDelete(id) {
     const updatedFiles = files.filter((file) => file.id !== id);
-    props.socket.emit("delete_file", updatedFiles);
+    props.socket.emit("delete_file", {value: updatedFiles, roomid: props.meetingId});
     setFiles(updatedFiles);
   }
 
   function handleInputValue (e) {
     props.setInput(e.target.value);
-    props.socket.emit("input", e.target.value);
+    props.socket.emit("input", {value: e.target.value , roomid: props.meetingId});
   }
 
   return (
@@ -354,7 +355,7 @@ function IDE(props) {
 
 
         </div>
-        {user === 'teacher' && (
+        {details.isAdmin &&
           <div className='ide_in_ide_container'>
             <Editor
               theme="vs-dark"
@@ -369,7 +370,6 @@ function IDE(props) {
                 <h4>Input</h4>
                 <textarea
                   value={props.input}
-                  // onChange={(e) => props.setInput(e.target.value)}
                   onChange={(e) => {handleInputValue(e)}}
                 />
               </div>
@@ -382,8 +382,8 @@ function IDE(props) {
               </div>
             </div>
           </div>
-        )}
-        {user === 'student' && (<div className='ide_in_ide_container'>
+        }
+        {!details.isAdmin && <div className='ide_in_ide_container'>
           <Editor theme="vs-light" onMount={handleEditorDidMount} path={files[fileIndex].name}
             defaultLanguage={files[fileIndex].language} defaultValue={files[fileIndex].value} value={ideValue} options={{
               readOnly: true
@@ -402,7 +402,7 @@ function IDE(props) {
               />
             </div>
           </div>
-        </div>)}
+        </div>}
         {user === 'browser' && <iframe
           title='output'
           sandbox='allow-scripts'

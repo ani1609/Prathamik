@@ -7,13 +7,12 @@ import About from './About';
 import Service from './Service';
 import Footer from './Footer';
 import Platform from './Platform';
-// import Stream from './Stream';
 import Container from './Container';
 import Signup from './Signup';
 import Login from './Login';
-import StreamZ from './StreamZ';
 import 'font-awesome/css/font-awesome.min.css';
 import { useState } from 'react';
+import { authToken, createMeeting } from "./API";
 
 function App() {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -33,10 +32,8 @@ function App() {
           <Route exact path="/" element={<Home setIsAdmin={setIsAdmin} meetingId={meetingId} setMeetingId={setMeetingId} getMeetingAndToken={getMeetingAndToken} />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<Signup />} />
-          <Route exact path="/:id" element={<Platform isAdmin={isAdmin} />} />
-          {/* <Route exact path="/stream" element={<Stream />} /> */}
+          <Route exact path="/:roomid" element={<Platform isAdmin={isAdmin} meetingId={meetingId} setMeetingId={setMeetingId} getMeetingAndToken={getMeetingAndToken} />} />
           <Route exact path='/whiteboard' element={<Container />} />
-          <Route exact path='/streamz' element={<StreamZ />} />
         </Routes>
       </div>
     </Router>
