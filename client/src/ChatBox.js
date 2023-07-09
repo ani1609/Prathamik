@@ -3,28 +3,39 @@ import './ChatBox.css';
 import './index.css';
 
 function ChatBox(props) {
+  const chatboxRef = React.createRef();
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [props.chats]);
+
+  const scrollToBottom = () => {
+    if (chatboxRef.current) {
+      chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight;
+    }
+  };
 
   const handleColorChange = (option) => {
     if (option === 'A') {
       if(props.correctAnswer === 'A')
       props.setColor({
-        A: 'green',
+        A: '#3caf59',
         B: 'lightgrey'
       });
       else
       props.setColor({
-        A: 'red',
+        A: '#cb3a3a',
         B: 'lightgrey'
       });
     } else {
       if(props.correctAnswer === 'B')
       props.setColor({
-        B: 'green',
+        B: '#3caf59',
         A: 'lightgrey'
       });
       else
       props.setColor({
-        B: 'red',
+        B: '#cb3a3a',
         A: 'lightgrey'
       });
     }
@@ -40,7 +51,7 @@ function ChatBox(props) {
         </div>
       </div>
 
-      <div className='chat_container'>
+      <div className='chat_container' ref={chatboxRef}>
 
         {props.chats.map((chat) => (
           chat.type !== 'mcq' ?
