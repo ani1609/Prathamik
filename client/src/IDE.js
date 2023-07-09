@@ -244,7 +244,6 @@ function IDE(props) {
   }
 
   return (
-    <div>
       <div className='ide_parent'>
 
         <div className='left_block'>
@@ -330,6 +329,7 @@ function IDE(props) {
           {showBrowser && props.details.isAdmin && <button onClick={() => setShowBrowser(false)}>Switch to IDE</button>}
 
         </div>
+
         {props.details.isAdmin && !showBrowser &&
           <div className='ide_in_ide_container'>
             <Editor
@@ -339,6 +339,7 @@ function IDE(props) {
               path={files[fileIndex].name}
               defaultLanguage={files[fileIndex].language}
               value={fileValues[files[fileIndex].id]}
+              className='mainIde'
             />
             <div className="inputNoutput">
               <div className="inputF">
@@ -387,7 +388,6 @@ function IDE(props) {
           className='iframe'
         />}
       </div>
-    </div>
   );
 }
 
