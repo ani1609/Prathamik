@@ -9,6 +9,7 @@ function App() {
   const [code, setCode] = useState('');
   const [userInput, setUserInput] = useState('');
   const [message, setMessage] = useState('');
+  const [show, setShow] = useState('editor');
 
   const handleInput = async (e) => {
     e.preventDefault();
@@ -38,7 +39,7 @@ function App() {
     <div className="App">
       <Navbar />
       <div className='body'>
-        <IDE setCode={setCode} />
+        {show === 'editor' && <IDE setCode={setCode} setShow={setShow} />}
         <ChatBox
           message={message}
           setCode={setMessage}

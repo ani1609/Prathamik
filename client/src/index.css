@@ -1,32 +1,30 @@
 body {
   margin: 0;
+  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.left-block
-{
+.left-block {
   margin-left: 5px
 }
 
-.right-block
-{
+.right-block {
   margin-left: 10px
 }
 
-.cart-item
-{
+.cart-item {
   display: flex;
   margin-bottom: 4px;
 }
 
-.cart-item-actions
-{
+.cart-item-actions {
   margin-top: 20px
 }
 
-.action-icons
-{
+.action-icons {
   height: 20px;
   width: 20px;
   margin-right: 20px;

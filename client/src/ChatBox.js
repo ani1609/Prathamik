@@ -10,12 +10,11 @@ function ChatBox(props) {
             <p>{props.message}</p>
           </div>}
         </div>
-        <form autocomplete="off">
+        <form autoComplete="off">
           <input type='text' name='chat' placeholder='Type a message...'
             onChange={(event) => props.setUserInput(event.target.value)}
           />
           <button onClick={props.handleInput}>Send</button>
-
         </form>
       </div>
     </div>

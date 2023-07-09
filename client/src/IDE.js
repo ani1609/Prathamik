@@ -1,6 +1,4 @@
-
 import React, { useState, useRef } from 'react';
-
 import Editor from '@monaco-editor/react';
 import './IDE.css';
 
@@ -19,7 +17,6 @@ const files = {
 
 function IDE(props) {
   const [filename, setFilename] = useState("script.js");
-
   const editorRef = useRef(null);
 
   function handleEditorDidMount(editor, monaco) {
@@ -31,7 +28,6 @@ function IDE(props) {
   }
 
   function getEditorValue() {
-
     alert(editorRef.current.getValue());
   }
 
@@ -40,6 +36,7 @@ function IDE(props) {
       <button onClick={() => setFilename("index.html")}>Switch to index.html</button>
       <button onClick={() => setFilename("script.js")}>Switch to script.js</button>
       <button onClick={getEditorValue}>Get Editor Value</button>
+      <button onClick={() => props.setShow('board')}>Switch to Board</button>
       <Editor
         height="500px"
         width="900px"
