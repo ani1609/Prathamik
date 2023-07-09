@@ -1,4 +1,5 @@
 import "./StreamZ.css";
+import "./index.css";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
     MeetingProvider,
@@ -114,46 +115,153 @@ function ParticipantView(props) {
         }
     }, [micStream, micOn]);
 
+    const user = JSON.parse(localStorage.getItem('user'));
+    const [dp, setDp] = useState('');
+    const [initial, setInitial] = useState('');
+    const [name, setName] = useState('');
+
+    useEffect(() => {
+
+        if (user && user.data.profilePic !== null) {
+        setDp(user.data.profilePic);
+        }
+        setName(user.data.name);
+        console.log(name);
+        setInitial(user ? user.data.name.charAt(0) : '');
+    }, [user]);
+
     return (
         <div className="pview">
-            <p>
+            {/* <p>
                 Participant: {displayName} | Webcam: {webcamOn ? "ON" : "OFF"} | Mic:{" "}
                 {micOn ? "ON" : "OFF"}
-            </p>
+            </p> */}
             <audio ref={micRef} autoPlay playsInline muted={isLocal} />
-            {webcamOn && (
-                <ReactPlayer
-                    playsinline
-                    pip={false}
-                    light={false}
-                    controls={false}
-                    muted={true}
-                    playing={true}
-                    url={videoStream}
-                    onError={(err) => {
-                        console.log(err, "participant video error");
-                    }}
-                    className="videoCam"
-                />
-            )}
+            {webcamOn ?
+                (
+                    <ReactPlayer
+                        playsinline
+                        pip={false}
+                        light={false}
+                        controls={false}
+                        muted={true}
+                        playing={true}
+                        url={videoStream}
+                        onError={(err) => {
+                            console.log(err, "participant video error");
+                        }}
+                        className="videoCam"
+                    />
+                )
+                :
+                (
+                    <div className="noVideoCam">
+                        <h4>{name}</h4>
+                        {dp?
+                            (
+                                <img
+                                    src={`http://localhost:3000/uploads/${dp}`}
+                                    alt=''
+                                />
+                            )
+                            :
+                            (
+                                <p>
+                                    {initial}
+                                </p>
+                            )
+                        }
+                    </div>
+                )
+
+            }
         </div>
     );
 }
 
 function Controls(props) {
     const { leave, toggleMic, toggleWebcam } = useMeeting();
+    const [mic, setMic] = useState(true);
+    const [video, setVideo] = useState(false);
+    const [screenShare, setScreenShare] = useState(false);
+    const handleMicClick = () =>
+    {
+        if (mic)
+            setMic(false);
+        else
+            setMic(true);
+    };
+
+    const handleVideoClick = () =>
+    {
+        if (video)
+            setVideo(false);
+        else
+            setVideo(true);
+    };
+
+    const handleScreenShareClick = () =>
+    {
+        if (screenShare)
+            setScreenShare(false);
+        else
+            setScreenShare(true);
+        props.setCoding(false);
+        props.setWhiteboard(false);
+    }
+
+    const handleIdeClick = () =>
+    {
+        if (props.coding)
+            props.setCoding(false);
+        else
+            props.setCoding(true);
+        props.setWhiteboard(false);
+        setScreenShare(false);
+    };
+
+    const handleWhitebardClick = () =>
+    {
+        if (props.whiteboard)
+            props.setWhiteboard(false);
+        else
+            props.setWhiteboard(true);
+        setScreenShare(false);
+        props.setCoding(false);
+    };
+
+
     return (
         <div className="video_control_buttons">
-            <button onClick={() => toggleMic()} className="mic">
-                <i class="fa-solid fa-microphone"></i>
-            </button>
-            <button onClick={() => toggleWebcam()} className="video">
-                <i class="fa-solid fa-video"></i>
-            </button>
+            {mic?
+                <button onClick={() =>{ toggleMic(); handleMicClick();}} className="mic red_bg">
+                    <i class="fa-solid fa-microphone"></i>
+                </button>
+                :
+                <button onClick={() =>{ toggleMic(); handleMicClick();}} className="mic black_bg">
+                    <i class="fa-solid fa-microphone-slash"></i>
+                </button>
+            }
+
+            {video?
+                <button onClick={() =>{ toggleWebcam(); handleVideoClick();}} className="video red_bg">
+                    <i class="fa-solid fa-video"></i>
+                </button>
+                :
+                <button onClick={() =>{ toggleWebcam(); handleVideoClick();}} className="video black_bg">
+                    <i class="fa-solid fa-video-slash"></i>
+                </button>
+            }
             {/* <button onClick={() => props.handleEnableScreenShare()}>Enable Screen Share</button> */}
             {/* <button onClick={() => props.handleDisableScreenShare()}>Disable Screen Share</button> */}
-            <button onClick={() => props.handleToggleScreenShare()} className="screen_share">
+            <button onClick={() => {props.handleToggleScreenShare(); handleScreenShareClick();}} className={screenShare?"screen_share red_bg":"screen_share black_bg"}>
                 <i class="fa-solid fa-display"></i>
+            </button>
+            <button onClick={handleIdeClick} className={props.coding?"coding red_bg":"coding black_bg"}>
+                <i class="fa-solid fa-code"></i>
+            </button>
+            <button onClick={handleWhitebardClick} className={props.whiteboard?"coding red_bg":"coding black_bg"}>
+                <i class="fa-solid fa-chalkboard"></i>
             </button>
             <button onClick={() => leave()} className="leave">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
@@ -163,6 +271,8 @@ function Controls(props) {
 }
 
 function MeetingView(props) {
+    const [coding, setCoding] = useState(false);
+    const [whiteboard, setWhiteboard] = useState(false);
     const [joined, setJoined] = useState(null);
     const { enableScreenShare, disableScreenShare, toggleScreenShare } = useMeeting();
 
@@ -220,11 +330,6 @@ function MeetingView(props) {
                             key={participantId}
                         />
                     ))}
-                    <Controls 
-                        handleEnableScreenShare={handleEnableScreenShare} 
-                        handleDisableScreenShare={handleDisableScreenShare} 
-                        handleToggleScreenShare={handleToggleScreenShare} 
-                    />
                 </div>
             ) : joined && joined == "JOINING" ? (
                 <p>Joining the meeting...</p>
@@ -232,11 +337,33 @@ function MeetingView(props) {
                 <button onClick={joinMeeting}>Join</button>
             )}
             {presenterId && <PresenterView presenterId={presenterId} />}
-            <div className="board_in_platform_container">
+
+            {coding && <div className="ide_in_stream">
+                <IDE
+                    socket={props.socket}
+                    setCurrentLanguage={props.setCurrentLanguage}
+                    input={props.inputX}
+                    setInput={props.setInputX}
+                    output={props.output}
+                    code={props.code}
+                    setCode={props.setCode}
+                    setShow={props.setShow}
+                    meetingId={props.meetingId}
+                />
+            </div>}
+            {whiteboard && <div className="whiteboard_in_stream">
                 <Container socket={props.socket} canvasRef={props.canvasRef} meetingId={props.meetingId} />
-            </div>
-            <div className="ide_in_platform_container">
-                <IDE socket={props.socket} setCurrentLanguage={props.setCurrentLanguage} input={props.inputX} setInput={props.setInputX} output={props.output} code={props.code} isAdmin={props.isAdmin} setCode={props.setCode} setShow={props.setShow} meetingId={props.meetingId} />
+            </div>}
+            <div>
+                <Controls
+                    handleEnableScreenShare={handleEnableScreenShare}
+                    handleDisableScreenShare={handleDisableScreenShare}
+                    handleToggleScreenShare={handleToggleScreenShare}
+                    coding={coding}
+                    setCoding={setCoding}
+                    whiteboard={whiteboard}
+                    setWhiteboard={setWhiteboard}
+                />
             </div>
         </div>
     );
@@ -256,12 +383,24 @@ function StreamZ(props) {
             config={{
                 meetingId: props.meetingId,
                 micEnabled: true,
-                webcamEnabled: true,
+                webcamEnabled: false,
                 name: name,
             }}
             token={authToken}
         >
-            <MeetingView socket={props.socket} meetingId={props.meetingId} onMeetingLeave={onMeetingLeave} canvasRef={props.canvasRef} setCurrentLanguage={props.setCurrentLanguage} inputX={props.inputX} setInputX={props.setInputX} output={props.output} code={props.code} isAdmin={props.isAdmin} setCode={props.setCode} setShow={props.setShow} />
+            <MeetingView
+                socket={props.socket}
+                meetingId={props.meetingId}
+                onMeetingLeave={onMeetingLeave}
+                canvasRef={props.canvasRef}
+                setCurrentLanguage={props.setCurrentLanguage}
+                inputX={props.inputX}
+                setInputX={props.setInputX}
+                output={props.output}
+                code={props.code}
+                setCode={props.setCode}
+                setShow={props.setShow}
+            />
         </MeetingProvider>
     )
 }
