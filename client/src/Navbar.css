@@ -97,6 +97,8 @@ body {
   font-family: 'Roboto', sans-serif;
   font-weight: 600;
   text-decoration: none;
+  color: var(--deep-blue);
+  letter-spacing: 0.8px;
   transition: 0.2s ease-in-out;
 }
 
@@ -108,23 +110,13 @@ body {
   transition: 0.2s ease-in-out;
   text-decoration: none;
   color: var(--deep-blue);
+  letter-spacing: 0.8px;
 }
 
-.nav-tabs-color li a
-{
-  color: var(--light-blue);
-}
-
-.nav-tabs-white li a
-{
-  color: var(--deep-blue);
-}
-
-.login-signup-container {
-  display: flex;
-  justify-content: space-between;
-  /* width: 12.8rem; */
-}
+/* .login-signup-container {
+  
+  width: 12.8rem;
+} */
 
 .login
 {
@@ -138,7 +130,10 @@ body {
   background-color: transparent;
   cursor: pointer;
   transition: 0.2s ease-in-out;
-
+  border-top: 3px solid var(--deep-blue);
+  border-bottom: 3px solid var(--deep-blue);
+  border-left: 3px solid var(--deep-blue);
+  color: var(--light-blue);
 }
 
 .login-color
@@ -160,7 +155,7 @@ body {
 .login:hover
 {
   /* background-color: var(--primary-color2); */
-  background-color: #459AB0;
+  background-color: var(--deep-blue);
   color: white;
 }
 
@@ -176,7 +171,9 @@ body {
   background-color: transparent;
   cursor: pointer;
   transition: 0.2s ease-in-out;
-
+  border-top: 3px solid var(--deep-blue);
+  border-bottom: 3px solid var(--deep-blue);
+  border-right: 3px solid var(--deep-blue);
 }
 
 .signup-color
@@ -197,7 +194,7 @@ body {
 .signup:hover
 {
   /* background-color: var(--primary-color2); */
-  background-color: #459AB0;
+  background-color: var(--deep-blue);
   color: white;
 }
 
@@ -221,4 +218,64 @@ body {
   display: flex;
   list-style: none;
   gap: 10px;
+}
+
+.navbar_profile
+{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user
+{
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background-color: #eeeeee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user img
+{
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.navbar_profile span
+{
+  padding: 8px;
+  font-size: 14px;
+}
+
+.navbar_profile ul
+{
+  background-color: #eeeeee;
+  border: 1px solid #bcbcbc;
+  border-radius: 5px;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 60px;
+  right: 50px;
+  list-style: none;
+  overflow: hidden;
+}
+
+.navbar_profile ul li
+{
+  font-family: 'Roboto', sans-serif;
+  padding: 8px 10px;
+  color: #3d4047;
+  font-size: 15px;
+}
+
+.navbar_profile ul li:hover
+{
+  background-color: rgb(228, 228, 228);
+
 }
