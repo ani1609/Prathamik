@@ -2,12 +2,10 @@ import './Platform.css';
 import './index.css';
 import React from 'react';
 import ChatBox from './ChatBox';
-import IDE from './IDE';
 import { useState } from 'react';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
-import Container from './Container';
 import StreamZ from './StreamZ';
 import io from "socket.io-client";
 
@@ -32,6 +30,24 @@ function Platform(props) {
     A: 'lightgrey',
     B: 'lightgrey'
   });
+
+  useEffect(() => {
+    fetch('http://localhost:3000/verify/owner', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ roomid: props.meetingId, owner: JSON.parse(localStorage.getItem('user')).data.email }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        localStorage.setItem('details', JSON.stringify({ meetingId: data.meetingId, isAdmin: data.isAdmin }));
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, [props.meetingId]);
+  
 
   useEffect(() => {
     socket.emit('join', props.meetingId);
@@ -113,7 +129,7 @@ function Platform(props) {
           return;
         }
         setCorrectAnswer(correctAnswer);
-        setChats((chats) => chats.filter((chat) => chat.type !== 'mcq'));
+        setChats((chats) => chats.filter((chat) => !(chat.type === 'mcq')));
         setColor({
           A: 'lightgrey',
           B: 'lightgrey'
@@ -228,7 +244,7 @@ function Platform(props) {
 
   function sendInput(input) {
     const user = JSON.parse(localStorage.getItem('user')).data._id;
-    socket.emit("chat_message", { input, user , roomid: props.meetingId });
+    socket.emit("chat_message", { input: input, user: user , roomid: props.meetingId });
   }
 
   function voice() {
@@ -385,15 +401,10 @@ function Platform(props) {
       </div>
 
       <div className='platform_components'>
-        {show === 'editor' && (
-          <div className="ide_in_platform_container">
-            <IDE socket={socket} setCurrentLanguage={setCurrentLanguage} input={inputX} setInput={setInputX} output={output} code={code} isAdmin={props.isAdmin} setCode={setCode} setShow={setShow} />
-          </div>
-        )}
 
-        {show === 'board' && (
-          <div className="board_in_platform_container">
-            <Container socket={socket} canvasRef={canvasRef} />
+        {show === 'stream' && (
+          <div className="stream_in_platform_container">
+            <StreamZ socket={socket} canvasRef={canvasRef} meetingId={props.meetingId} setMeetingId={props.setMeetingId} getMeetingAndToken={props.getMeetingAndToken} setCurrentLanguage={setCurrentLanguage} inputX={inputX} setInputX={setInputX} output={output} code={code} setCode={setCode} setShow={setShow} />
           </div>
         )}
 

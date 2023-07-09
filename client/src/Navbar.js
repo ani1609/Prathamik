@@ -98,6 +98,7 @@ function Navbar() {
                       id='imageInput'
                       type='file'
                       onChange={(e) => setImage(e.target.files[0])}
+                      required
                     />
                     <button onClick={handleImageSubmit}>Upload Image</button>
                   </li>

@@ -15,7 +15,6 @@ import { useState } from 'react';
 import { authToken, createMeeting } from "./API";
 
 function App() {
-  const [isAdmin, setIsAdmin] = useState(false);
   const [meetingId, setMeetingId] = useState(null);
 
   const getMeetingAndToken = async (id) => {
@@ -29,10 +28,10 @@ function App() {
     <Router>
       <div>
         <Routes>
-          <Route exact path="/" element={<Home setIsAdmin={setIsAdmin} meetingId={meetingId} setMeetingId={setMeetingId} getMeetingAndToken={getMeetingAndToken} />} />
+          <Route exact path="/" element={<Home meetingId={meetingId} setMeetingId={setMeetingId} getMeetingAndToken={getMeetingAndToken} />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<Signup />} />
-          <Route exact path="/:roomid" element={<Platform isAdmin={isAdmin} meetingId={meetingId} setMeetingId={setMeetingId} getMeetingAndToken={getMeetingAndToken} />} />
+          <Route exact path="/:roomid" element={<Platform meetingId={meetingId} setMeetingId={setMeetingId} getMeetingAndToken={getMeetingAndToken} />} />
           <Route exact path='/whiteboard' element={<Container />} />
         </Routes>
       </div>
@@ -44,7 +43,7 @@ function Home(props) {
   return (
     <div>
       <Navbar />
-      <Landing setIsAdmin={props.setIsAdmin} meetingId={props.meetingId} setMeetingId={props.setMeetingId} getMeetingAndToken={props.getMeetingAndToken} />
+      <Landing meetingId={props.meetingId} setMeetingId={props.setMeetingId} getMeetingAndToken={props.getMeetingAndToken} />
       <About />
       <Service />
       <Footer />
