@@ -31,7 +31,9 @@ function Landing(props) {
     const id = Math.random().toString(36).substring(2, 5) + '-' +Math.random().toString(36).substring(2, 5);
     router(`${id}`);
     setRoom(id);
+
     props.setIsAdmin(true);
+
   }
 
   return (

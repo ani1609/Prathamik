@@ -1,5 +1,229 @@
 .login-container
 {
-    width: 200px;
+    height: 100vh;
+    display: flex;
+    min-height: 789px;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--deep-blue);
+    /* background-color: white; */
+}
+
+.login_contents
+{
+    /* display: flex; */
+    /* justify-content: flex-end; */
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    height: 80vh;
+    width: 85vw;
+    min-height: 631.195px;
+    min-width: 1224px;
+    background-image: url('./images/bluelogin-whitebg.svg');
+    background-size: cover;
+    animation-name: fadeIn;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    /* animation-delay: 1000ms; */
+}
+
+.login_left
+{
+    width: 35%;
+    height: 100%;
+    background-color: #eeeeee;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 50px;
+    box-sizing: border-box;
+    padding: 15px;
+}
+
+.login_logo
+{
+    height: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation-name: fadeIn;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-delay: 1100ms;
+    text-decoration: none;
+}
+
+.login_logo img
+{
+    width: 25px;
+    height: 25px;
+}
+
+.login_logo h1
+{
+    color: var(--deep-blue);
+    font-size: 18px;
+    margin: 0px;
+}
+
+
+.login_form
+{
+    margin-top: 15%;
+    padding: 0px 40px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* gap: 20px; */
+    box-sizing: border-box;
+}
+
+.login_form h1
+{
+    text-align: center;
+    margin: 0px;
+    margin-bottom: 25px;
+    color: var(--pink-red);
+    font-size: 35px;
+    font-weight: 700;
+    animation-name: slideIn;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    animation-delay: 900ms;
+}
+
+
+.api_buttons
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.api_buttons button
+{
+    font-size: 20px;
+    padding: 5px 7px;
+    border: 1px solid #d2d2dbff;
+    border-radius: 50%;
+    background-color: transparent;
+}
+
+.login_form input
+{
+    margin-top: 5px;
+    height: 35px;
+    padding: 4px 10px;
+    border: 0;
+    border-radius: 5px;
+    font-size: 14px;
+    
+}
+
+.login_form input:focus
+{
+    outline: none;
+}
+
+.login_error
+{
+    text-align: left;
+    margin: -15px 0px 15px 0px;
+    font-size: 13px;
+
+}
+
+.login_button
+{
+    cursor: pointer;
     margin: auto;
+    margin-top: 30px;
+    background-color: var(--pink-red);
+    font-weight: 700;
+    color: white;
+    border-radius: 22px;
+    border: none;
+    font-size: 16px;
+    padding: 12px 35px;
+    transition: 0.2s ease-in-out;
+    animation-name: slideIn;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    animation-delay: 300ms;
+}
+
+.login_button:hover
+{
+    background-color: rgb(146, 32, 68);
+}
+
+.dont_have_acc
+{
+
+    text-align: left;
+    margin: 0px;
+    margin-top:5px;
+    font-size: 14px;
+    animation-name: slideIn;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    animation-delay: 450ms;
+}
+
+.dont_have_acc a
+{
+    color: var(--pink-red);
+    text-decoration: none;
+}
+
+.dont_have_acc a:hover
+{
+    text-decoration: underline;
+}
+
+@keyframes slideIn
+{
+    from
+    {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to
+    {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+#login_email
+{
+    animation-name: slideIn;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    animation-delay: 750ms;
+}
+
+#login_password
+{
+    animation-name: slideIn;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    animation-delay: 600ms;
+}
+
+
+@keyframes fadeIn
+{
+    from
+    {
+        opacity: 0;
+    }
+    to
+    {
+        opacity: 1;
+    }
 }

@@ -1,7 +1,8 @@
 const { Server } = require('socket.io');
+const { User} = require('../models/user');
 let io;
 const participants = new Map();
-let streamCode;
+const NEW_CHAT_MESSAGE_EVENT = 'newChatMessage';
 
 function initializeSignalingServer(server) {
   io = new Server(server, {
@@ -15,12 +16,44 @@ function initializeSignalingServer(server) {
 function handleWebSocketConnection(socket) {
   console.log(`User Connected: ${socket.id}`);
 
+  // const {id} = socket.handshake.query;
+
+  // socket.join(id);
+
+  // socket.on(NEW_CHAT_MESSAGE_EVENT, (data) => {
+  //   console.log(data);
+  //   io.in(id).emit(NEW_CHAT_MESSAGE_EVENT, data);
+  // });
+
   socket.on("send_value", (data) => {
     socket.broadcast.emit("ide_value", data);
   });
 
   socket.on("send_file", (data) => {
     socket.broadcast.emit("ide_file", data);
+  });
+
+  socket.on("send_index", (data) => {
+    socket.broadcast.emit("ide_index", data);
+  });
+
+  socket.on("delete_file", (data) => {
+    socket.broadcast.emit("new_file", data);
+  });
+
+  socket.on("chat_message", async (data) => {
+    const userID = data.user;
+    const user = await User.findOne({ _id: userID });
+    data = {
+      ...data,
+      profile: user
+    }
+    socket.emit("new_message", data);
+    socket.broadcast.emit("new_message", data);
+  });
+
+  socket.on("bot_message", (data) => {
+    socket.broadcast.emit("bot_message", data);
   });
 
   socket.on('disconnect', () => {
