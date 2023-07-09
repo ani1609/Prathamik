@@ -82,6 +82,7 @@ class Container extends React.Component {
             size={this.state.size}
             socket={this.props.socket}
             canvasRef={this.props.canvasRef}
+            meetingId={this.props.meetingId}
           />
         </div>
       </div>

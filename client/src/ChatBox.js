@@ -17,27 +17,27 @@ function ChatBox(props) {
 
   const handleColorChange = (option) => {
     if (option === 'A') {
-      if(props.correctAnswer === 'A')
-      props.setColor({
-        A: '#3caf59',
-        B: 'lightgrey'
-      });
+      if (props.correctAnswer === 'A')
+        props.setColor({
+          A: '#3caf59',
+          B: 'lightgrey'
+        });
       else
-      props.setColor({
-        A: '#cb3a3a',
-        B: 'lightgrey'
-      });
+        props.setColor({
+          A: '#cb3a3a',
+          B: 'lightgrey'
+        });
     } else {
-      if(props.correctAnswer === 'B')
-      props.setColor({
-        B: '#3caf59',
-        A: 'lightgrey'
-      });
+      if (props.correctAnswer === 'B')
+        props.setColor({
+          B: '#3caf59',
+          A: 'lightgrey'
+        });
       else
-      props.setColor({
-        B: '#cb3a3a',
-        A: 'lightgrey'
-      });
+        props.setColor({
+          B: '#cb3a3a',
+          A: 'lightgrey'
+        });
     }
   }
 
@@ -54,35 +54,20 @@ function ChatBox(props) {
       <div className='chat_container' ref={chatboxRef}>
 
         {props.chats.map((chat) => (
-          chat.type !== 'mcq' ?
-            (<div className={`${chat.ownedByCurrentUser ? "user_chat" : "bot_chat"}`}>
-              {!chat.ownedByCurrentUser && <img src={`http://localhost:3000/uploads/${chat.profilePic}`} />}
-              <p>{chat.input}</p>
-            </div>) :
+          chat.type === 'mcq' ?
             (<div className={`${chat.ownedByCurrentUser ? "user_chat" : "bot_chat"}`}>
               {!chat.ownedByCurrentUser && <img src={`http://localhost:3000/uploads/${chat.profilePic}`} />}
               <div className='col'>
                 <p>{chat.question}</p>
                 <div className='mcq_options'>
-                  <p className='mcq_option' style={{backgroundColor : props.color.A}} onClick={() => handleColorChange('A')}>{chat.options[0]}</p>
-                  <p className='mcq_option' style={{backgroundColor : props.color.B}} onClick={() => handleColorChange('B')}>{chat.options[1]}</p>
+                  <p className='mcq_option' style={{ backgroundColor: props.color.A }} onClick={() => handleColorChange('A')}>{chat.options[0]}</p>
+                  <p className='mcq_option' style={{ backgroundColor: props.color.B }} onClick={() => handleColorChange('B')}>{chat.options[1]}</p>
                 </div>
               </div>
-            </div>)
-          chat.type !== 'mcq' ?
-            (<div className={`${chat.ownedByCurrentUser ? "user_chat" : "bot_chat"}`}>
-              {!chat.ownedByCurrentUser && <img src={`http://localhost:3000/uploads/${chat.profilePic}`} />}
-              <p>{chat.input}</p>
             </div>) :
             (<div className={`${chat.ownedByCurrentUser ? "user_chat" : "bot_chat"}`}>
               {!chat.ownedByCurrentUser && <img src={`http://localhost:3000/uploads/${chat.profilePic}`} />}
-              <div className='col'>
-                <p>{chat.question}</p>
-                <div className='mcq_options'>
-                  <p className='mcq_option' style={{backgroundColor : props.color.A}} onClick={() => handleColorChange('A')}>{chat.options[0]}</p>
-                  <p className='mcq_option' style={{backgroundColor : props.color.B}} onClick={() => handleColorChange('B')}>{chat.options[1]}</p>
-                </div>
-              </div>
+              <p>{chat.input}</p>
             </div>)
         ))}
 
@@ -102,15 +87,10 @@ function ChatBox(props) {
           <i class="fa-solid fa-paper-plane"></i>
         </button>}
         {props.show === 'board' && <button onClick={props.handleInputBoard}>
-        <button type='button' onClick={props.voice}>
-          say!
-        </button>
-        {props.show === 'editor' && <button onClick={props.handleInput}>
           <i class="fa-solid fa-paper-plane"></i>
         </button>}
-        {props.show === 'board' && <button onClick={props.handleInputBoard}>
+        {props.show === 'stream' && <button onClick={props.handleInput}>
           <i class="fa-solid fa-paper-plane"></i>
-        </button>}
         </button>}
       </form>
     </div>

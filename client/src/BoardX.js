@@ -73,7 +73,7 @@ class Board extends React.Component {
       if (this.timeout != undefined) clearTimeout(this.timeout);
 
       const base64ImageData = canvas.toDataURL('image/png');
-      this.props.socket.emit('canvas-data', base64ImageData);
+      this.props.socket.emit('canvas-data', {value: base64ImageData, roomid: this.props.meetingId});
     };
   }
 

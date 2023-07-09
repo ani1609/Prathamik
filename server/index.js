@@ -2,15 +2,12 @@ require('dotenv').config();
 const connectDb = require('./configDatabase/database');
 const signupController = require('./controllers/signup');
 const loginController = require('./controllers/login');
-// const authRoutes = require('./Routes/auth');
-// const File=require('./models/file');
 const cors = require('cors');
 const express = require('express');
-// const bodyParser = require('body-parser');
+const createRoomId = require('./controllers/roomid');
 
 const app = express();
 
-//database connection
 connectDb();
 
 app.use('/uploads', express.static('uploads'));
@@ -27,11 +24,8 @@ const storage = multer.diskStorage({
   },
 });
 
-// Configure Multer for handling file uploads
 const upload = multer({ storage });
 
-//middleware
-// app.use(bodyParser.urlencoded({ extended: true }));
 const http = require('http');
 const { Server } = require('socket.io');
 const { handleUpgrade, handleWebSocketConnection, initializeSignalingServer } = require('./stream/streamrtc');
@@ -45,8 +39,8 @@ app.use(cors({
 //routes
 app.use('/signup', signupController);
 app.use('/login', loginController);
-// app.use('/api/auth', authRoutes);
 
+app.post('/create/roomid', createRoomId);
 
 app.use('/api', routes);
 
@@ -85,7 +79,6 @@ const io = new Server(server, {
 });
 initializeSignalingServer(io);
 io.on('connection', handleWebSocketConnection);
-io.on('conncetion',handleWebSocketConnection)
 server.on('upgrade', handleUpgrade);
 
 app.post('/input', handleInput);
@@ -94,5 +87,3 @@ const port = 3000;
 server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
-

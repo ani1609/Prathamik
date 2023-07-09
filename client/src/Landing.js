@@ -3,13 +3,13 @@ import './Landing.css';
 import './index.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVideo, faKeyboard } from '@fortawesome/free-solid-svg-icons';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Landing(props) {
   const [shouldRender, setShouldRender] = useState(false);
   const [img, setImg] = useState(true);
   const [room, setRoom] = React.useState('')
-  const router = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -27,11 +27,27 @@ function Landing(props) {
     return () => clearInterval(interval);
   }, [img]);
 
-  const handleNewMeeting = () => {
-    const id = Math.random().toString(36).substring(2, 5) + '-' +Math.random().toString(36).substring(2, 5);
-    router(`${id}`);
-    setRoom(id);
-    props.setIsAdmin(true);
+  const createRoomId = async (val) => {
+    await fetch('http://localhost:3000/create/roomid', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ roomid: val, owner: JSON.parse(localStorage.getItem('user')).data.email }),
+    });
+  }
+
+  const handleNewMeeting = async (val) => {
+    await props.getMeetingAndToken(props.meetingId).then((meetingData) => {
+      if(val)
+      createRoomId(meetingData);
+      return meetingData;
+    }).then((meetingData) => {
+      navigate(`/${meetingData}`);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
   }
 
   return (
@@ -48,15 +64,15 @@ function Landing(props) {
               Prathamik is an online learning platform designed to empower teachers and provide a seamless experience for students. With the assistance of an AI bot, teachers can efficiently solve students' doubts and enhance the learning process.
             </p>
             <div className='buttons'>
-              <button onClick={handleNewMeeting}><FontAwesomeIcon icon={faVideo} style={{ color: "#ffffff", }} />New Meeting</button>
+              <button onClick={() => handleNewMeeting(true)}><FontAwesomeIcon icon={faVideo} style={{ color: "#ffffff", }} />New Meeting</button>
               <div className='inputBox'>
                 <FontAwesomeIcon icon={faKeyboard} style={{ color: "grey", }} />
-                <input className='input' type='text' placeholder='Enter a Code' value={room}
-                  onChange={(e) => setRoom(e.target.value)}
+                <input className='input' type='text' placeholder='Enter a Code' value={props.meetingId}
+                  onChange={(e) => props.setMeetingId(e.target.value)}
                 />
               </div>
-              {!room && <span className='joinBtn'> Join </span>}
-              {room && <Link to={`${room}`} onClick={() => props.setIsAdmin(false)} className='joinBtn' style={{ color: '#3086e3' }}> Join </Link>}
+              {!props.meetingId && <span className='joinBtn'> Join </span>}
+              {props.meetingId && <div onClick={() => handleNewMeeting(false)} className='joinBtn' style={{ color: '#3086e3' }}> Join </div>}
             </div>
             <div className='circles'>
               <span style={{ backgroundColor: '#18405A' }}></span>

@@ -24,8 +24,9 @@ function IDE(props) {
   const [ideValue, setIdeValue] = useState("");
   const [isInvalid, setIsInvalid] = useState(false);
   const [showWarning, setShowWarning] = useState(true);
-  const [user, setUser] = useState("teacher");
+  const [showBrowser, setShowBrowser] = useState(false);
   const [fileValues, setFileValues] = useState({});
+  const details = JSON.parse(localStorage.getItem('details'));
 
   useEffect(() => {
     window.addEventListener('beforeunload', handleBeforeUnload);
@@ -34,15 +35,6 @@ function IDE(props) {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
-
-  useEffect(() => {
-    if (props.isAdmin) {
-      setUser('teacher');
-    }
-    else {
-      setUser('student');
-    }
-  }, [])
 
   const handleBeforeUnload = (e) => {
     if (showWarning) {
@@ -107,13 +99,13 @@ function IDE(props) {
     updatedFiles[fileIndex].value = value;
 
     setFiles(updatedFiles);
-    props.socket.emit("send_value", value);
+    props.socket.emit("send_value", {value: value , roomid: props.meetingId});
   }
 
   function handleFileClick(index) {
     setfileIndex((prevIndex) => {
       const updatedIndex = index;
-      props.socket.emit("send_index", updatedIndex);
+      props.socket.emit("send_index", {value: updatedIndex, roomid: props.meetingId});
       return updatedIndex;
     });
 
@@ -180,7 +172,7 @@ function IDE(props) {
 
     setFiles((prevFiles) => {
       const updatedFiles = [...prevFiles, newFile];
-      props.socket.emit("send_file", updatedFiles);
+      props.socket.emit("send_file", {value: updatedFiles, roomid: props.meetingId});
       return updatedFiles;
     });
 
@@ -241,13 +233,13 @@ function IDE(props) {
 
   function handleFileDelete(id) {
     const updatedFiles = files.filter((file) => file.id !== id);
-    props.socket.emit("delete_file", updatedFiles);
+    props.socket.emit("delete_file", {value: updatedFiles, roomid: props.meetingId});
     setFiles(updatedFiles);
   }
 
   function handleInputValue (e) {
     props.setInput(e.target.value);
-    props.socket.emit("input", e.target.value);
+    props.socket.emit("input", {value: e.target.value , roomid: props.meetingId});
   }
 
   return (
@@ -332,29 +324,12 @@ function IDE(props) {
               </div>
             </div>
           </div>
-          {(user === 'teacher' || user === 'student') && <button onClick={() => setUser('browser')}>Switch to Browser</button>}
-          {user === 'browser' && props.isAdmin && <button onClick={() => setUser('teacher')}>Switch to IDE</button>}
-          {user === 'browser' && !props.isAdmin && <button onClick={() => setUser('student')}>Switch to IDE</button>}
-          <div>
-            {/* <button style={{ backgroundColor: 'white' }} onClick={() => props.setShow('board')}>Switch to Board</button> */}
-          </div>
 
-          {/* <div className='tools_container'>
-            <div className='tools_heading' onClick={handleToolsHeadingClick}>
-              <span className={toolsArrowRotate ? 'arrow_rotate_down' : 'arrow_rotate_up'}>
-                <i class="fa-solid fa-angle-down"></i>
-              </span>
-              <h4>Tools</h4>
-            </div>
-
-            <div className={toolsShow ? 'tools_show' : 'tools_hide'}>
-
-            </div>
-          </div> */}
-
+          {!showBrowser && <button onClick={() => setShowBrowser(true)}>Switch to Browser</button>}
+          {showBrowser && <button onClick={() => setShowBrowser(false)}>Switch to IDE</button>}
 
         </div>
-        {user === 'teacher' && (
+        {details.isAdmin && !showBrowser &&
           <div className='ide_in_ide_container'>
             <Editor
               theme="vs-dark"
@@ -369,7 +344,6 @@ function IDE(props) {
                 <h4>Input</h4>
                 <textarea
                   value={props.input}
-                  // onChange={(e) => props.setInput(e.target.value)}
                   onChange={(e) => {handleInputValue(e)}}
                 />
               </div>
@@ -382,8 +356,8 @@ function IDE(props) {
               </div>
             </div>
           </div>
-        )}
-        {user === 'student' && (<div className='ide_in_ide_container'>
+        }
+        {!details.isAdmin && !showBrowser && <div className='ide_in_ide_container'>
           <Editor theme="vs-light" onMount={handleEditorDidMount} path={files[fileIndex].name}
             defaultLanguage={files[fileIndex].language} defaultValue={files[fileIndex].value} value={ideValue} options={{
               readOnly: true
@@ -402,8 +376,8 @@ function IDE(props) {
               />
             </div>
           </div>
-        </div>)}
-        {user === 'browser' && <iframe
+        </div>}
+        {showBrowser && <iframe
           title='output'
           sandbox='allow-scripts'
           width='100%'
