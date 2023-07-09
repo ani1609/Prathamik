@@ -24,7 +24,7 @@ function IDE(props) {
   const [ideValue, setIdeValue] = useState("");
   const [isInvalid, setIsInvalid] = useState(false);
   const [showWarning, setShowWarning] = useState(true);
-  const [user, setUser] = useState("teacher");
+  const [showBrowser, setShowBrowser] = useState(false);
   const [fileValues, setFileValues] = useState({});
   const details = JSON.parse(localStorage.getItem('details'));
 
@@ -35,15 +35,6 @@ function IDE(props) {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
-
-  useEffect(() => {
-    if (props.isAdmin) {
-      setUser('teacher');
-    }
-    else {
-      // setUser('student');
-    }
-  }, [])
 
   const handleBeforeUnload = (e) => {
     if (showWarning) {
@@ -333,29 +324,12 @@ function IDE(props) {
               </div>
             </div>
           </div>
-          {(user === 'teacher' || user === 'student') && <button onClick={() => setUser('browser')}>Switch to Browser</button>}
-          {user === 'browser' && props.isAdmin && <button onClick={() => setUser('teacher')}>Switch to IDE</button>}
-          {user === 'browser' && !props.isAdmin && <button onClick={() => setUser('student')}>Switch to IDE</button>}
-          <div>
-            {/* <button style={{ backgroundColor: 'white' }} onClick={() => props.setShow('board')}>Switch to Board</button> */}
-          </div>
 
-          {/* <div className='tools_container'>
-            <div className='tools_heading' onClick={handleToolsHeadingClick}>
-              <span className={toolsArrowRotate ? 'arrow_rotate_down' : 'arrow_rotate_up'}>
-                <i class="fa-solid fa-angle-down"></i>
-              </span>
-              <h4>Tools</h4>
-            </div>
-
-            <div className={toolsShow ? 'tools_show' : 'tools_hide'}>
-
-            </div>
-          </div> */}
-
+          {!showBrowser && <button onClick={() => setShowBrowser(true)}>Switch to Browser</button>}
+          {showBrowser && <button onClick={() => setShowBrowser(false)}>Switch to IDE</button>}
 
         </div>
-        {details.isAdmin &&
+        {details.isAdmin && !showBrowser &&
           <div className='ide_in_ide_container'>
             <Editor
               theme="vs-dark"
@@ -383,7 +357,7 @@ function IDE(props) {
             </div>
           </div>
         }
-        {!details.isAdmin && <div className='ide_in_ide_container'>
+        {!details.isAdmin && !showBrowser && <div className='ide_in_ide_container'>
           <Editor theme="vs-light" onMount={handleEditorDidMount} path={files[fileIndex].name}
             defaultLanguage={files[fileIndex].language} defaultValue={files[fileIndex].value} value={ideValue} options={{
               readOnly: true
@@ -403,7 +377,7 @@ function IDE(props) {
             </div>
           </div>
         </div>}
-        {user === 'browser' && <iframe
+        {showBrowser && <iframe
           title='output'
           sandbox='allow-scripts'
           width='100%'

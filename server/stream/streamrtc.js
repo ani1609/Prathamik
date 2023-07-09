@@ -48,6 +48,7 @@ function handleWebSocketConnection(socket) {
   });
 
   socket.on("chat_message", async (data) => {
+    const id = data.roomid;
     const userID = data.user;
     const user = await User.findOne({ _id: userID });
     data = {
@@ -55,12 +56,12 @@ function handleWebSocketConnection(socket) {
       profile: user
     }
 
-    socket.to(data.roomid).emit("new_message", data);
-    socket.broadcast.to(data.roomid).emit("new_message", data);
+    socket.emit("new_message", data);
+    socket.broadcast.to(id).emit("new_message", data);
   });
 
   socket.on("bot_message", (data) => {
-    socket.broadcast.to(data.roomid).emit("bot_message", data.value);
+    socket.broadcast.to(data.roomid).emit("bot_message", data);
   });
 
   socket.on("output", (data) => {

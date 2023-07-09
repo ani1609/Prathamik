@@ -9,6 +9,11 @@
 .platform_parent
 {
   background-color: #ffffff;
+  height: 100vh;
+  width: 100vw;
+  min-width: 1440px;
+  min-height: 789px;
+  box-sizing: border-box;
 }
 
 .profile-pic{
@@ -26,6 +31,7 @@
 
 .navbar_1
 {
+  box-sizing: border-box;
   padding: 0px 0px 0px 30px;
   width: 72.5%;
   height: 100%;
@@ -149,13 +155,13 @@
 .platform_components
 {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   width: 100%;
-  height: calc(100% - 70px);
+  height: calc(100% - 60px);
   box-sizing: border-box;
 }
 
-.ide_in_platform_container
+/* .ide_in_platform_container
 {
   width: 74.5%;
 }
@@ -164,21 +170,21 @@
 {
   width: 74.5%;
   background-color: #ffffff;
-}
+} */
 
 .stream_in_platform_container
 {
-  width: 74.5%;
+  border-top-right-radius: 10px;
+  overflow: hidden;
+  width: 72.5%;
   background-color: #ffffff;
 }
 
 .chat_in_platform_container
 {
   background-color: white;
-  height: 100%;
-  width: 20.5%;
+  width: 26.5%;
   border: 1px solid #bcbcbc;
   border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-  /* overflow: hidden; */
+  overflow: hidden;
 }

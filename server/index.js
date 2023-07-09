@@ -4,6 +4,7 @@ const signupController = require('./controllers/signup');
 const loginController = require('./controllers/login');
 const cors = require('cors');
 const express = require('express');
+const createRoomId = require('./controllers/roomid');
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use(cors({
 app.use('/signup', signupController);
 app.use('/login', loginController);
 
+app.post('/create/roomid', createRoomId);
 
 app.use('/api', routes);
 
