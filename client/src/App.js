@@ -4,7 +4,6 @@ import Navbar from './Navbar';
 import ChatBox from './ChatBox';
 import IDE from './IDE';
 import { useState } from 'react';
-import Board from './Board';
 import { useRef } from 'react';
 
 function App() {
@@ -58,7 +57,7 @@ function App() {
         console.error('Error sending image:', error);
       });
   };
-  
+
   return (
     <div className="App">
       <Navbar/>
@@ -68,7 +67,6 @@ function App() {
           <button type="submit">Submit</button>
         </form>
         {show === 'editor' && <IDE setCode={setCode} setShow={setShow} />}
-        {show === 'board' && <Board handleImageInput={handleImageInput} canvasRef={canvasRef} />}
         <ChatBox
           message={message}
           setCode={setMessage}
