@@ -1,32 +1,17 @@
-body {
+:root
+{
+  --primary-color1: #79CDFB;
+  --primary-color2: #C77385;
+}
+body
+{
   margin: 0;
   /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+  background-color: white;
+  height: 1200px;
 
-.left-block {
-  margin-left: 5px
-}
-
-.right-block {
-  margin-left: 10px
-}
-
-.cart-item {
-  display: flex;
-  margin-bottom: 4px;
-}
-
-.cart-item-actions {
-  margin-top: 20px
-}
-
-.action-icons {
-  height: 20px;
-  width: 20px;
-  margin-right: 20px;
-  cursor: pointer;
 }
