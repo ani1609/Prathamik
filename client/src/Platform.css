@@ -1,194 +1,178 @@
 @media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-      animation: App-logo-spin infinite 20s linear;
-    }
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
   }
-  
-  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
-  
-  .platform_parent
-  {
-    background-color: #eeeeee;
-    width: 100vw;
-    height: 100vh;
-    min-width: 1440px;
-    /* display: flex;
-    flex-direction: column;
-    gap: 5px; */
-  }
-  
-  .platform_navbar
-  {
-    height: 60px;
-    width: 100%;
-    display: flex;
-  }
-  
-  .navbar_1
-  {
-    padding: 0px 0px 0px 30px;
-    width: 74.5%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: transparent;
-    /* border-bottom: 1px solid #bcbcbc; */
-  }
-  
-  .platform_logo
-  {
-  
-    display: flex;
-    /* align-items: left; */
-    gap: 2px;
-    flex-direction: column;
-  }
-  
-  .platform_navbar h1
-  {
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    color: #07080A;
-    font-size: 19px;
-    letter-spacing: 1px;
-  } 
-  
-  .platform_navbar p
-  {
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 300;
-    font-size: 13px;
-    color: #07080A;
-    letter-spacing: 0.5px;
-    
-  } 
-  
-  .platform_logo img
-  {
-    width: 50px;
-    height: 50px;
-  }
-  
-  .navbar_1 button
-  {
-    height: 40px;
-    padding: 0px 10px;
-    width: 100px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 600;
-    background-color: var(--deep-blue);
-    font-size: 18px;
-    color: white;
-    border: 1px solid var(--deep-blue);
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-  }
-  
-  .navbar_1 button:hover
-  {
-  }
-  
-  .navbar_2
-  {
-    padding-right: 20px;
-    width: 25.5%;
-    height: 100%;
-    background-color: transparent;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    /* border-bottom: 1px solid #bcbcbc; */
-  }
-  
-  .profile
-  {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    height: 40px;
-    cursor: pointer;
-    
-  }
-  .profile img
-  {
-    height: 30px;
-    width: 30px;
-    border-radius: 50%;
-    
-  }
-  
-  .profile ul
-  {
-    background-color: #f3f3f3;
-    border: 1px solid #bcbcbc;
-    border-radius: 5px;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    top: 55px;
-    right: 15px;
-    list-style: none;
-    overflow: hidden;
-  }
-  
-  .profile ul li
-  {
-    font-family: 'Roboto', sans-serif;
-    padding: 8px 10px;
-    color: #3d4047;
-    font-size: 15px;
-  }
-  
-  .profile ul li:hover
-  {
-    background-color: rgb(228, 228, 228);
-  }
-  
-  
-  .platform_components
-  {
-    /* margin-top: 20px; */
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    width: 100%;
-    height: calc(100% - 70px);
-    /* padding-top: 60px; */
-    box-sizing: border-box;
-    /* padding-left: 4.8rem; */
-  
-  }
-  
-  .ide_in_platform_container
-  {
-    
-    width: 74.5%;
-    /* height: 100%; */
-    background-color: #eeeeee;
-  }
-  
-  .board_in_platform_container
-  {
-    width: 74.5%;
-    /* height: 100%; */
-    background-color: #eeeeee;
-  }
-  
-  .chat_in_platform_container
-  {
-    background-color: white;
-    height: 100%;
-    width: 25.5%;
-    border: 1px solid #bcbcbc;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    overflow: hidden;
-    /* height: 95%; */
-  }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+.platform_parent
+{
+  background-color: #ffffff;
+}
+
+.profile-pic{
+  height: 10px;
+  width: 10px;
+  background-image: url()
+}
+
+.platform_navbar
+{
+  height: 60px;
+  width: 100%;
+  display: flex;
+}
+
+.navbar_1
+{
+  padding: 0px 0px 0px 30px;
+  width: 72.5%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: transparent;
+  /* border-bottom: 1px solid #bcbcbc; */
+}
+
+.platform_logo
+{
+
+  display: flex;
+  /* align-items: left; */
+  gap: 2px;
+  flex-direction: column;
+}
+
+.platform_navbar h1
+{
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  color: #07080A;
+  font-size: 19px;
+  letter-spacing: 1px;
+}
+
+.platform_navbar p
+{
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  color: #07080A;
+  letter-spacing: 0.5px;
+
+}
+
+.platform_logo img
+{
+  width: 50px;
+  height: 50px;
+}
+
+.navbar_1 button
+{
+  padding: 8px 12px;
+  width: 5rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  background-color: var(--deep-blue);
+  color: white;
+  border: 1px solid var(--deep-blue);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.navbar_2
+{
+  padding-right: 20px;
+  width: 22.5%;
+  height: 100%;
+  background-color: transparent;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  /* border-bottom: 1px solid #bcbcbc; */
+}
+
+.profile
+{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  cursor: pointer;
+
+}
+.profile img
+{
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+
+}
+
+.profile ul
+{
+  background-color: #f3f3f3;
+  border: 1px solid #bcbcbc;
+  border-radius: 5px;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 55px;
+  right: 15px;
+  list-style: none;
+  overflow: hidden;
+}
+
+.profile ul li
+{
+  font-family: 'Roboto', sans-serif;
+  padding: 8px 10px;
+  color: #3d4047;
+  font-size: 15px;
+}
+
+.profile ul li:hover
+{
+  background-color: rgb(228, 228, 228);
+}
+
+
+.platform_components
+{
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  height: calc(100% - 70px);
+  box-sizing: border-box;
+}
+
+.ide_in_platform_container
+{
+  width: 74.5%;
+}
+
+.board_in_platform_container
+{
+  width: 74.5%;
+  background-color: #ffffff;
+}
+
+.chat_in_platform_container
+{
+  background-color: white;
+  height: 100%;
+  width: 20.5%;
+  border: 1px solid #bcbcbc;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  /* overflow: hidden; */
+}
