@@ -1,0 +1,291 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+
+.ide_parent
+{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: calc(100vh - 60px);
+    gap: 5px;
+    box-sizing: border-box;
+}
+
+.left_block
+{
+    height: 100%;
+    width: 28%;
+    box-sizing: border-box;
+    /* border-right: 1px solid #bcbcbc; */
+    /* border-top: 1px solid #bcbcbc; */
+    border-radius: 10px;
+    padding: 10px;
+    
+}
+
+.files_container
+{
+    width: 100%;
+    border-bottom: 1px solid #bcbcbc;
+}
+
+.files_heading_left i, .tools_heading i
+{
+    color: #07080A;
+    font-size: 14px;
+}
+
+.files_heading_right i
+{
+    color: #07080A;
+    font-size: 16px;
+}
+
+.files_heading
+{
+    height: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.files_heading_left
+{
+    width: 75%;
+    display: flex;
+    cursor: pointer;
+    gap: 5px;
+}
+
+.arrow_rotate_down
+{
+    transform: rotate(0deg);
+    transition: 0.3s ease-in-out;
+
+}
+
+.arrow_rotate_up
+{
+    transform: rotate(-90deg);
+    transition: 0.3s ease-in-out;
+}
+
+.files_heading_left h4
+{
+    margin: 0;
+    color: var(--ide-font);
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.files_heading_right
+{
+    width: 22%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.add_file, .three_dot
+{
+    padding: 3px 4px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.1s ease-in-out;
+}
+
+.add_file:hover, .three_dot:hover
+{
+    /* background-color: rgb(219, 219, 219); */
+    background-color: white;
+
+}
+
+.files_show
+{
+    margin-top: 8px;
+    height: 81vh;
+    overflow: hidden;
+    width: 100%;
+    background-color: transparent;
+    transition: 0.2s ease-in-out;
+}
+
+.files_hide
+{
+    margin-top: 8px;
+    overflow: hidden;
+    height: 0;
+    width: 100%;
+    background-color: transparent;
+    transition: 0.2s ease-in-out;
+}
+
+
+.addFilePanel
+{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.addFilePanel input
+{
+    font-size: 14.4px;
+    border: 1px solid #bcbcbc;
+    width: 91%;
+    border-radius: 5px;
+    color: #3D4047;
+    background-color: white;
+    font-family: 'Roboto', sans-serif;
+    padding: 8px 8px;
+}
+
+.addFilePanel input:focus
+{
+    outline: none;
+}
+
+.addFilePanel label
+{
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: red;
+
+}
+
+.file
+{
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: 0.1s ease-in-out;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 4px 4px 4px 15px;
+}
+
+.file:hover
+{
+    /* background-color: rgb(219, 219, 219); */
+    background-color: white;
+}
+
+.file button
+{
+    color: #3D4047;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+    gap: 10px;
+    background-color: transparent;
+    border: 0;
+    width: 90%;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14.4px;
+    /* background-color: red; */
+}
+
+.file i
+{
+    font-size: 17px;
+}
+
+.file span
+{
+    margin-left: auto;
+    padding: 4px 6px;
+    border-radius: 5px;
+    transition: 0.1s ease-in-out;
+}
+
+.file span:hover
+{
+    /* background-color: rgb(192, 192, 192); */
+    background-color: rgb(228, 228, 228);
+
+
+}
+
+.file span i
+{
+    font-size: 14.5px;
+}
+
+.line
+{
+    width: 100%;
+    border-bottom: 1px solid #bcbcbc;
+}
+
+.tools_container
+{
+    width: 100%;
+    border-bottom: 1px solid #bcbcbc;
+    padding: 10px 0px;
+    /*box-sizing: border-box; */
+    /* margin-top: 8px; */
+
+}
+.tools_heading
+{
+    gap: 5px;
+    display: flex;
+    height: 25px;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+}
+
+.tools_arrow_rotate_down
+{
+    transform: rotate(0deg);
+    transition: 0.3s ease-in-out;
+
+}
+
+.tools_arrow_rotate_up
+{
+    transform: rotate(90deg);
+    transition: 0.3s ease-in-out;
+}
+
+.tools_heading h4
+{
+    margin: 0;
+    color: var(--ide-font);
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.tools_show
+{
+    height: 81.5vh;
+    width: 100%;
+    background-color: transparent;
+    transition: 0.3s ease-in-out;
+}
+
+.tools_hide
+{
+    height: 0;
+    background-color: transparent;
+    width: 100%;
+    transition: 0.3s ease-in-out;
+}
+
+
+.ide_in_ide_container
+{
+    border: 1px solid #bcbcbc;
+    overflow: hidden;
+    border-radius: 10px;
+    width: 500px;
+    height: 400px;
+}
