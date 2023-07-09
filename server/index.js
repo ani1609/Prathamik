@@ -6,6 +6,7 @@ const loginController = require('./controllers/login');
 // const File=require('./models/file');
 const cors = require('cors');
 const express = require('express');
+// const bodyParser = require('body-parser');
 
 const app = express();
 
@@ -30,13 +31,12 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 //middleware
-
+// app.use(bodyParser.urlencoded({ extended: true }));
 const http = require('http');
 const { Server } = require('socket.io');
 const { handleUpgrade, handleWebSocketConnection, initializeSignalingServer } = require('./stream/streamrtc');
 const routes = require('./Routes/routes');
 const { handleInput } = require('./gpt-3.5/gptController/inputController.js');
-
 app.use(express.json());
 app.use(cors({
   origin: 'http://localhost:3001'
@@ -85,7 +85,7 @@ const io = new Server(server, {
 });
 initializeSignalingServer(io);
 io.on('connection', handleWebSocketConnection);
-
+io.on('conncetion',handleWebSocketConnection)
 server.on('upgrade', handleUpgrade);
 
 app.post('/input', handleInput);
