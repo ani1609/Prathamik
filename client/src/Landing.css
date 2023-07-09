@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+.landing_parent {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation-name: bgFadeIn;
+    animation-duration: 1s;
+    animation-delay: 100ms;
+    padding-top: 5rem;
+    max-width: 1400px;
+}
+
+.details {
+    height: 100%;
+    width: 38%;
+    position: relative;
+    z-index: 2;
+    margin-left: 100px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.8rem;
+    gap: 40px;
+    animation-name: detailsSlideIn;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-delay: 1300ms;
+
+}
+
+.details h1 {
+    color: var(--deep-blue);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 55px;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+.details p {
+    letter-spacing: 1px;
+    word-spacing: 1px;
+    line-height: 1.3;
+    font-family: 'Roboto', sans-serif;
+    color: #183F59;
+    margin: -5px 0px 0px 0px;
+}
+
+.buttons{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+#middleText{
+    font-weight: 600;
+    font-size: 25px;
+    color: var(--deep-blue);
+    margin-top: 0.5rem;
+}
+
+.inputBox{
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid #183F59;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 0px 20px;
+}
+
+.inputBox input{
+    width: 100%;
+    height: 95%;
+    border: none;
+    outline: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: #183F59;
+}
+
+.joinBtn{
+    letter-spacing: 1px;
+    color: lightgray;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.line{
+    height: 1px;
+    width: 100%;
+    background-color: #e1e1e1;
+}
+
+.learnMore{
+    word-spacing: 1px;
+    color: rgb(158, 158, 158);
+    display: flex;
+    align-items: center;
+}
+
+.end{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.learnMore span{
+    color: var(--deep-blue);
+    font-weight: 500;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.details button {
+    background-color: var(--deep-blue);
+    width: 280px;
+    border: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 22px;
+    font-size: 18px;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.details button:hover {
+    background-color: #255486;
+}
+
+.circles {
+    margin-top: 10px;
+    margin-left: 5px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+.circles span {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+}
+
+.ide_img {
+    height: 18rem;
+    width: 25rem;
+    position: absolute;
+    top: 6rem;
+    right: 15rem;
+    transition: 0.8s ease-in-out;
+    opacity: 0;
+}
+
+.sm{
+    height: 15.5rem;
+    width: 22rem;
+    top: 7.25rem;
+    right: 16.5rem;
+}
+
+.visible {
+    opacity: 1;
+}
+
+.bot_img {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes imageSlideIn {
+    from {
+        transform: translateX(50px);
+    }
+
+    to {
+        transform: translateX(0px);
+    }
+}
+
+.background_image {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+    /* background-attachment: fixed; */
+    animation-name: bgFadeIn;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+@keyframes detailsSlideIn {
+    from {
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0px);
+        opacity: 1;
+    }
+}
+
+@keyframes bgFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

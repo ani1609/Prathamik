@@ -9,10 +9,7 @@ const socket = io.connect("http://localhost:3000");
 
 const initialFiles = [
   {
-<<<<<<< HEAD
     id: 0,
-=======
->>>>>>> 22d4d3abe5c2ee00bb2274a7a92dc029614b8ad2
     name: "",
     language: "text",
     value: "",
@@ -132,13 +129,8 @@ function IDE(props) {
     } else if (fileType === '.c') {
       newFile.value = '// Enter your c code here';
       newFile.icon = 'fab fa-cuttlefish';
-<<<<<<< HEAD
     } else if (fileType === '.cpp') {
       newFile.value = '// Enter your c++ code here';
-=======
-    } else if (newFileLanguage === 'cpp') {
-      newFile.value = '// Enter your code here';
->>>>>>> 22d4d3abe5c2ee00bb2274a7a92dc029614b8ad2
       newFile.icon = 'fab fa-cuttlefish';
     } else if (fileType === '.html') {
       newFile.value = '<!-- Enter your html code here -->';
@@ -233,8 +225,6 @@ function IDE(props) {
   return (
     <div>
       <div className='ide_parent'>
-<<<<<<< HEAD
-
         <div className='left_block'>
 
           <div className='files_container'>
@@ -256,31 +246,6 @@ function IDE(props) {
                     <i class="fa-solid fa-ellipsis-vertical"></i>
                   </span>
                 </div>
-
-=======
-        <div className='language_list'>
-          <button onClick={() => setShowAddBox(true)}>Add File</button>
-          {showAddBox && <div className='addFilePanel' style={{ display: 'inline' }}>
-            <input type='text' placeholder='Enter file name' onChange={(e) => setNewFileName(e.target.value)} />
-            <select onChange={(e) => setNewFileLanguage(e.target.value)} value={newFileLanguage}>
-              <option value='html'>HTML</option>
-              <option value='css'>CSS</option>
-              <option value='javascript'>Javascript</option>
-              <option value='java'>Java</option>
-              <option value='cpp'>C++</option>
-              <option value='python'>Python</option>
-            </select>
-            <button onClick={handleAddFile}>Add</button>
-          </div>}
-          {files.map((file, index) =>
-            <div>
-              {index !== 0 && <button key={index} onClick={() => setfileIndex(index)}>
-                {file.language === 'text' ? <i className="fas fa-file-alt"></i> : <i className={`fab fa-${file.icon}`}></i>
-                }
-                {file.name}
-              </button>}
-              <div className='line'></div>
->>>>>>> 22d4d3abe5c2ee00bb2274a7a92dc029614b8ad2
             </div>
 
             <div className={filesShow?'files_show':'files_hide'}>

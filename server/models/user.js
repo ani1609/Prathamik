@@ -2,6 +2,7 @@ const mongoose=require('mongoose');
 const jwt=require('jsonwebtoken');
 const Joi=require('joi');
 const passwordComplexity=require('joi-password-complexity');
+
 const userSchema=mongoose.Schema({
     name:{
         type:String,
@@ -14,9 +15,6 @@ const userSchema=mongoose.Schema({
     password:{  
         type:String,
         required:true,
-    },
-    profilePic: {
-        type: String,
     },
 });
 
@@ -37,4 +35,3 @@ const validate = (data) => {
 };
 
 module.exports={User,validate};
-

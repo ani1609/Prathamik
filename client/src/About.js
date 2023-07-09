@@ -6,7 +6,7 @@ import Experience from './images/experience-nobg.png';
 import Expert from './images/expert-nobg.png';
 import Technology from './images/technology-nobg.png';
 
-function About() 
+function About()
 {
     const headingRef = useRef(null);
     const communityImageRef = useRef(null);
@@ -18,15 +18,15 @@ function About()
     const expertDescriptionRef = useRef(null);
     const experienceDescriptionRef = useRef(null);
 
-    
 
-    useEffect(() => 
+
+    useEffect(() =>
     {
-        const observer = new IntersectionObserver((entries, observer) => 
+        const observer = new IntersectionObserver((entries, observer) =>
         {
-            entries.forEach(entry => 
+            entries.forEach(entry =>
                 {
-                  if (entry.isIntersecting) 
+                  if (entry.isIntersecting)
                     {
                       entry.target.classList.add('showAboutHeading');
                     }
@@ -35,19 +35,19 @@ function About()
 
         if (headingRef.current) observer.observe(headingRef.current);
 
-        return () => 
+        return () =>
         {
             if (headingRef.current) observer.unobserve(headingRef.current);
         };
     }, []);
 
-    useEffect(() => 
+    useEffect(() =>
     {
-        const observer = new IntersectionObserver((entries, observer) => 
+        const observer = new IntersectionObserver((entries, observer) =>
         {
-            entries.forEach(entry => 
+            entries.forEach(entry =>
                 {
-                  if (entry.isIntersecting) 
+                  if (entry.isIntersecting)
                     {
                       entry.target.classList.add('animateLeft');
                     }
@@ -63,7 +63,7 @@ function About()
         if (technologyImageRef.current) observer.observe(technologyImageRef.current);
         if (experienceImageRef.current) observer.observe(experienceImageRef.current);
 
-        return () => 
+        return () =>
         {
             if (communityDescriptionRef.current) observer.unobserve(communityDescriptionRef.current);
             if (expertDescriptionRef.current) observer.unobserve(expertDescriptionRef.current);
@@ -72,13 +72,13 @@ function About()
         };
     }, []);
 
-    useEffect(() => 
+    useEffect(() =>
     {
-        const observer = new IntersectionObserver((entries, observer) => 
+        const observer = new IntersectionObserver((entries, observer) =>
         {
-            entries.forEach(entry => 
+            entries.forEach(entry =>
                 {
-                  if (entry.isIntersecting) 
+                  if (entry.isIntersecting)
                     {
                       entry.target.classList.add('animateRight');
                     }
@@ -94,7 +94,7 @@ function About()
         if (technologyDescriptionRef.current) observer.observe(technologyDescriptionRef.current);
         if (experienceDescriptionRef.current) observer.observe(experienceDescriptionRef.current);
 
-        return () => 
+        return () =>
         {
             if (communityImageRef.current) observer.unobserve(communityImageRef.current);
             if (expertImageRef.current) observer.unobserve(expertImageRef.current);
@@ -111,24 +111,8 @@ function About()
             <h1>About Us</h1>
             <div className='about_line'></div>
         </div>
-        
+
         <div className='about_blocks'>
-            <div className='community'>
-                <img src={Community} ref={communityImageRef}/>
-                <div className='community_description' ref={communityDescriptionRef}>
-                    <h2>Who We Serve</h2>
-                    <p>We take pride in our team of experts who are passionate about education and dedicated to providing the highest quality learning experience. Our instructors are industry professionals, subject matter experts, and experienced educators who bring their wealth of knowledge and practical insights into the.</p>
-                </div>
-            </div>
-
-            <div className='technology'>
-                <div className='technology_description' ref={technologyDescriptionRef}>
-                    <h2>Cutting-Edge Technology</h2>
-                    <p>At the heart of our e-learning platform lies cutting-edge technology that drives an innovative and immersive learning experience. We leverage the latest advancements in educational technology to deliver dynamic and interactive course content. From virtual simulations and augmented reality to adaptive learning algorithms, we harness.</p>
-                </div>
-                <img src={Technology} ref={technologyImageRef}/>
-            </div>
-
             <div className='expert'>
                 <img src={Expert} ref={expertImageRef}/>
                 <div className='expert_description' ref={expertDescriptionRef}>
