@@ -4,7 +4,6 @@ import Navbar from './Navbar';
 import ChatBox from './ChatBox';
 import IDE from './IDE';
 import { useState } from 'react';
-import Board from './Board';
 
 function App() {
   const [code, setCode] = useState('');
@@ -41,7 +40,6 @@ function App() {
       <Navbar />
       <div className='body'>
         {show === 'editor' && <IDE setCode={setCode} setShow={setShow} />}
-        {show === 'board' && <Board />}
         <ChatBox
           message={message}
           setCode={setMessage}
