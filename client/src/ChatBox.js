@@ -18,16 +18,17 @@ function ChatBox(props) {
 
         {/* {props.input && <div className='user_chat'>
           <p>{props.input}</p>
-        </div>}
+        </div>} */}
 
-        {props.message && <div className='bot_chat'>
+        {/* {props.message && <div className='bot_chat'>
             <img src='/x.png'/>
             <p>{props.message}</p>
           </div>} */}
 
         {props.chats.map((chat) => (
-          <div className='bot_chat'>
-            <p>{chat}</p>
+          <div className={`${chat.ownedByCurrentUser ? "user_chat" : "bot_chat"}`}>
+            {!chat.ownedByCurrentUser && <img src={`http://localhost:3000/uploads/${chat.profilePic}`}/>}
+            <p>{chat.input}</p>
           </div>
         ))}
 

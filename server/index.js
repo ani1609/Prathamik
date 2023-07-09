@@ -46,6 +46,8 @@ app.use(cors({
 app.use('/signup', signupController);
 app.use('/login', loginController);
 // app.use('/api/auth', authRoutes);
+
+
 app.use('/api', routes);
 
 // Handle the image upload
@@ -92,3 +94,5 @@ const port = 3000;
 server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+
