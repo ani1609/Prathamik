@@ -3,8 +3,9 @@
 
 .ide_parent {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     width: 100%;
+    height: 100%;
     /* height: calc(100vh - 60px); */
     gap: 5px;
     box-sizing: border-box;
@@ -12,12 +13,11 @@
 
 .left_block {
     /* height: 100%; */
-    width: 28%;
+    width: 25%;
     box-sizing: border-box;
     /* border-right: 1px solid #bcbcbc; */
     /* border-top: 1px solid #bcbcbc; */
-    border-radius: 10px;
-    padding: 10px;
+
 }
 
 .files_container {
@@ -248,24 +248,33 @@
 }
 
 
-.ide_in_ide_container {
-    overflow: hidden;
-    border-radius: 10px;
-    width: 70%;
-    height: 80vh;
+.ide_in_ide_container 
+{
+    width: 75%;
+    height: 100%;
     display: flex;
     flex-direction: column;
 }
 
+.ide_in_ide_container section
+{
+    /* height: 70% !important; */
+}
+
+.mainIde
+{
+
+}
+
 .inputNoutput {
-    height: 10rem;
+    /* height: 10rem; */
     width: 100%;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 
 .inputF{
-    width: 48%;
+    width: 47%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -274,7 +283,7 @@
 }
 
 .inputF > textarea{
-    width: 90%;
+    width: 100%;
     height: 90%;
     cursor: pointer;
     background-color: white;
@@ -287,20 +296,22 @@
     padding: 0.75rem;
     box-sizing: border-box;
     border: 1px solid rgb(130, 130, 130);
+    border-bottom-left-radius: 10px;
     font-weight: 400;
 }
 
 .outputF{
-    width: 48%;
+    width: 47%;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+
 }
 
 .outputF > textarea{
-    width: 90%;
+    width: 100%;
     height: 90%;
     background-color: white;
     border: none;
@@ -312,6 +323,7 @@
     padding: 0.75rem;
     box-sizing: border-box;
     border: 1px solid rgb(130, 130, 130);
+    border-bottom-right-radius: 10px;
 }
 
 .iframe{

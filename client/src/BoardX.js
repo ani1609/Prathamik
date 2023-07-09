@@ -31,12 +31,13 @@ class Board extends React.Component {
     /* Mouse Capturing Work */
     canvas.addEventListener(
       'mousemove',
-      function (e) {
+      function(e) {
+        const rect = canvas.getBoundingClientRect();
         last_mouse.x = mouse.x;
         last_mouse.y = mouse.y;
 
-        mouse.x = e.pageX - this.offsetLeft;
-        mouse.y = e.pageY - this.offsetTop;
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
       },
       false
     );

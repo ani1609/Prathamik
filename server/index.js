@@ -60,7 +60,7 @@ app.post('/', upload.single('image'), async (req, res) =>
       return res.status(404).send('User not found');
     }
 
-    user.profilePic = req.file.filename;
+    User.updateOne({ _id: userId }, { $set: { profileImage: req.file.filename } });
 
     await user.save();
 
