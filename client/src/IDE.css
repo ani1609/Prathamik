@@ -5,23 +5,21 @@
 {
     display: flex;
     justify-content: center;
-<<<<<<< HEAD
-    width: 100%;
-    height: calc(100vh - 60px);
+    /* width: 100%; */
+    /* height: calc(100vh - 60px); */
     gap: 5px;
     box-sizing: border-box;
 }
 
 .left_block
 {
-    height: 100%;
+    /* height: 100%; */
     width: 28%;
     box-sizing: border-box;
     /* border-right: 1px solid #bcbcbc; */
     /* border-top: 1px solid #bcbcbc; */
     border-radius: 10px;
     padding: 10px;
-    
 }
 
 .files_container
@@ -38,7 +36,7 @@
 
 .files_heading_right i
 {
-    color: #07080A;
+    color: #07080af3;
     font-size: 16px;
 }
 
@@ -104,7 +102,6 @@
 .files_show
 {
     margin-top: 8px;
-    height: 81vh;
     overflow: hidden;
     width: 100%;
     background-color: transparent;
@@ -217,32 +214,11 @@
 .file span i
 {
     font-size: 14.5px;
-=======
-    gap: 5px;
-}
-
-.language_list
-{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 3px;
-    height: 92vh;
-    width: 180px;
-    box-sizing: border-box;
-    /* background-image: linear-gradient(135deg,  #79CDFB, #C77385); */
-    background-color: #eeeeee;
-    border-right: 1.5px solid #CCCCCC;
-    padding: 5px;
-    /* background-image: linear-gradient(315deg, #1b2845 0%, #274060 74%); */
-    /* background-image: linear-gradient(315deg, #2b4162 0%, #12100e 74%); */
->>>>>>> 22d4d3abe5c2ee00bb2274a7a92dc029614b8ad2
 }
 
 .line
 {
     width: 100%;
-<<<<<<< HEAD
     border-bottom: 1px solid #bcbcbc;
 }
 
@@ -305,50 +281,8 @@
 
 .ide_in_ide_container
 {
-    border: 1px solid #bcbcbc;
     overflow: hidden;
     border-radius: 10px;
-    width: 500px;
-    height: 400px;
-=======
-    border-bottom: 1px solid #CCCCCC;
-}
-
-.ide_parent button
-{
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 7px;
-    border-radius: 5px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    background-color: transparent;
-    border: 0;
-    cursor: pointer;
-    color: var(--primary-color2);
-    padding: 8px 10px;
-    transition: 0.1s ease-in-out;
-    letter-spacing: 1px;
-
-}
-
-.ide_parent button:hover
-{
-    background-color: #CCCCCC;
-}
-
-.ide_parent button img
-{
-    margin-left: -1px;
-    height: 28px;
-    width: 28px;
-}
-
-.ide_parent button i
-{
-    font-size: 26px;
-    color: var(--primary-color1);
->>>>>>> 22d4d3abe5c2ee00bb2274a7a92dc029614b8ad2
+    width: 70%;
+    height: 80vh;
 }

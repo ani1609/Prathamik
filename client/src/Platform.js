@@ -223,6 +223,7 @@ function Platform(props) {
   function sendInput(input) {
     const user = JSON.parse(localStorage.getItem('user')).data._id;
     socket.emit("chat_message", { input, user });
+
   }
 
   function voice() {
