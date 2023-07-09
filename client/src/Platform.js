@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import StreamZ from './StreamZ';
 import io from "socket.io-client";
+import { useParams } from 'react-router-dom';
 
 const socket = io.connect("http://localhost:3000");
 
@@ -26,10 +27,17 @@ function Platform(props) {
   const [currentLanguage, setCurrentLanguage] = useState('cpp');
   const [change, setChange] = useState(false);
   const [correctAnswer, setCorrectAnswer] = useState('');
+  const [adminDetails, setAdminDetails] = useState({});
+  const [details, setDetails] = useState({});
+  const paramsId = useParams().roomid;
   const [color, setColor] = useState({
     A: 'lightgrey',
     B: 'lightgrey'
   });
+
+  useEffect(() => {
+    socket.emit('join', props.meetingId);
+  }, [socket, props.meetingId]);
 
   useEffect(() => {
     fetch('http://localhost:3000/verify/owner', {
@@ -41,17 +49,38 @@ function Platform(props) {
     })
       .then((res) => res.json())
       .then((data) => {
-        localStorage.setItem('details', JSON.stringify({ meetingId: data.meetingId, isAdmin: data.isAdmin }));
+        setDetails(data);
       })
       .catch((error) => {
         console.error('Error:', error);
       });
   }, [props.meetingId]);
-  
 
   useEffect(() => {
-    socket.emit('join', props.meetingId);
-  }, [socket , props.meetingId]);
+    const handleNewMeeting = async (val) => {
+      await props.getMeetingAndToken(paramsId);
+    }
+    
+    if(props.meetingId === null)
+    handleNewMeeting(details.isAdmin);
+  }, []);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/get/admin/details', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ roomid: props.meetingId }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setAdminDetails(data.details);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, [props.meetingId, details.isAdmin]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -226,7 +255,7 @@ function Platform(props) {
       const data = await response.json();
       setMessage(data.output);
       setChats((chats) => [...chats, { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png' }]);
-      socket.emit("bot_message", { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png' , roomid: props.meetingId });
+      socket.emit("bot_message", { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png', roomid: props.meetingId });
     } catch (error) {
       console.error('Error:', error);
     }
@@ -241,10 +270,9 @@ function Platform(props) {
     }
   };
 
-
   function sendInput(input) {
     const user = JSON.parse(localStorage.getItem('user')).data._id;
-    socket.emit("chat_message", { input: input, user: user , roomid: props.meetingId });
+    socket.emit("chat_message", { input: input, user: user, roomid: props.meetingId });
   }
 
   function voice() {
@@ -296,7 +324,7 @@ function Platform(props) {
         }
       });
       setOutput(response.data.output);
-      socket.emit("output", {value: response.data.output , roomid: props.meetingId});
+      socket.emit("output", { value: response.data.output, roomid: props.meetingId });
     } catch (error) {
       console.error(error);
     }
@@ -352,7 +380,7 @@ function Platform(props) {
               const data = await response.json();
               setMessage(data.output);
               setChats((chats) => [...chats, { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png' }]);
-              socket.emit("bot_message", { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png' , roomid: props.meetingId });
+              socket.emit("bot_message", { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png', roomid: props.meetingId });
             });
           } else {
             console.error('Error sending screenshot:', response.statusText);
@@ -374,16 +402,9 @@ function Platform(props) {
             <h1>Prathamik</h1>
             <p>Online IDE</p>
           </div>
-          <div>
-            <select onChange={(e) => setShow(e.target.value)}>
-              <option value="stream">Stream</option>
-              <option value="editor">IDE</option>
-              <option value="board">Board</option>
-            </select>
-          </div>
-          <form>
+          {details.isAdmin && <form>
             <button type='button' onClick={handleRun}>Run <i class="fa-solid fa-play"></i></button>
-          </form>
+          </form>}
         </div>
 
         <div className='navbar_2'>
@@ -402,11 +423,9 @@ function Platform(props) {
 
       <div className='platform_components'>
 
-        {show === 'stream' && (
-          <div className="stream_in_platform_container">
-            <StreamZ socket={socket} canvasRef={canvasRef} meetingId={props.meetingId} setMeetingId={props.setMeetingId} getMeetingAndToken={props.getMeetingAndToken} setCurrentLanguage={setCurrentLanguage} inputX={inputX} setInputX={setInputX} output={output} code={code} setCode={setCode} setShow={setShow} />
-          </div>
-        )}
+        <div className="stream_in_platform_container">
+          <StreamZ details={details} adminDetails={adminDetails} socket={socket} canvasRef={canvasRef} meetingId={props.meetingId} setMeetingId={props.setMeetingId} getMeetingAndToken={props.getMeetingAndToken} setCurrentLanguage={setCurrentLanguage} inputX={inputX} setInputX={setInputX} output={output} code={code} setCode={setCode} setShow={setShow} />
+        </div>
 
         <div className='chat_in_platform_container'>
           <ChatBox

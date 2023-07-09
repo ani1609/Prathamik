@@ -27,3 +27,24 @@
     margin-top: 1%;
     background: white;
 }
+
+.eraser-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.25rem;
+}
+
+.erazerBtn{
+    height: 1.2rem;
+    width: 2.5rem;
+    display: inline-block;
+    cursor: pointer;
+    background-color: #d5d7e0;
+    color: white;
+    border: 1px solid #ffffff;
+}
+
+.selectedE{
+    background-color: #9a9eae;
+}
