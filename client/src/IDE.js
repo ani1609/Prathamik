@@ -325,8 +325,8 @@ function IDE(props) {
             </div>
           </div>
 
-          {!showBrowser && <button onClick={() => setShowBrowser(true)}>Switch to Browser</button>}
-          {showBrowser && <button onClick={() => setShowBrowser(false)}>Switch to IDE</button>}
+          {!showBrowser && details.isAdmin && <button onClick={() => setShowBrowser(true)}>Switch to Browser</button>}
+          {showBrowser && details.isAdmin && <button onClick={() => setShowBrowser(false)}>Switch to IDE</button>}
 
         </div>
         {details.isAdmin && !showBrowser &&

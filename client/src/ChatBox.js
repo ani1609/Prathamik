@@ -46,7 +46,7 @@ function ChatBox(props) {
       <div className='chatbox_header'>
         <img src='/x.png' alt='bot'></img>
         <div className='bot_details'>
-          <h3>Cupkaks</h3>
+          <h3>Penguin</h3>
           <p>AI bot</p>
         </div>
       </div>

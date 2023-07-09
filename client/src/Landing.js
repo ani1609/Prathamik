@@ -32,7 +32,7 @@ function Landing(props) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ roomid: val, owner: JSON.parse(localStorage.getItem('user')).data.email }),
+      body: JSON.stringify({ roomid: val, owner: JSON.parse(localStorage.getItem('user')).data.email , details: JSON.parse(localStorage.getItem('user')).data }),
     });
   }
 
