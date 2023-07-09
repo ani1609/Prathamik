@@ -10,7 +10,10 @@ class Container extends React.Component {
       color: '#000000',
       size: '5',
       isEraserActive: false,
+      grey: '#d5d7e0'
     };
+
+    this.toggleEraser = this.toggleEraser.bind(this);
   }
 
   changeColor(event) {
@@ -32,10 +35,21 @@ class Container extends React.Component {
     });
   }
 
-  toggleEraser() {
+  toggleEraser () {
     this.setState((prevState) => ({
       isEraserActive: !prevState.isEraserActive,
     }));
+
+    if(this.state.grey === '#d5d7e0') {
+      this.setState({
+        grey: '#9a9eae'
+      });
+    }
+    else {
+      this.setState({
+        grey: '#d5d7e0'
+      });
+    }
   }
 
   render() {
@@ -63,15 +77,10 @@ class Container extends React.Component {
             </select>
           </div>
 
-          <div className="eraser-container">
-            <label>
+          <div>
+            <label className='eraser-container'>
               Eraser Tool: &nbsp;
-              <input
-                type="checkbox"
-                checked={this.state.isEraserActive}
-                onChange={this.toggleEraser.bind(this)}
-                value={this.state.isEraserActive}
-              />
+              <div style={{backgroundColor: this.state.grey}} className='erazerBtn' onClick={this.toggleEraser}></div>
             </label>
           </div>
         </div>
