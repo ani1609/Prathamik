@@ -9,7 +9,7 @@
 
 .chatbox_header {
     width: 100%;
-    background-color: var(--light-blue);
+    background-color: lightgray;
     display: flex;
     gap: 8px;
     align-items: center;

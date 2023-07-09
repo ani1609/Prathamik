@@ -9,10 +9,13 @@ import axios from 'axios';
 import StreamZ from './StreamZ';
 import io from "socket.io-client";
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const socket = io.connect("http://localhost:3000");
 
 function Platform(props) {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const [runButtonShow, setRunButtonShow] = useState('');
   const [profileDetailsShow, setProfiledetailsShow] = useState(false);
   const [code, setCode] = useState('');
   const [userInput, setUserInput] = useState('');
@@ -30,6 +33,7 @@ function Platform(props) {
   const [adminDetails, setAdminDetails] = useState({});
   const [details, setDetails] = useState({});
   const paramsId = useParams().roomid;
+  const [showBrowser, setShowBrowser] = useState(false);
   const [color, setColor] = useState({
     A: 'lightgrey',
     B: 'lightgrey'
@@ -60,7 +64,7 @@ function Platform(props) {
     const handleNewMeeting = async (val) => {
       await props.getMeetingAndToken(paramsId);
     }
-    
+
     if(props.meetingId === null)
     handleNewMeeting(details.isAdmin);
   }, []);
@@ -297,15 +301,6 @@ function Platform(props) {
     recognition.start();
   }
 
-  function handleProfileClick() {
-    if (profileDetailsShow) {
-      setProfiledetailsShow(false);
-    }
-    else {
-      setProfiledetailsShow(true);
-    }
-  }
-
   const handleRun = async (e) => {
     try {
       const response = await axios.request({
@@ -329,6 +324,12 @@ function Platform(props) {
       console.error(error);
     }
   };
+
+  function handleShowBrowser() {
+    const value = !showBrowser;
+    setShowBrowser(!showBrowser);
+    socket.emit("show-browser", {value: value , roomid: props.meetingId});
+  }
 
   const captureScreenshot = async () => {
     const canvas = canvasRef.current;
@@ -392,6 +393,34 @@ function Platform(props) {
     });
   };
 
+
+  function handleProfileClick() {
+    if (profileDetailsShow) {
+      setProfiledetailsShow(false);
+    }
+    else {
+      setProfiledetailsShow(true);
+    }
+  }
+
+  const [dp, setDp] = useState('');
+  const [initial, setInitial] = useState('');
+
+  useEffect(() => {
+    if (user && user.data.profilePic !== null) {
+      setDp(user.data.profilePic);
+    }
+    setInitial(user ? user.data.name.charAt(0) : '');
+  }, [user]);
+
+  const navigate=useNavigate();
+
+  const handleLogOut = () => {
+    localStorage.removeItem('user');
+    navigate('/');
+  };
+
+
   return (
     <div className='platform_parent'>
 
@@ -402,19 +431,32 @@ function Platform(props) {
             <h1>Prathamik</h1>
             <p>Online IDE</p>
           </div>
-          {details.isAdmin && <form>
+          <div className='nav-btnss'>
+          {details.isAdmin && runButtonShow && <form>
+            <button type='button' onClick={handleShowBrowser}>Browser</button>
+          </form>}
+          {details.isAdmin && runButtonShow && <form>
             <button type='button' onClick={handleRun}>Run <i class="fa-solid fa-play"></i></button>
           </form>}
+          </div>
         </div>
 
         <div className='navbar_2'>
           <div className='profile' onClick={handleProfileClick}>
-            {/* <img src={User}/> */}
-            <div className='profile-pic'></div>
+            <div className='user'>
+                {dp ? (
+                  <img
+                    src={`http://localhost:3000/uploads/${dp}`}
+                    alt=''
+                  />
+                ) : (
+                  <span>{initial}</span>
+                )}
+            </div>
             <span><i class="fa-solid fa-angle-down"></i></span>
             {profileDetailsShow && <ul>
               <li>Profile</li>
-              <li>Log out</li>
+              <li onClick={handleLogOut}>Log out</li>
             </ul>}
           </div>
         </div>
@@ -424,7 +466,26 @@ function Platform(props) {
       <div className='platform_components'>
 
         <div className="stream_in_platform_container">
-          <StreamZ details={details} adminDetails={adminDetails} socket={socket} canvasRef={canvasRef} meetingId={props.meetingId} setMeetingId={props.setMeetingId} getMeetingAndToken={props.getMeetingAndToken} setCurrentLanguage={setCurrentLanguage} inputX={inputX} setInputX={setInputX} output={output} code={code} setCode={setCode} setShow={setShow} />
+          <StreamZ
+            details={details}
+            adminDetails={adminDetails}
+            socket={socket}
+            canvasRef={canvasRef}
+            meetingId={props.meetingId}
+            setMeetingId={props.setMeetingId}
+            getMeetingAndToken={props.getMeetingAndToken}
+            setCurrentLanguage={setCurrentLanguage}
+            inputX={inputX}
+            setInputX={setInputX}
+            output={output}
+            code={code}
+            setCode={setCode}
+            setShow={setShow}
+            runButtonShow={runButtonShow}
+            setRunButtonShow={setRunButtonShow}
+            showBrowser={showBrowser}
+            setShowBrowser={setShowBrowser}
+          />
         </div>
 
         <div className='chat_in_platform_container'>
