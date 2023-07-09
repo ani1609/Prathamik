@@ -2,22 +2,21 @@ import React, { useState, useRef } from 'react';
 import Editor from '@monaco-editor/react';
 import './IDE.css';
 
-const files = {
-  "script.js": {
-    name: "script.js",
-    language: "javascript",
-    value: "// Start Writing code from here.."
-  },
-  "index.html": {
-    name: "index.html",
-    language: "html",
-    value: "<!-- Start Writing code from here.. -->"
+const initialFiles = [
+  {
+    name: "text.txt",
+    language: "text",
+    value: ""
   }
-}
+]
 
 function IDE(props) {
-  const [filename, setFilename] = useState("script.js");
+  const [files, setFiles] = useState(initialFiles);
+  const [fileIndex, setfileIndex] = useState(0);
   const editorRef = useRef(null);
+  const [showAddBox, setShowAddBox] = useState(false);
+  const [newFileName, setNewFileName] = useState('');
+  const [newFileLanguage, setNewFileLanguage] = useState('');
 
   function handleEditorDidMount(editor, monaco) {
     editorRef.current = editor;
@@ -27,15 +26,52 @@ function IDE(props) {
     props.setCode(value);
   }
 
-  function getEditorValue() {
-    alert(editorRef.current.getValue());
+  function handleAddFile() {
+    const newFile = {
+      name: newFileName,
+      language: newFileLanguage,
+    }
+    if(newFileLanguage === 'javascript') {
+      newFile.value = '// Enter your code here';
+    } else if(newFileLanguage === 'python') {
+      newFile.value = '# Enter your code here';
+    } else if(newFileLanguage === 'java') {
+      newFile.value = '// Enter your code here';
+    } else if(newFileLanguage === 'c') {
+      newFile.value = '// Enter your code here';
+    } else if(newFileLanguage === 'c++') {
+      newFile.value = '// Enter your code here';
+    } else if(newFileLanguage === 'html') {
+      newFile.value = '<!-- Enter your code here -->';
+    } else if(newFileLanguage === 'css') {
+      newFile.value = '/* Enter your code here */';
+    } else if(newFileLanguage === 'text') {
+      newFile.value = '';
+    }
+    setFiles([...files, newFile]);
+    setShowAddBox(false);
   }
 
   return (
     <div>
-      <button onClick={() => setFilename("index.html")}>Switch to index.html</button>
-      <button onClick={() => setFilename("script.js")}>Switch to script.js</button>
-      <button onClick={getEditorValue}>Get Editor Value</button>
+      <button onClick={() => setShowAddBox(true)}>Add File</button>
+      {showAddBox && <div className='addFilePanel' style={{ display: 'inline' }}>
+        <input type='text' placeholder='Enter file name' onChange={(e) => setNewFileName(e.target.value)} />
+        <select onChange={(e) => setNewFileLanguage(e.target.value)}>
+          <option value='javascript'>Javascript</option>
+          <option value='python'>Python</option>
+          <option value='java'>Java</option>
+          <option value='c'>C</option>
+          <option value='c++'>C++</option>
+          <option value='html'>HTML</option>
+          <option value='css'>CSS</option>
+          <option value='text'>Text</option>
+        </select>
+        <button onClick={handleAddFile}>Add</button>
+      </div>}
+      {files.map((file, index) =>
+        index !== 0 && <button key={index} onClick={() => setfileIndex(index)}>{file.name}</button>
+      )}
       <button onClick={() => props.setShow('board')}>Switch to Board</button>
       <Editor
         height="500px"
@@ -43,9 +79,9 @@ function IDE(props) {
         theme="vs-dark"
         onMount={handleEditorDidMount}
         onChange={handleEditorChange}
-        path={files[filename].name}
-        defaultLanguage={files[filename].language}
-        defaultValue={files[filename].value}
+        path={files[fileIndex].name}
+        defaultLanguage={files[fileIndex].language}
+        defaultValue={files[fileIndex].value}
       />
     </div>
   );
