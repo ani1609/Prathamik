@@ -252,8 +252,6 @@ function Controls(props) {
             setVideo(true);
             // props.socket.emit('video-show', {value: true, roomid: props.meetingId});
         }
-            // props.socket.emit('video-show', {value: true, roomid: props.meetingId});
-        }
     };
 
     const handleIdeClick = () => {
@@ -602,4 +600,5 @@ function StreamZ(props) {
         </MeetingProvider>
     )
 }
+
 export default StreamZ;
