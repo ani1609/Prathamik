@@ -138,6 +138,7 @@ function Platform(props) {
 
     return () => {
       props.socket.off("new_message");
+
     }
   }, [props.socket]);
 
@@ -213,6 +214,7 @@ function Platform(props) {
   function sendInput(input) {
     const user = JSON.parse(localStorage.getItem('user')).data._id;
     props.socket.emit("chat_message", { input, user });
+
   }
 
   function voice() {

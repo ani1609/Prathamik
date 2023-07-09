@@ -16,6 +16,9 @@ const userSchema=mongoose.Schema({
         type:String,
         required:true,
     },
+    profilePic: {
+        type: String,
+    },
 });
 
 userSchema.methods.generateAuthToken=function(){
@@ -35,3 +38,4 @@ const validate = (data) => {
 };
 
 module.exports={User,validate};
+

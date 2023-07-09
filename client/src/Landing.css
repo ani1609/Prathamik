@@ -1,18 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 
+.body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
 .landing_parent {
     width: 100%;
-    height: 100vh;
+    height: calc(100vh - 70px);
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 5rem;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     animation-name: bgFadeIn;
     animation-duration: 1s;
     animation-delay: 100ms;
-    padding-top: 5rem;
+    padding-top: 70px;
     max-width: 1400px;
+    position: relative;
+    /* background-color: rgb(232, 232, 232); */
 }
 
 .details {
@@ -20,16 +31,18 @@
     width: 38%;
     position: relative;
     z-index: 2;
-    margin-left: 100px;
+    /* margin-left: 100px; */
     display: flex;
     flex-direction: column;
-    margin-top: 1.8rem;
-    gap: 40px;
+    justify-content: center;
+    /* margin-top: 1.8rem; */
+    gap: 7%;
     animation-name: detailsSlideIn;
     animation-duration: 1s;
     animation-fill-mode: both;
     animation-delay: 1300ms;
-
+    padding: 0px 50px;
+    top: -2rem;
 }
 
 .details h1 {
@@ -89,6 +102,7 @@
     color: lightgray;
     font-weight: 500;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .line{
@@ -171,6 +185,12 @@
 
 .visible {
     opacity: 1;
+}
+
+.bot
+{
+    display: flex;
+    align-items: center;
 }
 
 .bot_img {
