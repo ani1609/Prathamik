@@ -1,9 +1,11 @@
-.App {
-  height: 2000px;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+}
+
+.body{
+  display: flex;
+  padding-top: 5rem;
+  padding-left: 2rem;
 }
