@@ -1,9 +1,9 @@
 :root
 {
-  --primary-color1: #79CDFB;
-  --primary-color2: #C77385;
+  --deep-blue: #2F6EB3;
+  --light-blue: #56BCD8;
 }
-body
+body 
 {
   margin: 0;
   /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -12,6 +12,6 @@ body
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: white;
-  height: 1200px;
+  /* height: 1200px; */
 
 }

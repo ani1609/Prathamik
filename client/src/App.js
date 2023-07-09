@@ -39,16 +39,14 @@ function App() {
     }
   };
 
-  const handleImageInput = () => {
-    const canvas = canvasRef.current;
-    const image = canvas.toDataURL();
-
-    fetch('http://localhost:3000/ocr', {
+  const handleImageInput = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    const fileInput = e.target.elements.image.files[0];
+    formData.append('image', fileInput);
+    fetch('http://localhost:5000/ocr', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ image , userInput }),
+      body: formData
     })
       .then((response) => response.json())
       .then((data) => {
@@ -63,6 +61,10 @@ function App() {
     <div className="App">
       <Navbar/>
       <div className='app_body'>
+        <form onSubmit={handleImageInput}>
+          <input type="file" name='image' />
+          <button type="submit">Submit</button>
+        </form>
         {show === 'editor' && <IDE setCode={setCode} setShow={setShow} />}
         <ChatBox
           message={message}
