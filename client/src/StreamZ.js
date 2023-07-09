@@ -128,62 +128,7 @@ function ParticipantView(props) {
         setInitial(user ? user.data.name.charAt(0) : '');
     }, [user]);
 
-    console.log(props.ide);
-    console.log(props.screenShare);
-    console.log(props.whiteboard);
-
-    if (props.ide||props.screenShare||props.whiteboard) 
-    {
-        return (
-            <div className="pview">
-                {/* <p>
-                    Participant: {displayName} | Webcam: {webcamOn ? "ON" : "OFF"} | Mic:{" "}
-                    {micOn ? "ON" : "OFF"}
-                </p> */}
-                <audio ref={micRef} autoPlay playsInline muted={isLocal} />
-                {webcamOn ?
-                    (
-                        <ReactPlayer
-                            playsinline
-                            pip={false}
-                            light={false}
-                            controls={false}
-                            muted={true}
-                            playing={true}
-                            url={videoStream}
-                            onError={(err) => {
-                                console.log(err, "participant video error");
-                            }}
-                            className="videoCam"
-                        />
-                    )
-                    :
-                    (
-                        <div className="noVideoCam">
-                            <h4 className="bigName">{name}</h4>
-                            {dp ?
-                                (
-                                    <img
-                                        src={`http://localhost:3000/uploads/${dp}`}
-                                        alt=''
-                                        className="bigDp"
-                                    />
-                                )
-                                :
-                                (
-                                    <p className="bigInitial">
-                                        {initial}
-                                    </p>
-                                )
-                            }
-                        </div>
-                    )
-
-                }
-            </div>
-        );
-    }
-    else
+    if (props.ide||props.screenShare||props.whiteboard)
     {
         return (
             <div className="smallPview">
@@ -234,13 +179,64 @@ function ParticipantView(props) {
             </div>
         );
     }
+    else
+    {
+        return (
+            <div className="pview">
+                {/* <p>
+                    Participant: {displayName} | Webcam: {webcamOn ? "ON" : "OFF"} | Mic:{" "}
+                    {micOn ? "ON" : "OFF"}
+                </p> */}
+                <audio ref={micRef} autoPlay playsInline muted={isLocal} />
+                {webcamOn ?
+                    (
+                        <ReactPlayer
+                            playsinline
+                            pip={false}
+                            light={false}
+                            controls={false}
+                            muted={true}
+                            playing={true}
+                            url={videoStream}
+                            onError={(err) => {
+                                console.log(err, "participant video error");
+                            }}
+                            className="videoCam"
+                        />
+                    )
+                    :
+                    (
+                        <div className="noVideoCam">
+                            <h4 className="bigName">{name}</h4>
+                            {dp ?
+                                (
+                                    <img
+                                        src={`http://localhost:3000/uploads/${dp}`}
+                                        alt=''
+                                        className="bigDp"
+                                    />
+                                )
+                                :
+                                (
+                                    <p className="bigInitial">
+                                        {initial}
+                                    </p>
+                                )
+                            }
+                        </div>
+                    )
+
+                }
+            </div>
+        );
+    }
 }
 
 function Controls(props) {
     const { leave, toggleMic, toggleWebcam } = useMeeting();
     const [mic, setMic] = useState(false);
     const [video, setVideo] = useState(false);
-    const handleMicClick = () => 
+    const handleMicClick = () =>
     {
         if (mic)
             setMic(false);
@@ -248,59 +244,68 @@ function Controls(props) {
             setMic(true);
     };
 
-    const handleVideoClick = () => 
+    const handleVideoClick = () =>
     {
-        if (video)
+        if (video){
             setVideo(false);
-        else
+            // props.socket.emit('video-show', {value: false, roomid: props.meetingId});
+        }
+        else{
             setVideo(true);
+            // props.socket.emit('video-show', {value: true, roomid: props.meetingId});
+        }
     };
 
-    const handleIdeClick = () => 
+    const handleIdeClick = () =>
     {
-        if (props.ide)
+        if (props.ide){
             props.setIde(false);
-        else
+            props.socket.emit('ide-show', {value: false, roomid: props.meetingId});
+        }
+        else{
             props.setIde(true);
+            props.socket.emit('ide-show', {value: true, roomid: props.meetingId});
+        }
         props.setWhiteboard(false);
+        props.socket.emit('wb-show', {value: false, roomid: props.meetingId});
         props.setScreenShare(false);
+        props.socket.emit('screen-show', {value: false, roomid: props.meetingId});
 
     };
 
-    const handleScreenShareClick = () => 
+    const handleScreenShareClick = () =>
     {
-        if (props.screenShare)
+        if (props.screenShare){
             props.setScreenShare(false);
-        else
+            props.socket.emit('screen-show', {value: false, roomid: props.meetingId});
+        }
+        else{
             props.setScreenShare(true);
+            props.socket.emit('screen-show', {value: true, roomid: props.meetingId});
+        }
         props.setIde(false);
+        props.socket.emit('ide-show', {value: false, roomid: props.meetingId});
         props.setWhiteboard(false);
+        props.socket.emit('wb-show', {value: false, roomid: props.meetingId});
 
     }
 
-    const handleWhiteboardClick = () => 
+    const handleWhiteboardClick = () =>
     {
-        if (props.whiteboard)
+        if (props.whiteboard){
             props.setWhiteboard(false);
-        else
+            props.socket.emit('wb-show', {value: false, roomid: props.meetingId});
+        }
+        else{
             props.setWhiteboard(true);
+            props.socket.emit('wb-show', {value: true, roomid: props.meetingId});
+        }
         props.setScreenShare(false);
+        props.socket.emit('screen-show', {value: false, roomid: props.meetingId});
         props.setIde(false);
-        
+        props.socket.emit('ide-show', {value: false, roomid: props.meetingId});
+
     };
-
-    // useEffect(()=>
-    // {
-    //     if (props.ide||props.screenShare||props.whiteboard)
-    //     {
-    //         props.setMinimizeFaceCam(true);
-    //     }
-    //     if (!props.ide&&!props.screenShare&&!props.whiteboard)
-    //     {
-    //         props.setMinimizeFaceCam(false);
-    //     }
-
-    // },[props.setMinimizeFaceCam, props.minimizeFaceCam]);
 
     return (
         <div className="video_control_buttons">
@@ -348,6 +353,24 @@ function MeetingView(props) {
     const [minimizeFaceCam, setMinimizeFaceCam]=useState(false);
     const [joined, setJoined] = useState(null);
     const { enableScreenShare, disableScreenShare, toggleScreenShare } = useMeeting();
+
+    useEffect(() => {
+        props.socket.on('ide-show', (data) => {
+            setIde(data);
+        });
+    }, [props.socket]);
+
+    useEffect(() => {
+        props.socket.on('screen-show', (data) => {
+            setScreenShare(data);
+        });
+    }, [props.socket]);
+
+    useEffect(() => {
+        props.socket.on('wb-show', (data) => {
+            setWhiteboard(data);
+        });
+    }, [props.socket]);
 
     const handleEnableScreenShare = () => {
         enableScreenShare();
@@ -412,6 +435,27 @@ function MeetingView(props) {
                         );
                     })}
 
+                    {whiteboard && <div className="whiteboard_in_stream">
+                        <Container socket={props.socket} canvasRef={props.canvasRef} meetingId={props.meetingId} />
+                    </div>}
+                    {screenShare && <div className="screen_share_in_stream">
+                        {presenterId && <PresenterView presenterId={presenterId} />}
+                    </div>}
+                    {ide && <div className="ide_in_stream">
+                        <IDE
+                            socket={props.socket}
+                            setCurrentLanguage={props.setCurrentLanguage}
+                            input={props.inputX}
+                            setInput={props.setInputX}
+                            output={props.output}
+                            code={props.code}
+                            setCode={props.setCode}
+                            setShow={props.setShow}
+                            meetingId={props.meetingId}
+                            details={props.details}
+                        />
+                    </div>}
+
                 </div>
             ) : joined && joined == "JOINING" ? (
                 <p>Joining the meeting...</p>
@@ -450,7 +494,8 @@ function MeetingView(props) {
                     setWhiteboard={setWhiteboard}
                     minimizeFaceCam={minimizeFaceCam}
                     setMinimizeFaceCam={setMinimizeFaceCam}
-
+                    socket={props.socket}
+                    meetingId={props.meetingId}
                 />
             </div>}
         </div>

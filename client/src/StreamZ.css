@@ -188,7 +188,8 @@
 .pview
 {
     position: absolute;
-    right: 0;
+    z-index: 1;
+    left: 0;
     border-radius: 10px;
     bottom: 0;
     overflow: hidden;
@@ -219,7 +220,8 @@
 .smallPview
 {
     position: absolute;
-    right: 0;
+    z-index: 1;
+    left: 0;
     border-radius: 10px;
     bottom: 0;
     overflow: hidden;
@@ -243,13 +245,15 @@
     to
     {
         height: 22%;
-        width: 20%;
+        width: 22%;
     }
 }
 
 
 .allContainer
 {
+    border-radius: 10px;
+    overflow: hidden;
     position: relative;
     height: 77%;
     width: 100%;
@@ -320,5 +324,19 @@
 
 .whiteboard_in_stream
 {
-    height: calc(100% - 93px);
+    height: 100%;
+    width: 100%;
+}
+
+.screen_share_in_stream
+{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.ide_in_stream
+{
+    height: 100%;
+    width: 100%;
 }
