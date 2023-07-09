@@ -1,0 +1,44 @@
+.header_parent {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.chat_container {
+    width: 25%;
+    min-width: 300px;
+    height: 80vh;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.chat_container form {
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.chat_container form input {
+    width: 60%;
+    height: 30px;
+}
+
+.chat_container form button {
+    width: 25%;
+    height: 36px;
+    cursor: pointer;
+}
+
+.chat {
+    background-color: #d8f1f9;
+    padding: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.chatbox {
+    padding: 1.5rem;
+}
