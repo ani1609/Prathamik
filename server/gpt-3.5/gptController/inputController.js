@@ -5,10 +5,10 @@ exports.handleInput = async function (req, res) {
 
   const response = await openai.createChatCompletion({
     model: 'gpt-3.5-turbo',
-    messages: [{ role: 'user', content: input }]
+    messages: [{ role: 'user', content: input }],
   });
 
-  let output = response.data.choices[0].message.content;
+  const output = response.data.choices[0].message.content;
 
   res.json({ output });
 };
