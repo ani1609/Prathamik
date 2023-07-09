@@ -1,9 +1,18 @@
+require('dotenv').config();
 const connectDb = require('./configDatabase/database');
-const File=require('./models/file');
+const signupController = require('./controllers/signup');
+const loginController = require('./controllers/login');
+// const authRoutes = require('./Routes/auth');
+// const File=require('./models/file');
 const cors = require('cors');
 const express = require('express');
 const app = express();
+
+//database connection
 connectDb();
+
+//middleware
+
 const http = require('http');
 const { Server } = require('socket.io');
 const { handleUpgrade, handleWebSocketConnection, initializeSignalingServer } = require('./stream/streamrtc');
@@ -14,6 +23,12 @@ app.use(express.json());
 app.use(cors({
   origin: 'http://localhost:3001'
 }));
+
+//routes
+app.use('/signup', signupController);
+app.use('/login', loginController);
+// app.use('/api/auth', authRoutes);
+
 
 app.use('/api', routes);
 
