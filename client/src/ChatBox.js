@@ -60,11 +60,18 @@ function ChatBox(props) {
             (<div className={`${chat.ownedByCurrentUser ? "user_chat" : "bot_chat"}`}>
               {!chat.ownedByCurrentUser && <img src={`http://localhost:3000/uploads/${chat.profilePic}`} />}
               <div className='col'>
-                <p>{chat.question}</p>
-                <div className='mcq_options'>
-                  <p className='mcq_option' style={{ backgroundColor: props.color.A }} onClick={() => handleColorChange('A')}>{chat.options[0]}</p>
-                  <p className='mcq_option' style={{ backgroundColor: props.color.B }} onClick={() => handleColorChange('B')}>{chat.options[1]}</p>
-                </div>
+                <p>
+                  Question<br></br>
+                  {chat.question}
+                  {/* <span></span> */}
+                  <span className='mcq_option' style={{ backgroundColor: props.color.A }} onClick={() => handleColorChange('A')}>Option A<br></br>{chat.options[0]}</span>
+                  {/* <span>Option B</span> */}
+                  <span className='mcq_option' style={{ backgroundColor: props.color.B }} onClick={() => handleColorChange('B')}>Option B<br></br>{chat.options[1]}</span>
+                </p>
+                {/* <div className='mcq_options'>
+                  
+                  
+                </div> */}
               </div>
             </div>) :
             (<div className={`${chat.ownedByCurrentUser ? "user_chat" : "bot_chat"}`}>

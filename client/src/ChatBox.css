@@ -161,12 +161,19 @@
     height: 32px;
 }
 
-.col{
+.col>p
+{
     display: flex;
     flex-direction: column;
     gap: 5px;
+    background-color: var(--bg1);
 }
 
+.col>p>span
+{
+    background-color: var(--bg2);
+    padding: 10px 10px;
+}
 .mcq_options{
     display: flex;
     flex-direction: column;
@@ -174,7 +181,9 @@
     margin-top: 10px;
 }
 
-.mcq_option{
+.mcq_option
+{
+    
     color: black !important;
     cursor: pointer;
 }

@@ -90,7 +90,7 @@ function Platform(props) {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setChange(prevChange => !prevChange);
-    }, 60000);
+    }, 1000);
 
     return () => clearInterval(intervalId);
   }, []);
