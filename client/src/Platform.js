@@ -11,7 +11,7 @@ import io from "socket.io-client";
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-const socket = io.connect(`http://localhost/:3000`);
+const socket = io.connect(`http://localhost:3000`);
 
 function Platform(props) {
   const user = JSON.parse(localStorage.getItem('user'));
