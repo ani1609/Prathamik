@@ -11,6 +11,7 @@ import {
 import { authToken } from "./API";
 import ReactPlayer from "react-player";
 import Container from "./Container";
+import CaptioningSystem from "./CaptioningSystem";
 import IDE from "./IDE";
 import CaptioningSystem from "./CaptioningSystem"
 const PresenterView = ({ presenterId }) => {
@@ -351,6 +352,7 @@ function MeetingView(props) {
     const [screenShare, setScreenShare] = useState(false);
     const [whiteboard, setWhiteboard] = useState(false);
     const [minimizeFaceCam, setMinimizeFaceCam] = useState(false);
+    const [mic, setMic] = useState(false);
     const [joined, setJoined] = useState(null);
     const [mic, setMic] = useState(false);
     const { enableScreenShare, disableScreenShare, toggleScreenShare } = useMeeting();
