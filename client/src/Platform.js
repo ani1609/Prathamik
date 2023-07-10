@@ -11,7 +11,7 @@ import io from "socket.io-client";
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-const socket = io.connect("http://localhost:3000");
+const socket = io.connect(`${process.env.REACT_APP_SERVER_URL}`);
 
 function Platform(props) {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -39,12 +39,13 @@ function Platform(props) {
     B: 'lightgrey'
   });
 
+
   useEffect(() => {
     socket.emit('join', props.meetingId);
   }, [socket, props.meetingId]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/verify/owner', {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/verify/owner`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -70,7 +71,7 @@ function Platform(props) {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:3000/get/admin/details', {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/get/admin/details`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -93,7 +94,20 @@ function Platform(props) {
 
     return () => clearInterval(intervalId);
   }, []);
+  function speak(text,voiceName) {
+    // Create a new SpeechSynthesisUtterance instance
+    const message = new SpeechSynthesisUtterance();
+    const voices = window.speechSynthesis.getVoices();
 
+    // Find the desired voice by name
+    const voice = voices.find((v) => v.name === voiceName);
+
+    // Set the text to be spoken
+    message.text = text;
+    message.voice= voice
+    // Use the speech synthesis API to speak the text
+    window.speechSynthesis.speak(message);
+  }
   useEffect(() => {
     const fetchData = async () => {
       const input = `You are a teacher preparing a quiz for your students. Please help me create a multiple-choice question with two options (A and B) based on the given context.
@@ -133,7 +147,7 @@ function Platform(props) {
       `;
       console.log(input);
       try {
-        const response = await fetch('http://localhost:3000/input', {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/input`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -147,6 +161,7 @@ function Platform(props) {
 
         const data = await response.json();
         setMessage(data.output);
+        speak(data.output,"Microsoft Zira Desktop")
         const questionRegex = /Question: (.+)/;
         const questionMatch = data.output.match(questionRegex);
         const question = questionMatch ? questionMatch[1].trim() : "";
@@ -244,7 +259,7 @@ function Platform(props) {
     const input = `${code}\n${userInput}`;
 
     try {
-      const response = await fetch('http://localhost:3000/input', {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/input`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -258,6 +273,7 @@ function Platform(props) {
 
       const data = await response.json();
       setMessage(data.output);
+      speak(data.output,"Microsoft Zira Desktop")
       setChats((chats) => [...chats, { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png' }]);
       socket.emit("bot_message", { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png', roomid: props.meetingId });
     } catch (error) {
@@ -366,7 +382,7 @@ function Platform(props) {
               Question by student: \n${userInput}
               AI Assistant: (Your generated response goes here);`;
 
-              const response = await fetch('http://localhost:3000/input', {
+              const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/input`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'
@@ -380,6 +396,7 @@ function Platform(props) {
 
               const data = await response.json();
               setMessage(data.output);
+              speak(data.output,"Microsoft Zira Desktop")
               setChats((chats) => [...chats, { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png' }]);
               socket.emit("bot_message", { input: data.output, ownedByCurrentUser: false, profilePic: 'x.png', roomid: props.meetingId });
             });
@@ -427,10 +444,11 @@ function Platform(props) {
       <div className='platform_navbar'>
         <div className='navbar_1'>
 
-          <div className='platform_logo'>
+          <a href='http://localhost:3000/' className='logo-container-platform'>
+            <div className='logo'></div>
             <h1>Prathamik</h1>
-            <p>Online IDE</p>
-          </div>
+          </a>
+
           <div className='nav-btnss'>
           {details.isAdmin && runButtonShow && <form>
             <button type='button' onClick={handleShowBrowser}>Browser</button>
@@ -446,7 +464,7 @@ function Platform(props) {
             <div className='user'>
                 {dp ? (
                   <img
-                    src={`http://localhost:3000/uploads/${dp}`}
+                    src={`${process.env.REACT_APP_SERVER_URL}/uploads/${dp}`}
                     alt=''
                   />
                 ) : (
