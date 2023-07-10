@@ -201,8 +201,8 @@ function Platform(props) {
       }
     };
 
-    // if (code !== '')
-    //   fetchData();
+    if (code !== '')
+      fetchData();
   }, [change]);
 
 

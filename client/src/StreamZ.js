@@ -160,7 +160,7 @@ function ParticipantView(props) {
                             {dp ?
                                 (
                                     <img
-                                        src={`${process.env.REACT_APP_SERVER_URL}/uploads/${dp}`}
+                                        src={`http://localhost:3000/uploads/${dp}`}
                                         alt=''
                                         className="smallDp"
                                     />
