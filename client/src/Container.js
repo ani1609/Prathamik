@@ -85,7 +85,7 @@ class Container extends React.Component {
           </div>
         </div>
 
-        <div className="board-container">
+        <div className={this.state.isEraserActive?"board-container eraser_cursor":"board-container pencil_cursor"}>
           <Board
             color={this.state.isEraserActive ? 'rgba(255, 255, 255, 1)' : this.state.color}
             size={this.state.size}

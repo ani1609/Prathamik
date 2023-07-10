@@ -11,6 +11,7 @@ import {
 import { authToken } from "./API";
 import ReactPlayer from "react-player";
 import Container from "./Container";
+import CaptioningSystem from "./CaptioningSystem";
 import IDE from "./IDE";
 
 const PresenterView = ({ presenterId }) => {
@@ -233,14 +234,13 @@ function ParticipantView(props) {
 
 function Controls(props) {
     const { leave, toggleMic, toggleWebcam } = useMeeting();
-    const [mic, setMic] = useState(false);
     const [video, setVideo] = useState(false);
     const navigate = useNavigate();
     const handleMicClick = () => {
-        if (mic)
-            setMic(false);
+        if (props.mic)
+            props.setMic(false);
         else
-            setMic(true);
+            props.setMic(true);
     };
 
     const handleVideoClick = () => {
@@ -312,7 +312,7 @@ function Controls(props) {
 
     return (
         <div className="video_control_buttons">
-            {mic ?
+            {props.mic ?
                 <button onClick={() => { toggleMic(); handleMicClick(); }} className="mic red_bg">
                     <i class="fa-solid fa-microphone"></i>
                 </button>
@@ -354,6 +354,7 @@ function MeetingView(props) {
     const [screenShare, setScreenShare] = useState(false);
     const [whiteboard, setWhiteboard] = useState(false);
     const [minimizeFaceCam, setMinimizeFaceCam] = useState(false);
+    const [mic, setMic] = useState(false);
     const [joined, setJoined] = useState(null);
     const { enableScreenShare, disableScreenShare, toggleScreenShare } = useMeeting();
 
@@ -553,7 +554,10 @@ function MeetingView(props) {
                     runButtonShow={props.runButtonShow}
                     setRunButtonShow={props.setRunButtonShow}
                     setShow={props.setShow}
+                    mic={mic}
+                    setMic={setMic}
                 />
+                {mic && <CaptioningSystem/>}
             </div>}
         </div>
     );
