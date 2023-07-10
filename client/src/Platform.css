@@ -8,7 +8,7 @@
 
 .platform_parent
 {
-  background-color: #ffffff;
+  background-color: #edf2f4;
   /* height: 100vh; */
   /* width: 100vw; */
   /* min-width: 1440px; */
@@ -24,7 +24,7 @@
 
 .platform_navbar
 {
-  height: 60px;
+  height: 65px;
   width: 100%;
   display: flex;
 }
@@ -38,55 +38,47 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: transparent;
+  background-color: var(--primary-color);
   /* border-bottom: 1px solid #bcbcbc; */
 }
 
-.platform_logo
+.logo-container-platform
 {
-
   display: flex;
-  /* align-items: left; */
-  gap: 2px;
-  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
 }
 
-.platform_navbar h1
+.logo
 {
-  margin: 0;
+  width: 30px;
+  height: 30px;
+  background-image: url("../public/p.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.logo-container-platform h1
+{
   font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  color: #07080A;
-  font-size: 19px;
+  color: white;
+  margin: 0;
+  font-size: 20px;
   letter-spacing: 1px;
-}
-
-.platform_navbar p
-{
-  margin: 0;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 300;
-  font-size: 13px;
-  color: #07080A;
-  letter-spacing: 0.5px;
-
-}
-
-.platform_logo img
-{
-  width: 50px;
-  height: 50px;
 }
 
 .navbar_1 button
 {
-  padding: 8px 12px;
+  padding: 7px 13px;
   width: 5rem;
   font-family: 'Roboto', sans-serif;
   font-weight: 600;
-  background-color: var(--deep-blue);
-  color: white;
-  border: 1px solid var(--deep-blue);
+  font-size: 16px;
+  background-color: white;
+  color: var(--text);;
+  border: 1px solid white;
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s ease-in-out;
@@ -97,10 +89,10 @@
 
 .navbar_2
 {
-  padding-right: 50px;
+  padding-right: 30px;
   width: 27.5%;
   height: 100%;
-  background-color: transparent;
+  background-color: var(--primary-color);
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -125,8 +117,9 @@
 
 .profile span
 {
-  padding: 8px;
-  font-size: 14px;
+  padding: 8px 0px 8px 12px;
+  font-size: 16px;
+  color: white;
 }
 
 .profile ul
@@ -179,7 +172,6 @@
 
 .stream_in_platform_container
 {
-  border-top-right-radius: 10px;
   overflow: hidden;
   width: 72.5%;
   background-color: #ffffff;
@@ -187,11 +179,10 @@
 
 .chat_in_platform_container
 {
+  max-height: 600px;
   background-color: white;
   width: 26.5%;
   border: 1px solid #bcbcbc;
-  border-top-left-radius: 10px;
-  overflow: hidden;
 }
 
 .nav-btnss{
