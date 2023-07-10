@@ -1,5 +1,10 @@
 :root
 {
+  --primary-color: #6a738b;
+  --text: #4b4f5d;
+  --bg1: #d9dee4;
+  --bg2: #bfc7d1;
+  --bg3: #a4aab7;
   --deep-blue: #3086e3;
   --light-blue: #56BCD8;
   --ide-font: #07080A;
@@ -7,6 +12,7 @@
 }
 body 
 {
+  min-width: 1440px;
   margin: 0;
   /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -24,15 +30,15 @@ body
 }
 
 .view-lines{
-  background-color: lightgray;
+  background-color: white;
 }
 
 .margin-view-overlays{
-  background-color: lightgray;
+  background-color: white;
 }
 
 .minimap-decorations-layer{
-  background-color: lightgray;
+  background-color: white;
 }
 
 .decorationsOverviewRuler{

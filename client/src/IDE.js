@@ -3,20 +3,22 @@ import Editor from '@monaco-editor/react';
 import './IDE.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import { db } from './firebase_config';
-import { collection, getDoc, getDocs, doc, where, query, updateDoc, addDoc } from 'firebase/firestore';
+
+import { collection, getDoc, getDocs, doc, where, query, updateDoc, addDoc, onSnapshot, deleteDoc} from 'firebase/firestore';
 
 const initialFiles = [
   {
     id: 0,
-    name: "",
+    name: "sample.txt",
     language: "text",
-    value: "",
+    value: "This is a sample file.",
     icon: "fab fa-js-square",
     other: "text"
   }
 ];
 
 function IDE(props) {
+  const [f, setF] = useState([]);
   const [files, setFiles] = useState(initialFiles);
   const [fileIndex, setfileIndex] = useState(0);
   const editorRef = useRef(null);
@@ -27,22 +29,60 @@ function IDE(props) {
   const [isInvalid, setIsInvalid] = useState(false);
   const [showWarning, setShowWarning] = useState(true);
   const [fileValues, setFileValues] = useState({});
-  const collectionRef = collection(db, "FileSystemX");
+  const roomId = props.meetingId;
+  const collectionRef = collection(db, roomId);
+  const [fileName, setFileName]=useState("");
+  // const collectionRef = collection(db, "FileSystemX");
 
   useEffect(() => {
     const addDocument = async () => {
-      const q = query(collectionRef, where("room_id", "==", props.meetingId));
-      const querySnapshot = await getDocs(q);
-  
-      if (!querySnapshot.empty) {
-        return;
+      try {
+        const querySnapshot = await getDocs(collectionRef);
+        if (!querySnapshot.empty) {
+          console.log("Meeting ID already exists in the database.");
+        } else {
+          // Create a new document with the meeting ID
+          console.log("Creating new data entry:");
+          const docRef = await addDoc(collectionRef, initialFiles[0]);
+          console.log("New data entry created successfully. Document ID:", docRef.id);
+        }
+      } catch (error) {
+        console.error("Error creating new data entry:", error);
       }
-
-      await addDoc(collectionRef, { files: files, room_id: props.meetingId });
     };
   
     addDocument();
   }, []);
+
+  useEffect(() => {
+    const roomId = props.meetingId;
+    const collectionRef = collection(db, roomId);
+    const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
+      setFiles(snapshot.docs.map((doc) => {
+        const data = doc.data();
+        return data;
+      }));
+    });
+  
+    return () => {
+      // Unsubscribe from real-time updates when the component unmounts
+      unsubscribe();
+    };
+  }, [props.meetingId]);
+
+  useEffect(() => {
+    getDocs(collectionRef)
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        console.log("------Document ID:", doc.id);
+        const data = doc.data();
+        console.log(data.files.name);
+      });
+  })
+  .catch((error) => {
+    console.log("Error getting documents: ", error);
+  });
+  }, [collectionRef]);
 
   useEffect(() => {
     window.addEventListener('beforeunload', handleBeforeUnload);
@@ -118,7 +158,32 @@ function IDE(props) {
     editorRef.current = editor;
   }
 
-  function handleEditorChange(value) {
+  async function handleEditorChange(value) 
+  {
+    getDocs(collectionRef)
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const entry = doc.data();
+        if (entry.name === fileName) {
+          // Update the entry with the new values
+          updateDoc(doc.ref, {
+            value: value,
+            // Update other parameters as required
+          })
+            .then(() => {
+              console.log("Entry updated successfully.");
+            })
+            .catch((error) => {
+              console.error("Error updating entry:", error);
+            });
+        }
+      });
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
+
+
     props.setCode(value);
 
     const updatedFiles = [...files];
@@ -128,7 +193,10 @@ function IDE(props) {
     props.socket.emit("send_value", { value: value, roomid: props.meetingId });
   }
 
-  function handleFileClick(index) {
+  async function handleFileClick(index) 
+  {
+    console.log(files);
+    setFileName(files[index].name);
     setfileIndex((prevIndex) => {
       const updatedIndex = index;
       props.socket.emit("send_index", { value: updatedIndex, roomid: props.meetingId });
@@ -138,7 +206,7 @@ function IDE(props) {
     props.setCurrentLanguage(files[index].other);
   }
 
-  const handleAddFile = (e) => {
+  const handleAddFile = async (e) => {
     const dotIndex = newFileName.indexOf('.');
     const fileType = newFileName.substring(dotIndex);
 
@@ -204,23 +272,54 @@ function IDE(props) {
       return updatedFiles;
     });
 
-    // const addNewFile = async () => {
-    //   const fileData = {
-    //     name: newFile.name,
-    //     value: newFile.value,
-    //     id: newFile.id,
-    //     language: newFile.language,
-    //     other: newFile.other,
-    //     icon: newFile.icon,
-    //   };
-    
-    //   const roomId = props.meetingId;
-    //   const docRef = doc(roomId[index]);
-    
-    //   await updateDoc(collection(roomDocRef, 'files'), fileData);
-    // };
+    const roomId = props.meetingId;
+    const collectionRef = collection(db, roomId);
+    const querySnapshot = await getDocs(collectionRef);
+    const collectionSize = querySnapshot.size;
+    getDocs(collectionRef)
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // Print each entry
+        console.log("Unique ID:", doc.id);
+        console.log(doc.data());
+      });
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
+    console.log("files----",querySnapshot);
 
-    // addNewFile();
+    const addNewFile = async () => {
+      const fileData = {
+        name: newFile.name,
+        value: newFile.value,
+        id: collectionSize,
+        language: newFile.language,
+        other: newFile.other,
+        icon: newFile.icon,
+      };
+    
+      
+    
+      const uploadFile = async () => {
+        try {
+          await addDoc(collectionRef, fileData);
+          // console.log('File uploaded successfully!');
+        } catch (error) {
+          console.error('Error uploading file:', error);
+        }
+      };
+      
+      uploadFile();
+
+      const querySnapshot = await getDocs(collectionRef);
+      setF(querySnapshot.docs.map((doc) => {
+        return doc.data();
+      }));
+
+    };
+
+    addNewFile();
 
     setIsInvalid(false);
     setShowAddBox(false);
@@ -277,8 +376,29 @@ function IDE(props) {
     }
   }
 
-  function handleFileDelete(id) {
-    const updatedFiles = files.filter((file) => file.id !== id);
+  function handleFileDelete(nameToDelete) 
+  {
+    getDocs(collectionRef)
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const entry = doc.data();
+        if (entry.name === nameToDelete) {
+          deleteDoc(doc.ref)
+            .then(() => {
+              console.log("Entry with file name deleted. ID:", doc.id);
+            })
+            .catch((error) => {
+              console.error("Error deleting entry:", error);
+            });
+        }
+      });
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
+
+
+    const updatedFiles = files.filter((file) => file.name !== nameToDelete);
     props.socket.emit("delete_file", { value: updatedFiles, roomid: props.meetingId });
     setFiles(updatedFiles);
   }
@@ -287,6 +407,31 @@ function IDE(props) {
     props.setInput(e.target.value);
     props.socket.emit("input", { value: e.target.value, roomid: props.meetingId });
   }
+
+  // function handleShowBrowser(value) {
+  //   setShowBrowser(value);
+  //   props.socket.emit("show-browser", {value: value , roomid: props.meetingId});
+  // }
+
+
+  // const roomId = props.meetingId;
+  // const collectionRef = collection(db, roomId);
+  // const querySnapshot = getDocs(collectionRef);
+
+  // useEffect(() => {
+  //   const collectionSize = querySnapshot.size;
+  //   if (collectionSize > 1) {
+  //     setF(querySnapshot.docs.map((doc) => doc.data()));
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   console.log(f);
+  // }, [f]);
+
+  // useEffect(() => {
+  //   console.log(f);
+  // }, [f]);
 
   return (
       <div className='ide_parent'>
@@ -350,8 +495,8 @@ function IDE(props) {
                           </span>
                         </div>
                     </div>
-                  ))} */}
-                {files.map((file, index) => (
+                  ))} 
+                  {files.map((file, index) => (
                   <div key={index}>
                     {index !== 0 && (
                       <div className='file'>
@@ -366,6 +511,39 @@ function IDE(props) {
                     )}
                   </div>
                 ))}
+                  */}
+                {
+                  files.map((file, index) => (
+                    <div key={index}>
+                      {index !== 0 ? (
+                        file && <div className='file'>
+                          <button onClick={() => handleFileClick(index)}>
+                            {file.language === 'text' ? <i className="fas fa-file-alt"></i> : <i className={`fab fa-${file.icon}`}></i>}
+                            {file.name}
+                            {/* {index} */}
+                            {/* {console.log("file name is called",file.name)} */}
+                          </button>
+                          <span onClick={() => handleFileDelete(file.name)}>
+                            <i className="fa-solid fa-trash"></i>
+                          </span>
+                        </div>
+                      )
+                      :
+                        file && <div className='file'>
+                          <button onClick={() => handleFileClick(index)}>
+                            {file.language === 'text' ? <i className="fas fa-file-alt"></i> : <i className={`fab fa-${file.icon}`}></i>}
+                            {file.name}
+                            {/* {index} */}
+                            {/* {console.log("file name is called",file.name)} */}
+                          </button>
+                          <span>
+                            <i className="fa-solid fa-trash"></i>
+                          </span>
+                        </div>
+                      }
+                    </div>
+                  ))
+                }
               </div>
             </div>
           </div>
@@ -373,13 +551,18 @@ function IDE(props) {
 
         {props.details.isAdmin && !props.showBrowser &&
           <div className='ide_in_ide_container'>
+            <div className='ide_border_top'>
+              <div className='red'></div>
+              <div className='yellow'></div>
+              <div className='green'></div>
+            </div>
             <Editor
               theme="vs-light"
               onMount={handleEditorDidMount}
               onChange={handleEditorChange}
               path={files[fileIndex].name}
               defaultLanguage={files[fileIndex].language}
-              value={fileValues[files[fileIndex].id]}
+              value={files[fileIndex].value}
               className='mainIde'
             />
             <div className="inputNoutput">

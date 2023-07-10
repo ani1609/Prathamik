@@ -3,51 +3,53 @@
 
 .ide_parent {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
     height: 100%;
     /* height: calc(100vh - 60px); */
-    gap: 5px;
+    /* gap: 5px; */
     box-sizing: border-box;
 }
 
 .left_block {
-    /* height: 100%; */
+    padding: 10px;
     width: 25%;
     box-sizing: border-box;
     /* border-right: 1px solid #bcbcbc; */
     /* border-top: 1px solid #bcbcbc; */
-    background-color: lightgray;
+    background-color: var(--bg2);
 }
 
 .files_container {
+    overflow: auto;
     width: 100%;
     border-bottom: 1px solid #bcbcbc;
 }
 
 .files_heading_left i,
 .tools_heading i {
-    color: #07080A;
+    color: var(--text);
     font-size: 14px;
 }
 
 .files_heading_right i {
-    color: #07080af3;
+    color: var(--text);
     font-size: 16px;
 }
 
 .files_heading {
+    margin-bottom: 10px;
     height: 25px;
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
     align-items: center;
 }
 
 .files_heading_left {
-    width: 75%;
     display: flex;
-    cursor: pointer;
-    gap: 5px;
+    justify-content: center;
+    gap: 7px;
 }
 
 .arrow_rotate_down {
@@ -63,20 +65,29 @@
 
 .files_heading_left h4 {
     margin: 0;
-    color: var(--ide-font);
+    color: var(--text);;
     font-size: 15px;
     font-family: 'Roboto', sans-serif;
 }
 
-.files_heading_right {
-    width: 22%;
+.files_heading_right 
+{
+
+    /* width: 22%; */
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 7px;
 }
 
-.add_file,
-.three_dot {
+.add_file{
     padding: 3px 4px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.1s ease-in-out;
+}
+
+.three_dot {
+    padding: 3px 10px;
     border-radius: 5px;
     cursor: pointer;
     transition: 0.1s ease-in-out;
@@ -85,7 +96,7 @@
 .add_file:hover,
 .three_dot:hover {
     /* background-color: rgb(219, 219, 219); */
-    background-color: white;
+    background-color: var(--bg1);
 
 }
 
@@ -137,7 +148,7 @@
 }
 
 .file {
-    margin-top: 10px;
+    margin-bottom: 5px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -151,7 +162,7 @@
 
 .file:hover {
     /* background-color: rgb(219, 219, 219); */
-    background-color: white;
+    background-color: var(--bg1);
 }
 
 .file button {
@@ -172,6 +183,7 @@
 }
 
 .file i {
+    color: var(--text);
     font-size: 17px;
 }
 
@@ -184,7 +196,7 @@
 
 .file span:hover {
     /* background-color: rgb(192, 192, 192); */
-    background-color: rgb(228, 228, 228);
+    background-color: var(--bg2);
 
 
 }
@@ -254,13 +266,26 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    overflow: hidden;
 }
 
 .inputNoutput {
     /* height: 10rem; */
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+}
+
+.inputNoutput h4
+{
+    /* margin: 0; */
+    /* margin-top: 20px; */
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: var(--text);
+
 }
 
 .inputF{
@@ -274,7 +299,7 @@
 
 .inputF > textarea{
     width: 100%;
-    height: 90%;
+    height: 95%;
     cursor: pointer;
     background-color: white;
     border: none;
@@ -285,8 +310,10 @@
     outline: none;
     padding: 0.75rem;
     box-sizing: border-box;
-    border: 1px solid rgb(130, 130, 130);
-    border-bottom-left-radius: 10px;
+    /* border: 1px solid rgb(130, 130, 130); */
+    background-color: var(--bg2);
+    border-radius: 5px;
+    /* box-shadow: var(--bg3) 0px 0px 15px 1px inset; */
     font-weight: 400;
 }
 
@@ -302,7 +329,7 @@
 
 .outputF > textarea{
     width: 100%;
-    height: 90%;
+    height: 95%;
     background-color: white;
     border: none;
     color: rgb(0, 0, 0);
@@ -312,8 +339,10 @@
     outline: none;
     padding: 0.75rem;
     box-sizing: border-box;
-    border: 1px solid rgb(130, 130, 130);
-    border-bottom-right-radius: 10px;
+    /* border: 1px solid rgb(130, 130, 130); */
+    background-color: var(--bg2);
+    border-radius: 5px;
+    /* box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset; */
 }
 
 .iframe{
@@ -323,4 +352,36 @@
 
 .mainIde{
     box-sizing: border-box;
+}
+
+.ide_border_top
+{
+    padding-left: 10px;
+    width: 100%;
+    height: 30px;
+    background-color: #3D4043;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+}
+
+.ide_border_top>div
+{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.red
+{
+    background-color: red;
+}
+.yellow
+{
+    background-color: yellow;
+}
+.green
+{
+    background-color: green;
 }
