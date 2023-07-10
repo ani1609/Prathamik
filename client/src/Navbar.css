@@ -113,6 +113,20 @@ body {
   letter-spacing: 0.8px;
 }
 
+.navigations-tabs>li>button{
+  font-size: 17px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.2s ease-in-out;
+  text-decoration: none;
+  color: var(--deep-blue);
+  letter-spacing: 0.8px;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
 /* .login-signup-container {
   
   width: 12.8rem;

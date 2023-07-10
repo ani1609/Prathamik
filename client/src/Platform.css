@@ -8,6 +8,7 @@
 
 .platform_parent
 {
+  height: 100vh;
   background-color: #edf2f4;
   /* height: 100vh; */
   /* width: 100vw; */
@@ -27,13 +28,14 @@
   height: 65px;
   width: 100%;
   display: flex;
+  justify-content: space-between;
 }
 
 .navbar_1
 {
   box-sizing: border-box;
   padding: 0px 0px 0px 30px;
-  width: 72.5%;
+  width: 73.5%;
   height: 100%;
   display: flex;
   align-items: center;
@@ -87,10 +89,28 @@
   justify-content: space-around;
 }
 
+.nav-btnss button i
+{
+  font-size: 15px;
+
+}
+
+.navbar_1 button span
+{
+  color: red;
+}
+
+.navbar_1 button:hover
+{
+  /* transform: translate(-3px,-3px); */
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+
 .navbar_2
 {
   padding-right: 30px;
-  width: 27.5%;
+  width: 26.5%;
   height: 100%;
   background-color: var(--primary-color);
   display: flex;
@@ -157,6 +177,7 @@
   width: 100%;
   height: calc(100% - 60px);
   box-sizing: border-box;
+  background-color: #edf2f4;
 }
 
 /* .ide_in_platform_container
@@ -175,14 +196,16 @@
   overflow: hidden;
   width: 72.5%;
   background-color: #ffffff;
+  box-sizing: border-box;
 }
 
 .chat_in_platform_container
 {
-  max-height: 600px;
+  max-height: 685px;
   background-color: white;
   width: 26.5%;
   border: 1px solid #bcbcbc;
+  box-sizing: border-box;
 }
 
 .nav-btnss{
