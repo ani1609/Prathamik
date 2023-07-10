@@ -48,7 +48,7 @@
 }
 
 .chat_container {
-    height: 460px;
+    height: 545px;
     display: flex;
     flex-direction: column;
     padding: 18px 14px;

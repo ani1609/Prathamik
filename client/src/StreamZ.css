@@ -261,11 +261,28 @@
     box-sizing: border-box;
     overflow: hidden;
     position: relative;
+    width: 100%;
+    height: 611px;
+    border-right: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.joiningTag
+{
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
     height: 80%;
     width: 100%;
     min-height: 530px;
     border-right: 1px solid #CCCCCC;
     border-bottom: 1px solid #CCCCCC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text);
+    font-size: 19px;
 }
 
 .video_control_buttons

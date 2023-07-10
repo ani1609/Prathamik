@@ -263,6 +263,11 @@ function IDE(props) {
       newFile.language = 'text';
       newFile.other = 'text';
     }
+    else
+    {
+      setIsInvalid(true);
+      return;
+    }
 
     let updatedFiles;
 
@@ -378,6 +383,7 @@ function IDE(props) {
 
   function handleFileDelete(nameToDelete) 
   {
+    setfileIndex(0);
     getDocs(collectionRef)
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {

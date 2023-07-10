@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Landing(props) {
   const [shouldRender, setShouldRender] = useState(false);
+  const user = JSON.parse(localStorage.getItem('user'));
   const [img, setImg] = useState(true);
   const navigate = useNavigate();
 
@@ -36,7 +37,12 @@ function Landing(props) {
     });
   }
 
-  const handleNewMeeting = async (val) => {
+  const handleNewMeeting = async (val) => 
+  {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
     await props.getMeetingAndToken(props.meetingId).then((meetingData) => {
       if(val)
       createRoomId(meetingData);
@@ -50,7 +56,7 @@ function Landing(props) {
   }
 
   return (
-    <div className='body'>
+    <div className='landing_body'>
       {shouldRender && (
         <div className='landing_parent'>
           <div className='details'>
