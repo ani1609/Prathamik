@@ -13,7 +13,6 @@ function Signup()
         email:'',
         password:'',
         confirm_password:'',
-        profilePic: ''
     });
 
     const [error,setError]=useState('');
