@@ -1,12 +1,10 @@
 .stream-container {
-    background: #202124;
-    background-color: white;
+    background-color: #edf2f4;
     color: white;
     height: 100%;
     overflow: auto;
     width: 100%;
     box-sizing: border-box;
-    padding: 0px 20px;
     /* border: 1px solid lightgrey; */
 }
 
@@ -259,12 +257,15 @@
 
 .allContainer
 {
-    border-radius: 10px;
+    /* border-radius: 10px; */
+    box-sizing: border-box;
     overflow: hidden;
     position: relative;
-    height: 77%;
+    height: 80%;
     width: 100%;
     min-height: 530px;
+    border-right: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
 }
 
 .video_control_buttons
