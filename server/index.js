@@ -6,6 +6,7 @@ const cors = require('cors');
 const express = require('express');
 const { createRoomId , verifyOwner , getAdminDetails } = require('./controllers/roomid');
 
+
 const app = express();
 
 connectDb();
@@ -43,8 +44,6 @@ app.use('/login', loginController);
 app.post('/create/roomid', createRoomId);
 app.post('/verify/owner', verifyOwner);
 app.post('/get/admin/details', getAdminDetails);
-
-app.use('/api', routes);
 
 // Handle the image upload
 app.post('/', upload.single('image'), async (req, res) =>
