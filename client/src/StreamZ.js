@@ -12,7 +12,7 @@ import { authToken } from "./API";
 import ReactPlayer from "react-player";
 import Container from "./Container";
 import IDE from "./IDE";
-
+import CaptioningSystem from "./CaptioningSystem"
 const PresenterView = ({ presenterId }) => {
     const { screenShareAudioStream, isLocal, screenShareStream, screenShareOn } =
         useParticipant(presenterId);
@@ -160,7 +160,7 @@ function ParticipantView(props) {
                             {dp ?
                                 (
                                     <img
-                                        src={`http://localhost:3000/uploads/${dp}`}
+                                        src={`${process.env.REACT_APP_SERVER_URL}/uploads/${dp}`}
                                         alt=''
                                         className="smallDp"
                                     />
@@ -210,7 +210,7 @@ function ParticipantView(props) {
                             {dp ?
                                 (
                                     <img
-                                        src={`http://localhost:3000/uploads/${dp}`}
+                                        src={`${process.env.REACT_APP_SERVER_URL}/uploads/${dp}`}
                                         alt=''
                                         className="bigDp"
                                     />
@@ -233,24 +233,21 @@ function ParticipantView(props) {
 
 function Controls(props) {
     const { leave, toggleMic, toggleWebcam } = useMeeting();
-    const [mic, setMic] = useState(false);
     const [video, setVideo] = useState(false);
     const navigate = useNavigate();
     const handleMicClick = () => {
-        if (mic)
-            setMic(false);
+        if (props.mic)
+            props.setMic(false);
         else
-            setMic(true);
+            props.setMic(true);
     };
 
     const handleVideoClick = () => {
         if (video) {
             setVideo(false);
-            // props.socket.emit('video-show', {value: false, roomid: props.meetingId});
         }
         else {
             setVideo(true);
-            // props.socket.emit('video-show', {value: true, roomid: props.meetingId});
         }
     };
 
@@ -312,7 +309,7 @@ function Controls(props) {
 
     return (
         <div className="video_control_buttons">
-            {mic ?
+            {props.mic ?
                 <button onClick={() => { toggleMic(); handleMicClick(); }} className="mic red_bg">
                     <i class="fa-solid fa-microphone"></i>
                 </button>
@@ -355,6 +352,7 @@ function MeetingView(props) {
     const [whiteboard, setWhiteboard] = useState(false);
     const [minimizeFaceCam, setMinimizeFaceCam] = useState(false);
     const [joined, setJoined] = useState(null);
+    const [mic, setMic] = useState(false);
     const { enableScreenShare, disableScreenShare, toggleScreenShare } = useMeeting();
 
     useEffect(() => {
@@ -553,7 +551,10 @@ function MeetingView(props) {
                     runButtonShow={props.runButtonShow}
                     setRunButtonShow={props.setRunButtonShow}
                     setShow={props.setShow}
+                    mic={mic}
+                    setMic={setMic}
                 />
+                {mic && <CaptioningSystem/>}
             </div>}
         </div>
     );
