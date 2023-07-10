@@ -58,7 +58,7 @@ function ChatBox(props) {
         {props.chats.map((chat) => (
           chat.type === 'mcq' ?
             (<div className={`${chat.ownedByCurrentUser ? "user_chat" : "bot_chat"}`}>
-              {!chat.ownedByCurrentUser && <img src={`http://localhost:3000/uploads/${chat.profilePic}`} />}
+              {!chat.ownedByCurrentUser && <img src={`${process.env.REACT_APP_SERVER_URL}/uploads/${chat.profilePic}`} />}
               <div className='col'>
                 <p>{chat.question}</p>
                 <div className='mcq_options'>
@@ -68,7 +68,7 @@ function ChatBox(props) {
               </div>
             </div>) :
             (<div className={`${chat.ownedByCurrentUser ? "user_chat" : "bot_chat"}`}>
-              {!chat.ownedByCurrentUser && <img src={`http://localhost:3000/uploads/${chat.profilePic}`} />}
+              {!chat.ownedByCurrentUser && <img src={`${process.env.REACT_APP_SERVER_URL}/uploads/${chat.profilePic}`} />}
               <p>{chat.input}</p>
             </div>)
         ))}
@@ -83,7 +83,7 @@ function ChatBox(props) {
           ref={props.inputRef}
         />
         <button type='button' onClick={props.voice}>
-          <FontAwesomeIcon icon={faMicrophone} fontSize={20} style={{ color: "#56BCD8" }} />
+          <FontAwesomeIcon icon={faMicrophone} fontSize={20} style={{ color: "#4b4f5d" }} />
         </button>
         {props.show === 'editor' && <button onClick={props.handleInput}>
           <i class="fa-solid fa-paper-plane"></i>
@@ -98,5 +98,4 @@ function ChatBox(props) {
     </div>
   );
 }
-
 export default ChatBox;
