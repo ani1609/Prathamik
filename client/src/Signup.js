@@ -12,7 +12,7 @@ function Signup()
         name:'',
         email:'',
         password:'',
-        confirm_password:'',
+        confirm_password:''
     });
 
     const [error,setError]=useState('');
@@ -142,5 +142,3 @@ function Signup()
 }
 
 export default Signup;
-
-
