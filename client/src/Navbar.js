@@ -25,7 +25,7 @@ function Navbar() {
   const [dp, setDp] = useState('');
   const [initial, setInitial] = useState('');
   useEffect(() => {
-    if (user && user.data.profilePic !== '') {
+    if (user && user.data.profilePic !== null) {
       setDp(user.data.profilePic);
     }
     setInitial(user ? user.data.name.charAt(0) : '');
