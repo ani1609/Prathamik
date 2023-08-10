@@ -1,12 +1,13 @@
 # Prathamik
 
 Prathamik is an online learning platform designed to empower teachers and provide a seamless experience for students. With the assistance of an AI bot, teachers can efficiently solve students' doubts and enhance the learning process.
-<img width="1440" alt="Screenshot 2023-08-10 at 8 02 23 AM" src="https://github.com/ani1609/Prathamik/assets/89239354/f738388f-85a5-4e75-b276-64d4b946bd8d">
-<img width="1440" alt="Screenshot 2023-08-10 at 8 02 35 AM" src="https://github.com/ani1609/Prathamik/assets/89239354/496a6840-49e4-4340-9c16-a671da73739c">
-<img width="1440" alt="Screenshot 2023-08-10 at 8 02 41 AM" src="https://github.com/ani1609/Prathamik/assets/89239354/ed7a9833-836b-4b6b-88b6-3a97b8e02a5d">
-<img width="1440" alt="Screenshot 2023-08-10 at 8 06 09 AM" src="https://github.com/ani1609/Prathamik/assets/89239354/dad06500-0de6-40bf-a41d-20d6a5c0e1fd">
-<img width="1440" alt="Screenshot 2023-08-10 at 8 02 02 AM" src="https://github.com/ani1609/Prathamik/assets/89239354/e13faebe-f276-4491-823d-d401f0cc0a55">
-<img width="1440" alt="Screenshot 2023-08-10 at 8 01 54 AM" src="https://github.com/ani1609/Prathamik/assets/89239354/159e3a67-cc12-443f-a32a-1f1d8b408819">
+
+<img width="1440" alt="Screenshot 2023-08-10 at 8 13 43 AM" src="https://github.com/ani1609/Prathamik/assets/89239354/b8190ffd-45f0-413e-b9ed-36b8927fda3f">
+<img width="1440" alt="Screenshot 2023-08-10 at 8 13 54 AM" src="https://github.com/ani1609/Prathamik/assets/89239354/ebac7f54-7205-46fa-bf7d-ac69abf95fd8">
+<img width="1440" alt="Screenshot 2023-08-10 at 8 14 08 AM" src="https://github.com/ani1609/Prathamik/assets/89239354/86b9ec1c-569c-4c85-86cf-2fdd3ecc190a">
+<img width="1440" alt="Screenshot 2023-08-10 at 8 14 01 AM" src="https://github.com/ani1609/Prathamik/assets/89239354/f5b7b2a8-d5f8-4077-b283-d9c5cd905289">
+<img width="1440" alt="Screenshot 2023-08-10 at 8 14 22 AM" src="https://github.com/ani1609/Prathamik/assets/89239354/f17c04a8-cac1-4869-804d-5cc6bc71ece7">
+
 
 ## Installation
 
